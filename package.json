@@ -1,0 +1,22 @@
+{
+  "name": "game-tracker",
+  "version": "1.0.0",
+  "description": "Web application to keep track of the games that you already played and the ones that are in your backlog.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BeastHunter19/game-tracker.git"
+  },
+  "keywords": [
+    "videogames"
+  ],
+  "author": "Francesco Coppola",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BeastHunter19/game-tracker/issues"
+  },
+  "homepage": "https://github.com/BeastHunter19/game-tracker#readme"
+}
