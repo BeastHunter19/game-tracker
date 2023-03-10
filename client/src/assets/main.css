@@ -1,0 +1,10 @@
+:root {
+    --gt-color-main: #34a04f;
+    --gt-color-main-hover: #40c060;
+    --gt-color-main-active: #298640;
+    --gt-color-main-transparent: #34a04fc2;
+}
+
+body {
+    padding-top: 80px;
+}
