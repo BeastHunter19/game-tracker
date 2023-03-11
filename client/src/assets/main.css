@@ -1,10 +1,13 @@
 :root {
-    --gt-color-main: #34a04f;
-    --gt-color-main-hover: #40c060;
-    --gt-color-main-active: #298640;
-    --gt-color-main-transparent: #34a04fc2;
+    --gt-color-secondary: #34a04f;
+    --gt-color-secondary-hover: #40c060;
+    --gt-color-secondary-active: #298640;
+    --gt-color-secondary-transparent: #34a04fc2;
+    --gt-color-main: #7B10FF;
+    --gt-gradient-bg: linear-gradient(#9fa4ee, #878ccf);
 }
 
 body {
     padding-top: 80px;
+    background-color: var(--gt-gradient-bg);
 }
