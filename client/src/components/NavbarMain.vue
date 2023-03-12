@@ -16,73 +16,64 @@ export default {
 <template>
     <header>
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark shadow">
-            <div class="container-fluid text-center">
-                <div class="row flex-grow-1">
-                    <!-- Main section -->
-                    <div
-                        class="collapse navbar-collapse multi-collapse col-lg-4"
-                        id="navigation-panel"
-                    >
-                        <!-- Brand -->
-                        <a class="navbar-brand ms-3" href="#">Game Tracker</a>
-
-                        <!-- Navigation -->
-                        <ul class="navbar-nav nav-pills me-auto mb-2 mb-lg-0">
-                            <li
-                                v-for="(page, index) in appPages"
-                                :key="index"
-                                class="nav-item mx-2"
-                            >
-                                <RouterLink
-                                    class="nav-link"
-                                    active-class="active aria-current shadow"
-                                    :to="page.path"
-                                >
-                                    {{ page.name }}
-                                </RouterLink>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Search bar -->
-                    <div class="col-lg-4 me-4 me-lg-0">
-                        <form role="search">
-                            <div class="input-group">
-                                <input
-                                    class="form-control form-control-lg"
-                                    type="search"
-                                    placeholder="Search"
-                                    aria-label="Search"
-                                />
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Login buttons -->
-                    <div
-                        class="collapse navbar-collapse multi-collapse col-lg-4 justify-content-end"
-                        id="login-panel"
-                    >
-                        <button type="button" class="btn btn-primary shadow me-2">Login</button>
-                        <button type="button" class="btn btn-primary shadow">Sign in</button>
-                    </div>
-                </div>
+            <div class="container-fluid">
+                <!-- Brand -->
+                <a class="navbar-brand" href="#">Game Tracker</a>
 
                 <!-- Toggler -->
                 <button
                     class="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target=".multi-collapse"
-                    aria-controls="navigation-panel login-panel"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
+                <!-- Collapsible area -->
+                <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+                    <!-- Navigation -->
+                    <!-- TODO: turn navigation into dropdown at smaller breakpoints -->
+                    <ul class="navbar-nav nav-pills my-2 my-lg-0">
+                        <li
+                            v-for="(page, index) in appPages"
+                            :key="index"
+                            class="nav-item mx-5 mx-lg-0 mx-xl-2 mb-2 mb-lg-0"
+                        >
+                            <RouterLink
+                                class="nav-link"
+                                active-class="active aria-current shadow"
+                                :to="page.path"
+                            >
+                                {{ page.name }}
+                            </RouterLink>
+                        </li>
+                    </ul>
+
+                    <!-- Search -->
+                    <form role="search" class="col mx-5 mb-3 mb-lg-0 shadow">
+                        <div class="input-group">
+                            <input
+                                class="form-control form-control-lg"
+                                type="search"
+                                placeholder="Search"
+                                aria-label="Search"
+                            />
+                            <button class="btn btn-primary" type="submit">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Login buttons -->
+                    <div class="mb-2 mb-lg-0">
+                        <button type="button" class="btn btn-primary shadow me-2">Login</button>
+                        <button type="button" class="btn btn-primary shadow">Sign in</button>
+                    </div>
+                </div>
             </div>
         </nav>
     </header>
