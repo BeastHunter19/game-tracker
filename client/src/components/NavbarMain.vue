@@ -16,7 +16,7 @@ export default {
 <template>
     <header>
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark shadow">
-            <div class="container-fluid">
+            <div class="container-fluid d-flex">
                 <!-- Brand -->
                 <a class="navbar-brand" href="#">Game Tracker</a>
 
@@ -37,7 +37,7 @@ export default {
                 <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                     <!-- Navigation -->
                     <!-- TODO: turn navigation into dropdown at smaller breakpoints -->
-                    <ul class="navbar-nav nav-pills my-2 my-lg-0">
+                    <ul class="col navbar-nav nav-pills my-2 my-lg-0">
                         <li
                             v-for="(page, index) in appPages"
                             :key="index"
@@ -54,7 +54,10 @@ export default {
                     </ul>
 
                     <!-- Search -->
-                    <form role="search" class="col mx-5 mb-3 mb-lg-0 shadow">
+                    <form
+                        role="search"
+                        class="col mx-5 mb-3 mb-lg-0 shadow align-seld-center text-center"
+                    >
                         <div class="input-group">
                             <input
                                 class="form-control form-control-lg"
@@ -69,7 +72,7 @@ export default {
                     </form>
 
                     <!-- Login buttons -->
-                    <div class="mb-2 mb-lg-0">
+                    <div class="col mb-2 mb-lg-0 d-flex justify-content-end">
                         <button type="button" class="btn btn-primary shadow me-2">Login</button>
                         <button type="button" class="btn btn-primary shadow">Sign in</button>
                     </div>
@@ -105,5 +108,9 @@ export default {
 
 .navbar .form-control:focus {
     box-shadow: 0 0 0 0.25rem var(--gt-color-secondary-transparent);
+}
+
+.navbar form {
+    max-width: 600px;
 }
 </style>
