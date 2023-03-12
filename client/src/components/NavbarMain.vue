@@ -54,10 +54,7 @@ export default {
                     </ul>
 
                     <!-- Search -->
-                    <form
-                        role="search"
-                        class="col mx-5 mb-3 mb-lg-0 shadow align-seld-center text-center"
-                    >
+                    <form role="search" class="col mx-5 mx-lg-0 mb-3 mb-lg-0 shadow">
                         <div class="input-group">
                             <input
                                 class="form-control form-control-lg"
