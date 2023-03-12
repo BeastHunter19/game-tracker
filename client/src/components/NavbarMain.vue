@@ -18,7 +18,7 @@ export default {
         <nav class="navbar navbar-expand-lg fixed-top navbar-dark shadow">
             <div class="container-fluid d-flex">
                 <!-- Mobile Brand -->
-                <a class="navbar-brand d-inline d-lg-none" href="#">Game Tracker</a>
+                <RouterLink to="/" class="navbar-brand d-inline d-lg-none">Game Tracker</RouterLink>
 
                 <!-- Toggler -->
                 <button
@@ -41,7 +41,9 @@ export default {
                         class="col my-2 my-lg-0 d-flex justify-content-center justify-content-lg-start"
                     >
                         <!-- Desktop Brand -->
-                        <a class="navbar-brand d-none d-lg-inline" href="#">Game Tracker</a>
+                        <RouterLink to="/" class="navbar-brand d-none d-lg-inline" href="/"
+                            >Game Tracker</RouterLink
+                        >
 
                         <ul class="navbar-nav nav-pills">
                             <li
