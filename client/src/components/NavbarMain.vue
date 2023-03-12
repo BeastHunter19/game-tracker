@@ -37,36 +37,42 @@ export default {
                 <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                     <!-- Navigation -->
                     <!-- TODO: turn navigation into dropdown at smaller breakpoints -->
-                    <ul class="col navbar-nav nav-pills my-2 my-lg-0">
-                        <li
-                            v-for="(page, index) in appPages"
-                            :key="index"
-                            class="nav-item mx-5 mx-lg-0 mx-xl-2 mb-2 mb-lg-0"
-                        >
-                            <RouterLink
-                                class="nav-link"
-                                active-class="active aria-current shadow"
-                                :to="page.path"
+                    <div
+                        class="col my-2 my-lg-0 d-flex justify-content-center justify-content-lg-start"
+                    >
+                        <ul class="navbar-nav nav-pills">
+                            <li
+                                v-for="(page, index) in appPages"
+                                :key="index"
+                                class="nav-item mx-xl-2 mb-2 mb-lg-0"
                             >
-                                {{ page.name }}
-                            </RouterLink>
-                        </li>
-                    </ul>
+                                <RouterLink
+                                    class="nav-link px-3"
+                                    active-class="active aria-current shadow"
+                                    :to="page.path"
+                                >
+                                    {{ page.name }}
+                                </RouterLink>
+                            </li>
+                        </ul>
+                    </div>
 
                     <!-- Search -->
-                    <form role="search" class="col mx-5 mx-lg-0 mb-3 mb-lg-0 shadow">
-                        <div class="input-group">
-                            <input
-                                class="form-control form-control-lg"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search"
-                            />
-                            <button class="btn btn-primary" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    </form>
+                    <div class="col mx-5 mx-lg-0 mb-3 mb-lg-0 d-flex justify-content-center">
+                        <form role="search" class="col">
+                            <div class="input-group shadow">
+                                <input
+                                    class="form-control form-control-lg"
+                                    type="search"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                />
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
                     <!-- Login buttons -->
                     <div class="col mb-2 mb-lg-0 d-flex justify-content-end">
