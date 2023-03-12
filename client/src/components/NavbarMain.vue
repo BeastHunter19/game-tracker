@@ -82,7 +82,7 @@ export default {
                     <!-- Login buttons -->
                     <div class="col-xxl ms-2 ms-xxl-0 mb-2 mb-lg-0 d-flex justify-content-end">
                         <button type="button" class="btn btn-primary shadow me-2">Login</button>
-                        <button type="button" class="btn btn-primary shadow">Sign in</button>
+                        <button type="button" class="btn btn-primary shadow">Sign Up</button>
                     </div>
                 </div>
             </div>
