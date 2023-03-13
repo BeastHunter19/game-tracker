@@ -4,7 +4,7 @@
     --gt-color-secondary-active: #217035;
     --gt-color-secondary-transparent: #34a04fc2;
     --gt-color-main: #7b10ff;
-    --gt-color-bg: #b8bdff;
+    --gt-color-bg: #a3a8e9;
     --gt-color-bg-gradient: #6d74ca;
 }
 
@@ -14,5 +14,5 @@ html {
 
 body {
     height: 100%;
-    background: linear-gradient(45deg, var(--gt-color-bg), var(--gt-color-bg-gradient));
+    background: linear-gradient(to left top, var(--gt-color-bg), var(--gt-color-bg-gradient));
 }
