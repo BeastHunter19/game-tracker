@@ -78,7 +78,7 @@ export default {
                     </div>
 
                     <!-- Login buttons -->
-                    <div class="col-xxl ms-2 ms-xxl-0 mb-2 mb-lg-0 d-flex justify-content-end">
+                    <div class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end">
                         <button
                             type="button"
                             class="btn btn-primary shadow me-2"
