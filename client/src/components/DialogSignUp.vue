@@ -29,26 +29,15 @@ export default {
             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary shadow" type="submit">
                 Sign up
             </button>
-            <small class="text-muted">By clicking Sign up, you agree to the terms of use.</small>
             <hr class="my-4" />
-            <h2 class="fs-5 fw-bold mb-3">Or use a third-party</h2>
-            <button class="w-100 py-2 mb-2 btn btn-outline-dark rounded-3" type="submit">
-                <svg class="bi me-1" width="16" height="16">
-                    <use xlink:href="#twitter" />
-                </svg>
-                Sign up with Twitter
-            </button>
-            <button class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3" type="submit">
-                <svg class="bi me-1" width="16" height="16">
-                    <use xlink:href="#facebook" />
-                </svg>
-                Sign up with Facebook
-            </button>
-            <button class="w-100 py-2 mb-2 btn btn-outline-secondary rounded-3" type="submit">
-                <svg class="bi me-1" width="16" height="16">
-                    <use xlink:href="#github" />
-                </svg>
-                Sign up with GitHub
+            <h2 class="fs-5 fw-bold mb-3">Or login with an existing account</h2>
+            <button
+                class="w-100 py-2 mb-2 btn btn-outline-primary rounded-3"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#login-dialog"
+            >
+                Login
             </button>
         </form>
     </DialogModal>

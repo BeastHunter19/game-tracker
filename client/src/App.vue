@@ -27,6 +27,10 @@ export default {
 <style>
 .btn-primary {
     --bs-btn-bg: var(--gt-color-secondary);
+}
+
+.btn-primary,
+.btn-outline-primary {
     --bs-btn-border-color: var(--gt-color-secondary);
     --bs-btn-hover-bg: var(--gt-color-secondary-hover);
     --bs-btn-hover-border-color: var(--gt-color-secondary);
