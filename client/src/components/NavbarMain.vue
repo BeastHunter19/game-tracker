@@ -15,7 +15,7 @@ export default {
 
 <template>
     <header>
-        <nav class="navbar navbar-expand-lg fixed-top navbar-dark shadow">
+        <nav class="navbar navbar-expand-lg sticky-top navbar-dark shadow">
             <div class="container-fluid d-flex">
                 <!-- Mobile Brand -->
                 <RouterLink to="/" class="navbar-brand d-inline d-lg-none">Game Tracker</RouterLink>
@@ -25,8 +25,8 @@ export default {
                     class="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent"
+                    data-bs-target="#navbar-collapse-content"
+                    aria-controls="navbar-collapse-content"
                     aria-expanded="false"
                     aria-label="Toggle navigation"
                 >
@@ -34,7 +34,7 @@ export default {
                 </button>
 
                 <!-- Collapsible area -->
-                <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse text-center" id="navbar-collapse-content">
                     <!-- Navigation -->
                     <!-- TODO: turn navigation into dropdown at smaller breakpoints -->
                     <div
@@ -81,8 +81,22 @@ export default {
 
                     <!-- Login buttons -->
                     <div class="col-xxl ms-2 ms-xxl-0 mb-2 mb-lg-0 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary shadow me-2">Login</button>
-                        <button type="button" class="btn btn-primary shadow">Sign Up</button>
+                        <button
+                            type="button"
+                            class="btn btn-primary shadow me-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#login-dialog"
+                        >
+                            Login
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary shadow"
+                            data-bs-toggle="modal"
+                            data-bs-target="#signup-dialog"
+                        >
+                            Sign Up
+                        </button>
                     </div>
                 </div>
             </div>
@@ -91,15 +105,6 @@ export default {
 </template>
 
 <style scoped>
-.btn-primary {
-    --bs-btn-bg: var(--gt-color-secondary);
-    --bs-btn-border-color: var(--gt-color-secondary);
-    --bs-btn-hover-bg: var(--gt-color-secondary-hover);
-    --bs-btn-hover-border-color: var(--gt-color-secondary);
-    --bs-btn-active-bg: var(--gt-color-secondary-active);
-    --bs-btn-active-border-color: var(--gt-color-secondary-active);
-}
-
 .navbar {
     background-color: var(--gt-color-main);
     --bs-navbar-nav-link-padding-x: 1rem;
@@ -108,14 +113,6 @@ export default {
 
 .nav-pills {
     --bs-nav-pills-link-active-bg: var(--gt-color-secondary);
-}
-
-.navbar .form-control {
-    border-color: var(--gt-color-secondary);
-}
-
-.navbar .form-control:focus {
-    box-shadow: 0 0 0 0.25rem var(--gt-color-secondary-transparent);
 }
 
 .navbar form {
