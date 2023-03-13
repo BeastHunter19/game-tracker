@@ -1,5 +1,6 @@
 <script>
 import { RouterLink } from 'vue-router'
+import SearchBar from './SearchBar.vue'
 
 export default {
     data() {
@@ -8,7 +9,8 @@ export default {
         }
     },
     components: {
-        RouterLink
+        RouterLink,
+        SearchBar
     }
 }
 </script>
@@ -16,27 +18,33 @@ export default {
 <template>
     <header>
         <nav class="navbar navbar-expand-lg sticky-top navbar-dark shadow">
-            <div class="container-fluid d-flex">
-                <!-- Mobile Brand -->
-                <RouterLink to="/" class="navbar-brand d-inline d-lg-none">Game Tracker</RouterLink>
+            <div class="container-fluid d-flex align-items-center">
+                <!-- Mobile only elements -->
+                <div class="d-flex d-lg-none col flex-nowrap">
+                    <RouterLink to="/" class="navbar-brand d-inline d-lg-none">GT</RouterLink>
+                    <div
+                        class="flex-grow-1 flex-shrink-1 mx-2 justify-content-center d-flex d-lg-none"
+                    >
+                        <SearchBar></SearchBar>
+                    </div>
 
-                <!-- Toggler -->
-                <button
-                    class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbar-collapse-content"
-                    aria-controls="navbar-collapse-content"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <!-- Toggler -->
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbar-collapse-content"
+                        aria-controls="navbar-collapse-content"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
 
                 <!-- Collapsible area -->
                 <div class="collapse navbar-collapse text-center" id="navbar-collapse-content">
                     <!-- Navigation -->
-                    <!-- TODO: turn navigation into dropdown at smaller breakpoints -->
                     <div
                         class="col my-2 my-lg-0 d-flex justify-content-center justify-content-lg-start"
                     >
@@ -62,21 +70,11 @@ export default {
                         </ul>
                     </div>
 
-                    <!-- Search -->
-                    <div class="col mx-5 mx-lg-0 mb-3 mb-lg-0 d-flex justify-content-center">
-                        <form role="search" class="col">
-                            <div class="input-group shadow">
-                                <input
-                                    class="form-control form-control-lg"
-                                    type="search"
-                                    placeholder="Search"
-                                    aria-label="Search"
-                                />
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                        </form>
+                    <!-- Desktop Search -->
+                    <div
+                        class="col mx-5 mx-lg-0 mb-3 mb-lg-0 justify-content-center d-none d-lg-flex"
+                    >
+                        <SearchBar></SearchBar>
                     </div>
 
                     <!-- Login buttons -->
@@ -113,9 +111,5 @@ export default {
 
 .nav-pills {
     --bs-nav-pills-link-active-bg: var(--gt-color-secondary);
-}
-
-.navbar form {
-    max-width: 600px;
 }
 </style>
