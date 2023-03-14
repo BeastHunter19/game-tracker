@@ -1,10 +1,15 @@
 <script>
+import { mapState } from 'pinia'
+import { useUserStore } from '@/stores/user'
 export default {
     props: {
         gameInfo: {
             type: Object,
             required: true
         }
+    },
+    computed: {
+        ...mapState(useUserStore, ['loggedIn'])
     }
 }
 </script>
@@ -32,7 +37,9 @@ export default {
                     >{{ platform }}</span
                 >
             </div>
-            <div class="d-flex justify-content-around">
+
+            <!-- Logged in only buttons -->
+            <div v-if="loggedIn" class="d-flex justify-content-around">
                 <button class="btn btn-primary rounded-5">Played</button>
                 <button class="btn btn-primary rounded-5">Wishlist</button>
                 <button class="btn btn-primary rounded-5">Backlog</button>
