@@ -6,6 +6,9 @@
     --gt-color-main: #7b10ff;
     --gt-color-bg: #a3a8e9;
     --gt-color-bg-gradient: #6d74ca;
+    --gt-color-card: #e0e8f0;
+    --gt-color-card-hover: #cedceb;
+    --gt-color-card-active: #c2cad3;
 }
 
 html {
