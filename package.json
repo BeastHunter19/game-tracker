@@ -1,29 +1,33 @@
 {
-  "name": "game-tracker",
-  "version": "1.0.0",
-  "description": "Web application to keep track of the games that you already played and the ones that are in your backlog.",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BeastHunter19/game-tracker.git"
-  },
-  "keywords": [
-    "videogames"
-  ],
-  "author": "Francesco Coppola",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/BeastHunter19/game-tracker/issues"
-  },
-  "homepage": "https://github.com/BeastHunter19/game-tracker#readme",
-  "dependencies": {
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "helmet": "^6.0.1",
-    "morgan": "^1.10.0",
-    "pino": "^8.11.0"
-  }
+    "name": "game-tracker",
+    "version": "1.0.0",
+    "description": "Web application to keep track of the games that you already played and the ones that are in your backlog.",
+    "main": "app/app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node app/app.js | pino-pretty -c"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BeastHunter19/game-tracker.git"
+    },
+    "keywords": [
+        "videogames"
+    ],
+    "author": "Francesco Coppola",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/BeastHunter19/game-tracker/issues"
+    },
+    "homepage": "https://github.com/BeastHunter19/game-tracker#readme",
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "helmet": "^6.0.1",
+        "pino": "^8.11.0",
+        "pino-http": "^8.3.3"
+    },
+    "devDependencies": {
+        "pino-pretty": "^10.0.0"
+    }
 }
