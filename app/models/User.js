@@ -10,7 +10,7 @@ User.getAll = async () => {
         return users
     } catch (err) {
         logger.error(err, 'Could not retrieve users from database')
-        throw err
+        return err
     }
 }
 
@@ -21,7 +21,21 @@ User.create = async (name, email, password) => {
             `INSERT INTO users(id, name, email, password) VALUES(UUID_TO_BIN(UUID()), ?, ?, ?)`,
             [name, email, hashedPassword]
         )
+        return newUser
     } catch (err) {
         logger.error(err, 'Could not add new user to database')
+        return err
     }
 }
+
+User.getByEmail = async (email) => {
+    try {
+        const user = await db.query(`SELECT * FROM users WHERE email = ?`, email)
+        return user
+    } catch (err) {
+        logger.error(err, 'Could not add new user to database')
+        return err
+    }
+}
+
+module.exports = User
