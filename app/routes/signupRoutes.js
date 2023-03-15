@@ -2,6 +2,8 @@ const Router = require('express')
 const { body } = require('express-validator')
 const User = require('../models/User')
 const { postSignupUser } = require('../controllers/signupController')
+const { logger } = require('../logger')
+const { serializeUser } = require('passport')
 
 const router = Router()
 
@@ -14,14 +16,7 @@ router.post(
             .isString()
             .isEmail()
             .normalizeEmail()
-            .withMessage('Invalid email address')
-            .custom((val, { req }) => {
-                return User.getByEmail(val).then((user) => {
-                    if (user) {
-                        return Promise.reject('Email already used')
-                    }
-                })
-            }),
+            .withMessage('Invalid email address'),
         body('password')
             .trim()
             .isString()
