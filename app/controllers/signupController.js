@@ -10,12 +10,17 @@ exports.postSignupUser = async (req, res, next) => {
             error.data = errors
             throw error
         }
-        const newUser = await User.create(body.name, body.email, body.password)
 
-        res.status(201).json({
-            message: 'User created successfully',
-            user: newUser
-        })
+        const existingUser = await User.getByEmail(body.email)
+        if (!existingUser.isEmpty()) {
+            res.status(200).send('Email already taken')
+        } else {
+            const newUser = await User.create(body.name, body.email, body.password)
+            res.status(201).json({
+                message: 'User created successfully',
+                user: newUser
+            })
+        }
     } catch (err) {
         next(err)
     }

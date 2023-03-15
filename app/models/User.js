@@ -30,7 +30,7 @@ User.create = async (name, email, password) => {
 
 User.getByEmail = async (email) => {
     try {
-        const user = await db.query(`SELECT * FROM users WHERE email = ?`, email)
+        const user = await db.query(`SELECT * FROM users WHERE email = ?`, [email])
         return user
     } catch (err) {
         logger.error(err, 'Could not add new user to database')
