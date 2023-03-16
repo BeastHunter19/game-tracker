@@ -10,21 +10,39 @@ export default {
         <form class="">
             <div class="form-floating mb-3">
                 <input
+                    type="text"
+                    class="form-control rounded-3"
+                    id="name-input-signup"
+                    placeholder="Your name"
+                />
+                <label for="name-input-signup">Name</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input
                     type="email"
                     class="form-control rounded-3"
-                    id="floatingInput"
+                    id="email-input-signup"
                     placeholder="name@example.com"
                 />
-                <label for="floatingInput">Email address</label>
+                <label for="email-input-signup">Email address</label>
             </div>
             <div class="form-floating mb-3">
                 <input
                     type="password"
                     class="form-control rounded-3"
-                    id="floatingPassword"
+                    id="password-input-signup"
                     placeholder="Password"
                 />
-                <label for="floatingPassword">Password</label>
+                <label for="password-input-signup">Password</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input
+                    type="password"
+                    class="form-control rounded-3"
+                    id="retype-password-input-signup"
+                    placeholder="Password"
+                />
+                <label for="retype-password-input-signup">Retype password</label>
             </div>
             <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary shadow" type="submit">
                 Sign up
