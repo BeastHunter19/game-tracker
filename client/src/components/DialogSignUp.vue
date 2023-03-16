@@ -12,14 +12,31 @@ export default {
         }
     },
     methods: {
-        sendForm() {
-            this.$el.querySelector('.needs-validation')?.checkValidity()
+        async sendForm() {
             this.validatePassword()
+            if (this.$el.querySelector('form').checkValidity()) {
+                const userData = {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                    confirm_password: this.retypePassword
+                }
+                try {
+                    const signupResponse = await this.$axios.post('/signup/user', userData)
+                    console.log(signupResponse.data)
+                    // TODO: close modal and login user
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+            // this will add class was-validated to the form and start giving visual feedback to the user
             this.wasValidated = true
         },
+        //custom retype password validation
         validatePassword() {
             const retypePasswordInput = this.$el.querySelector('#retype-password-input-signup')
             if (this.password !== '' && this.password === this.retypePassword) {
+                // setting to empty string means that the input is valid
                 retypePasswordInput.setCustomValidity('')
             } else {
                 retypePasswordInput.setCustomValidity(`Passwords don't match js`)
