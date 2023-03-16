@@ -31,7 +31,7 @@ User.create = async (name, email, password) => {
 User.getByEmail = async (email) => {
     try {
         const user = await db.query(`SELECT * FROM users WHERE email = ?`, [email])
-        return user
+        return user[0]
     } catch (err) {
         logger.error(err, 'Could not retrieve user by email')
         return err
