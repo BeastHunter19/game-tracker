@@ -1,32 +1,56 @@
 <script>
 import DialogModal from './DialogModal.vue'
 export default {
-    components: { DialogModal }
+    components: { DialogModal },
+    data() {
+        return {
+            email: '',
+            password: '',
+            wasValidated: false
+        }
+    },
+    methods: {
+        sendForm() {
+            this.$el.querySelector('.needs-validation')?.checkValidity()
+            this.wasValidated = true
+        }
+    }
 }
 </script>
 
 <template>
     <DialogModal form-id="login-dialog" title="Login">
-        <form class="">
+        <form :class="[wasValidated ? 'was-validated' : 'needs-validation']">
             <div class="form-floating mb-3">
                 <input
+                    v-model="email"
                     type="email"
                     class="form-control rounded-3"
-                    id="floatingInput"
+                    id="email-input-login"
                     placeholder="name@example.com"
+                    required
                 />
-                <label for="floatingInput">Email address</label>
+                <label for="email-input-login">Email address</label>
+                <div class="invalid-feedback">You must use a valid email address.</div>
             </div>
             <div class="form-floating mb-3">
                 <input
+                    v-model="password"
                     type="password"
                     class="form-control rounded-3"
-                    id="floatingPassword"
+                    id="password-input-login"
                     placeholder="Password"
+                    required
+                    pattern="^\S+$"
                 />
-                <label for="floatingPassword">Password</label>
+                <label for="password-input-login">Password</label>
+                <div class="invalid-feedback">You must enter a password.</div>
             </div>
-            <button class="w-100 mb-3 btn btn-lg rounded-3 btn-primary shadow" type="submit">
+            <button
+                @click.prevent="sendForm"
+                class="w-100 mb-3 btn btn-lg rounded-3 btn-primary shadow"
+                type="submit"
+            >
                 Login
             </button>
             <small class="text-muted"> Click <a href="#">here</a> to recover your password.</small>
