@@ -1,4 +1,5 @@
 <script>
+import { Modal } from 'bootstrap'
 export default {
     props: {
         formId: {
@@ -9,7 +10,18 @@ export default {
             type: String,
             required: true
         }
-    }
+    },
+    methods: {
+        closeModal() {
+            const bsModalInstance = Modal.getInstance(this.$refs.modalRoot)
+            bsModalInstance.hide()
+        },
+        openModal() {
+            const bsModalInstance = Modal.getInstance(this.$refs.modalRoot)
+            bsModalInstance.show()
+        }
+    },
+    expose: ['closeModal', 'openModal']
 }
 </script>
 
@@ -21,6 +33,7 @@ export default {
         :id="formId"
         tabindex="-1"
         role="dialog"
+        ref="modalRoot"
     >
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow">

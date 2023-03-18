@@ -14,7 +14,7 @@ export default {
     methods: {
         async sendForm() {
             this.validatePassword()
-            if (this.$el.querySelector('form').checkValidity()) {
+            if (this.$refs.signupForm.checkValidity()) {
                 const userData = {
                     name: this.name,
                     email: this.email,
@@ -24,7 +24,7 @@ export default {
                 try {
                     const signupResponse = await this.$axios.post('/signup/user', userData)
                     console.log(signupResponse.data)
-                    // TODO: close modal and login user
+                    this.$refs.modalComponent.closeModal()
                 } catch (err) {
                     console.log(err)
                 }
@@ -34,12 +34,11 @@ export default {
         },
         //custom retype password validation
         validatePassword() {
-            const retypePasswordInput = this.$el.querySelector('#retype-password-input-signup')
             if (this.password !== '' && this.password === this.retypePassword) {
                 // setting to empty string means that the input is valid
-                retypePasswordInput.setCustomValidity('')
+                this.$refs.retypePasswordInput.setCustomValidity('')
             } else {
-                retypePasswordInput.setCustomValidity(`Passwords don't match js`)
+                this.$refs.retypePasswordInput.setCustomValidity(`Passwords don't match js`)
             }
         }
     }
@@ -47,8 +46,12 @@ export default {
 </script>
 
 <template>
-    <DialogModal form-id="signup-dialog" title="Sign Up">
-        <form :class="[wasValidated ? 'was-validated' : 'needs-validation']" novalidate>
+    <DialogModal form-id="signup-dialog" title="Sign Up" ref="modalComponent">
+        <form
+            ref="signupForm"
+            :class="[wasValidated ? 'was-validated' : 'needs-validation']"
+            novalidate
+        >
             <div class="form-floating mb-3">
                 <input
                     v-model="name"
@@ -92,6 +95,7 @@ export default {
             <div class="form-floating mb-3">
                 <input
                     @keyup="validatePassword"
+                    ref="retypePasswordInput"
                     v-model="retypePassword"
                     type="password"
                     class="form-control rounded-3"
