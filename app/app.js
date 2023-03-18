@@ -1,6 +1,6 @@
 const express = require('express')
 const config = require('./config')
-const { logger } = require('./logger.js')
+const { logger } = require('./utils/logger.js')
 const pinoHTTP = require('pino-http')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')

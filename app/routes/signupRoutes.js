@@ -2,7 +2,7 @@ const Router = require('express')
 const { body } = require('express-validator')
 const User = require('../models/User')
 const { postSignupUser } = require('../controllers/signupController')
-const { logger } = require('../logger')
+const { logger } = require('../utils/logger')
 const { serializeUser } = require('passport')
 
 const router = Router()

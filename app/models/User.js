@@ -1,5 +1,5 @@
 const db = require('../utils/db')
-const { logger } = require('../logger')
+const { logger } = require('../utils/logger')
 const bcrypt = require('bcryptjs')
 
 const User = {}
