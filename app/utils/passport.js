@@ -41,7 +41,7 @@ passport.use(
         function (jwt_payload, cb) {
             return User.getByID(jwt_payload.id)
                 .then((existingUser) => {
-                    return cb(null, user || false)
+                    return cb(null, existingUser || false)
                 })
                 .catch((err) => {
                     return cb(err, false)
