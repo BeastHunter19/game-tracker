@@ -32,7 +32,8 @@ exports.postLogin = async (req, res, next) => {
             .status(200)
             .json({
                 accessToken: accessToken,
-                expires_in: 600_000 //in milliseconds
+                expires_in: 600_000, //in milliseconds
+                user: user
             })
     } catch (err) {
         if (!err.statusCode) {
