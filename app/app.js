@@ -4,7 +4,9 @@ const { logger } = require('./utils/logger.js')
 const pinoHTTP = require('pino-http')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
+
 const signupRoutes = require('./routes/signupRoutes')
+const authRoutes = require('./routes/authRoutes')
 
 const app = express()
 
@@ -16,6 +18,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/signup', signupRoutes)
+app.use('/auth', authRoutes)
 
 // error handler middleware
 app.use((error, req, res, next) => {

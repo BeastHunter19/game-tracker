@@ -22,7 +22,7 @@ passport.use(
                         if (!result) {
                             return cb(null, false, { message: 'Incorrect password' })
                         }
-                        return cb(null, user)
+                        return cb(null, existingUser)
                     })
                 })
                 .catch((err) => {

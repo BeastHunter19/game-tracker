@@ -2,10 +2,12 @@ const { validationResult } = require('express-validator')
 const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
+const { logger } = require('../utils/logger')
 require('dotenv').config()
 
 exports.postLogin = async (req, res, next) => {
     try {
+        logger.info(req.user)
         // generate access and refresh tokens
         const accessToken = jwt.sign({ id: req.user.id }, process.env.ACCESS_JWT_SECRET, {
             expiresIn: '10m'

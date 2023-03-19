@@ -2,11 +2,23 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', {
     state: () => ({
-        email: 'ciccio-peppe@live.com',
-        role: 'user'
+        user: {
+            id: undefined,
+            name: undefined,
+            email: undefined
+        }
     }),
     getters: {
-        loggedIn: (state) => state.email != '' && state.role != '',
-        isAdmin: (state) => state.role === 'admin'
+        loggedIn: (state) =>
+            state.user.id !== undefined &&
+            state.user.email !== undefined &&
+            state.user.name !== undefined
+    },
+    actions: {
+        setUser(userDetails) {
+            this.user.email = userDetails.email
+            this.user.name = userDetails.name
+            this.user.id = userDetails.id
+        }
     }
 })

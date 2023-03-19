@@ -1,5 +1,8 @@
 <script>
 import DialogModal from './DialogModal.vue'
+import { mapActions } from 'pinia'
+import { useUserStore } from '@/stores/user'
+
 export default {
     components: { DialogModal },
     data() {
@@ -10,17 +13,35 @@ export default {
         }
     },
     methods: {
-        sendForm() {
-            this.$el.querySelector('.needs-validation')?.checkValidity()
+        async sendForm() {
+            if (this.$refs.loginForm.checkValidity()) {
+                const loginDetails = {
+                    email: this.email,
+                    password: this.password
+                }
+                try {
+                    const loginResponse = await this.$axios.post('/auth/login', loginDetails)
+                    console.log(loginResponse.data)
+                    this.setUser(loginDetails)
+                    this.$refs.modalComponent.closeModal()
+                } catch (err) {
+                    console.log(err)
+                }
+            }
             this.wasValidated = true
-        }
+        },
+        ...mapActions(useUserStore, ['setUser'])
     }
 }
 </script>
 
 <template>
-    <DialogModal form-id="login-dialog" title="Login">
-        <form :class="[wasValidated ? 'was-validated' : 'needs-validation']">
+    <DialogModal form-id="login-dialog" title="Login" ref="modalComponent">
+        <form
+            ref="loginForm"
+            :class="[wasValidated ? 'was-validated' : 'needs-validation']"
+            novalidate
+        >
             <div class="form-floating mb-3">
                 <input
                     v-model="email"

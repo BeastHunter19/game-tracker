@@ -1,5 +1,7 @@
 <script>
 import { RouterLink } from 'vue-router'
+import { mapState } from 'pinia'
+import { useUserStore } from '@/stores/user'
 import SearchBar from './SearchBar.vue'
 
 export default {
@@ -7,6 +9,9 @@ export default {
         return {
             appPages: this.$router.getRoutes()
         }
+    },
+    computed: {
+        ...mapState(useUserStore, ['loggedIn'])
     },
     components: {
         RouterLink,
@@ -78,7 +83,10 @@ export default {
                     </div>
 
                     <!-- Login buttons -->
-                    <div class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end">
+                    <div
+                        v-if="!loggedIn"
+                        class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end"
+                    >
                         <button
                             type="button"
                             class="btn btn-primary shadow me-2"
@@ -95,6 +103,10 @@ export default {
                         >
                             Sign Up
                         </button>
+                    </div>
+                    <!-- Show these instead if logged in -->
+                    <div v-else class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end">
+                        <button type="button" class="btn btn-primary shadow me-2">Logout</button>
                     </div>
                 </div>
             </div>
