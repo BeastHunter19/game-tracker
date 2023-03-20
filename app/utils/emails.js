@@ -7,10 +7,8 @@ const transporter = nodemailer.createTransport(config.email)
 
 module.exports.sendVerificationEmail = async (user) => {
     try {
-        const token = jwt.sign({ id: user.id }, config.secrets.verify, { expiresIn: '10m' })
+        const token = await jwt.sign({ id: user.id }, config.secrets.verify, { expiresIn: '10m' })
         const verifyURL = `${config.frontendURL}/verify/email/?token=${token}`
-
-        console.log(user)
 
         const info = await transporter.sendMail({
             from: {

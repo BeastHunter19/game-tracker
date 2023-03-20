@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator')
 const User = require('../models/User')
 const { logger } = require('../utils/logger')
+const { sendVerificationEmail } = require('../utils/emails')
 
 exports.postSignupUser = async (req, res, next) => {
     try {
@@ -18,9 +19,15 @@ exports.postSignupUser = async (req, res, next) => {
             res.status(200).send('Email already taken')
         } else {
             const newUser = await User.create(body.name, body.email, body.password)
+
+            sendVerificationEmail(newUser)
+
             res.status(201).json({
                 message: 'User created successfully',
-                user: newUser
+                user: {
+                    name: newUser.name,
+                    email: newUser.email
+                }
             })
         }
     } catch (err) {

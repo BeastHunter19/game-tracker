@@ -22,7 +22,7 @@ export default {
                 try {
                     const loginResponse = await this.$axios.post('/auth/login', loginDetails)
                     console.log(loginResponse.data)
-                    this.setUser(loginDetails)
+                    this.setUser(loginResponse.data)
                     this.$refs.modalComponent.closeModal()
                 } catch (err) {
                     console.log(err)
