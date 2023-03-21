@@ -46,7 +46,7 @@ export default {
 <template>
     <div
         ref="alert"
-        class="alert alert-dismissable mt-2 mx-2 fade show d-flex"
+        class="alert alert-dismissable mt-2 mx-2 fade show d-flex justify-content-between"
         :class="typeClass"
         role="alert"
     >
