@@ -3,13 +3,15 @@ import { RouterView } from 'vue-router'
 import NavbarMain from '@/components/NavbarMain.vue'
 import DialogSignUp from '@/components/DialogSignUp.vue'
 import DialogLogin from '@/components/DialogLogin.vue'
+import NotificationList from '@/components/NotificationList.vue'
 
 export default {
     components: {
         RouterView,
         NavbarMain,
         DialogSignUp,
-        DialogLogin
+        DialogLogin,
+        NotificationList
     }
 }
 </script>
@@ -18,6 +20,9 @@ export default {
     <NavbarMain></NavbarMain>
 
     <RouterView />
+
+    <!-- Notification panel-->
+    <NotificationList></NotificationList>
 
     <!-- Login and Sign up modals -->
     <DialogSignUp></DialogSignUp>
