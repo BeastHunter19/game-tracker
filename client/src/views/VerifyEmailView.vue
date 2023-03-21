@@ -1,34 +1,34 @@
 <script>
+import { useNotificationsStore } from '@/stores/notifications'
+import { mapActions } from 'pinia'
+
 export default {
-    data() {
-        return {
-            verificationStatus: 'waiting'
-        }
-    },
     async mounted() {
         try {
             // ajax request to verify email
             await this.$axios.patch('/auth/verify/email', { token: this.$route.query.token })
-            this.verificationStatus = 'success'
+            this.createNotification({
+                type: 'success',
+                message: 'You have successfully verified your email!'
+            })
         } catch (err) {
             console.log(err)
-            this.verificationStatus = 'failure'
+            this.createNotification({
+                type: 'danger',
+                message:
+                    'Email verification failed. You can request a new verification email from your profile page.'
+            })
         }
+    },
+    methods: {
+        ...mapActions(useNotificationsStore, ['createNotification'])
     }
 }
 </script>
 
 <template>
-    <main>
-        <div v-if="verificationStatus == 'success'" class="alert alert-success" role="alert">
-            You have successfully verified your email. Click
-            <RouterLink to="/" class="alert-link"> here </RouterLink>
-            to return to the homepage.
-        </div>
-        <div v-else-if="verificationStatus == 'failure'" class="alert alert-danger" role="alert">
-            Email verification failed. You can request a new verification email from your profile
-            page. Click <RouterLink to="/" class="alert-link"> here </RouterLink>
-            to return to the homepage.
-        </div>
+    <main class="h-100 d-flex flex-column justify-content-center align-items-center">
+        <h2>Click down here to return to the homepage</h2>
+        <RouterLink class="btn btn-primary shadow" to="/">Homepage</RouterLink>
     </main>
 </template>
