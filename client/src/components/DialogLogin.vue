@@ -2,6 +2,7 @@
 import DialogModal from './DialogModal.vue'
 import { mapActions } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import { useNotificationsStore } from '@/stores/notifications'
 
 export default {
     components: { DialogModal },
@@ -24,13 +25,29 @@ export default {
                     console.log(loginResponse.data)
                     this.setUser(loginResponse.data)
                     this.$refs.modalComponent.closeModal()
+                    this.createNotification({
+                        type: 'success',
+                        message: 'You have logged in successfully!'
+                    })
                 } catch (err) {
                     console.log(err)
+                    if (err.response.status === 401) {
+                        this.createNotification({
+                            type: 'warning',
+                            message: 'The email and/or password provided are wrong. Try again.'
+                        })
+                    } else {
+                        this.createNotification({
+                            type: 'danger',
+                            message: 'An error occurred while logging in'
+                        })
+                    }
                 }
             }
             this.wasValidated = true
         },
-        ...mapActions(useUserStore, ['setUser'])
+        ...mapActions(useUserStore, ['setUser']),
+        ...mapActions(useNotificationsStore, ['createNotification'])
     }
 }
 </script>

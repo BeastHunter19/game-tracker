@@ -1,5 +1,8 @@
 <script>
 import DialogModal from './DialogModal.vue'
+import { useNotificationsStore } from '@/stores/notifications'
+import { mapActions } from 'pinia'
+
 export default {
     components: { DialogModal },
     data() {
@@ -24,9 +27,27 @@ export default {
                 try {
                     const signupResponse = await this.$axios.post('/signup/user', userData)
                     console.log(signupResponse.data)
-                    this.$refs.modalComponent.closeModal()
+                    // status code 200 means email already taken
+                    if (signupResponse.status === 200) {
+                        this.createNotification({
+                            type: 'warning',
+                            message:
+                                'The provided email was already used for an existing account. Please try with another one or login'
+                        })
+                    } else {
+                        this.$refs.modalComponent.closeModal()
+                        this.createNotification({
+                            type: 'success',
+                            message:
+                                'Account created successfully! A verification email has been sent to the address you provided.'
+                        })
+                    }
                 } catch (err) {
                     console.log(err)
+                    this.createNotification({
+                        type: 'danger',
+                        message: 'An error occurred during account creation. Please try again.'
+                    })
                 }
             }
             // this will add class was-validated to the form and start giving visual feedback to the user
@@ -40,7 +61,8 @@ export default {
             } else {
                 this.$refs.retypePasswordInput.setCustomValidity(`Passwords don't match js`)
             }
-        }
+        },
+        ...mapActions(useNotificationsStore, ['createNotification'])
     }
 }
 </script>
