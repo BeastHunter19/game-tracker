@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router'
 import NavbarMain from '@/components/NavbarMain.vue'
 import DialogSignUp from '@/components/DialogSignUp.vue'
 import DialogLogin from '@/components/DialogLogin.vue'
+import DialogPasswordReset from '@/components/DialogPasswordReset.vue'
 import NotificationList from '@/components/NotificationList.vue'
 
 export default {
@@ -11,6 +12,7 @@ export default {
         NavbarMain,
         DialogSignUp,
         DialogLogin,
+        DialogPasswordReset,
         NotificationList
     }
 }
@@ -27,6 +29,7 @@ export default {
     <!-- Login and Sign up modals -->
     <DialogSignUp></DialogSignUp>
     <DialogLogin></DialogLogin>
+    <DialogPasswordReset></DialogPasswordReset>
 </template>
 
 <style>

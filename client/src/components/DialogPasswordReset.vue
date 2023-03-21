@@ -9,37 +9,34 @@ export default {
     data() {
         return {
             email: '',
-            password: '',
             wasValidated: false
         }
     },
     methods: {
         async sendForm() {
-            if (this.$refs.loginForm.checkValidity()) {
-                const loginDetails = {
-                    email: this.email,
-                    password: this.password
-                }
+            if (this.$refs.resetRequestForm.checkValidity()) {
                 try {
-                    const loginResponse = await this.$axios.post('/auth/login', loginDetails)
+                    const loginResponse = await this.$axios.post('/auth/password/reset', {
+                        email: this.email
+                    })
                     console.log(loginResponse.data)
-                    this.setUser(loginResponse.data)
-                    this.$refs.modalComponent.closeModal()
                     this.createNotification({
                         type: 'success',
-                        message: 'You have logged in successfully!'
+                        message: 'A password reset email has been sent successfully.'
                     })
+                    this.$refs.modalComponent.closeModal()
                 } catch (err) {
                     console.log(err)
-                    if (err.response.status === 401) {
+                    if (err.response.status === 404) {
                         this.createNotification({
                             type: 'warning',
-                            message: 'The email and/or password provided are wrong. Try again.'
+                            message:
+                                'The specified email is not associated with an existing account.'
                         })
                     } else {
                         this.createNotification({
                             type: 'danger',
-                            message: 'An error occurred while logging in'
+                            message: 'An error occurred while sending the email'
                         })
                     }
                 }
@@ -53,9 +50,13 @@ export default {
 </script>
 
 <template>
-    <DialogModal form-id="login-dialog" title="Login" ref="modalComponent">
+    <DialogModal form-id="reset-request-dialog" title="Reset Password" ref="modalComponent">
+        <p>
+            Type your email address down here. If it is associated with an existing account you will
+            receive an email with a password reset link.
+        </p>
         <form
-            ref="loginForm"
+            ref="resetRequestForm"
             :class="[wasValidated ? 'was-validated' : 'needs-validation']"
             novalidate
         >
@@ -64,47 +65,29 @@ export default {
                     v-model="email"
                     type="email"
                     class="form-control rounded-3"
-                    id="email-input-login"
+                    id="email-input-reset-request"
                     placeholder="name@example.com"
                     required
                 />
-                <label for="email-input-login">Email address</label>
+                <label for="email-input-reset-request">Email address</label>
                 <div class="invalid-feedback">You must use a valid email address.</div>
-            </div>
-            <div class="form-floating mb-3">
-                <input
-                    v-model="password"
-                    type="password"
-                    class="form-control rounded-3"
-                    id="password-input-login"
-                    placeholder="Password"
-                    required
-                    pattern="^\S+$"
-                />
-                <label for="password-input-login">Password</label>
-                <div class="invalid-feedback">You must enter a password.</div>
             </div>
             <button
                 @click.prevent="sendForm"
                 class="w-100 mb-3 btn btn-lg rounded-3 btn-primary shadow"
                 type="submit"
             >
-                Login
+                Send email
             </button>
-            <small class="text-muted">
-                Click
-                <a href="#" data-bs-toggle="modal" data-bs-target="#reset-request-dialog">here</a>
-                to recover your password.
-            </small>
             <hr class="my-4" />
-            <h2 class="fs-5 fw-bold mb-3">Or create a new account</h2>
+            <h2 class="fs-5 fw-bold mb-3">Or try to login again</h2>
             <button
                 class="w-100 py-2 mb-2 btn rounded-3 btn-outline-primary"
                 type="button"
                 data-bs-toggle="modal"
-                data-bs-target="#signup-dialog"
+                data-bs-target="#login-dialog"
             >
-                Sign Up
+                Login
             </button>
         </form>
     </DialogModal>
