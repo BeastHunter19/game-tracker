@@ -59,7 +59,7 @@ export default {
                 // setting to empty string means that the input is valid
                 this.$refs.retypePasswordInput.setCustomValidity('')
             } else {
-                this.$refs.retypePasswordInput.setCustomValidity(`Passwords don't match js`)
+                this.$refs.retypePasswordInput.setCustomValidity(`Passwords don't match`)
             }
         },
         ...mapActions(useNotificationsStore, ['createNotification'])

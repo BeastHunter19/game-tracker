@@ -13,11 +13,11 @@ export default {
     },
     methods: {
         closeModal() {
-            const bsModalInstance = Modal.getInstance(this.$refs.modalRoot)
+            const bsModalInstance = Modal.getOrCreateInstance(this.$refs.modalRoot)
             bsModalInstance.hide()
         },
         openModal() {
-            const bsModalInstance = Modal.getInstance(this.$refs.modalRoot)
+            const bsModalInstance = Modal.getOrCreateInstance(this.$refs.modalRoot)
             bsModalInstance.show()
         }
     },

@@ -5,7 +5,9 @@ const isOwner = require('../middlewares/isOwner')
 const {
     postLogin,
     patchVerifyEmail,
-    postResendVerificationEmail
+    postResendVerificationEmail,
+    postPasswordReset,
+    patchPasswordUpdate
 } = require('../controllers/authController')
 
 const router = Router()
@@ -19,6 +21,38 @@ router.post(
     passport.authenticate('jwt', { session: false }),
     isOwner,
     postResendVerificationEmail
+)
+
+router.post(
+    '/password/reset',
+    [
+        body('email')
+            .trim()
+            .isString()
+            .isEmail()
+            .normalizeEmail()
+            .withMessage('Please enter a valid email.')
+    ],
+    postPasswordReset
+)
+
+router.patch(
+    '/password/update',
+    [
+        body('password')
+            .trim()
+            .isString()
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters long'),
+        body('confirm_password').custom((val, { req }) => {
+            if (val !== req.body.password) {
+                throw new Error('Passwords do not match')
+            }
+            return true
+        }),
+        body('token').trim().isString()
+    ],
+    patchPasswordUpdate
 )
 
 module.exports = router

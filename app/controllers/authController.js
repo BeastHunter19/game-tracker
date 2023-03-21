@@ -3,9 +3,12 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { logger } = require('../utils/logger')
-const { sendVerificationEmail } = require('../utils/emails')
+const {
+    sendVerificationEmail,
+    sendPasswordResetEmail,
+    sendPasswordUpdatedEmail
+} = require('../utils/emails')
 const config = require('../config')
-const { email } = require('../config')
 
 exports.postLogin = async (req, res, next) => {
     try {
@@ -70,9 +73,75 @@ exports.patchVerifyEmail = async (req, res, next) => {
 
 exports.postResendVerificationEmail = async (req, res, next) => {
     try {
-        sendVerificationEmail(req.user)
+        await sendVerificationEmail(req.user)
         res.status(200).json({
             message: 'Verification email resent successfully'
+        })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
+
+exports.postPasswordReset = async (req, res, next) => {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const error = new Error('Validation failed')
+            error.statusCode = 422
+            error.data = errors
+            throw error
+        }
+
+        const email = req.body.email
+        const user = await User.getByEmail(email)
+        if (!user) {
+            const error = new Error('User not found.')
+            error.statusCode = 404
+            throw error
+        }
+
+        const token = await sendPasswordResetEmail(user)
+        await User.updateResetToken(email, token)
+
+        res.status(200).json({
+            message: 'Reset link sent successfully.'
+        })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
+
+exports.patchPasswordUpdate = async (req, res, next) => {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            const error = new Error('Validation failed')
+            error.statusCode = 422
+            error.data = errors
+            throw error
+        }
+
+        const decodedToken = await jwt.verify(req.body.token, config.secrets.reset)
+        const { id } = decodedToken
+        const passwordUpdated = await User.updatePassword(id, req.body.token, req.body.password)
+        if (!passwordUpdated) {
+            throw new Error('Password update failed.')
+        }
+
+        const updatedUser = await User.getByID(id)
+
+        await sendPasswordUpdatedEmail(updatedUser)
+
+        res.status(200).json({
+            message: 'Password successfully updated'
         })
     } catch (err) {
         if (!err.statusCode) {

@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import VerifyEmailView from '@/views/VerifyEmailView.vue'
 import UserProfileView from '@/views/UserProfileView.vue'
+import ResetPasswordView from '@/views/ResetPasswordView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
             path: '/verify/email',
             name: 'verify',
             component: VerifyEmailView
+        },
+        {
+            path: '/password/update',
+            name: 'update',
+            component: ResetPasswordView
         }
     ]
 })
