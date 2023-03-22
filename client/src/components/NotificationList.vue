@@ -28,6 +28,6 @@ export default {
     right: 0;
     margin-right: 15px;
     width: 320px;
-    z-index: 1051;
+    z-index: 1060;
 }
 </style>
