@@ -168,45 +168,49 @@ exports.postLogout = async (req, res, next) => {
 }
 
 exports.postRefreshTokens = async (req, res, next) => {
-    const refreshToken = req.cookies.refresh_cookie
     try {
-        const { id } = jwt.verify(refreshToken, config.secrets.refresh)
-        const existingUser = await User.getByID(id)
-        if (!existingUser) {
-            const error = new Error('User not found')
-            error.statusCode = 404
-            throw error
-        }
-        const isBlacklisted = await User.isTokenBlacklisted(id, refreshToken)
-        if (isBlacklisted) {
-            const error = new Error('Unauthorized')
-            error.statusCode = 401
-            throw error
-        }
+        const providedToken = req.cookies.refresh_cookie
+        if (!providedToken) {
+            res.status(401).json({ message: 'No refresh token was provided' })
+        } else {
+            const { id } = jwt.verify(providedToken, config.secrets.refresh)
+            const existingUser = await User.getByID(id)
+            if (!existingUser) {
+                const error = new Error('User not found')
+                error.statusCode = 404
+                throw error
+            }
+            const isBlacklisted = await User.isTokenBlacklisted(id, providedToken)
+            if (isBlacklisted) {
+                const error = new Error('Unauthorized')
+                error.statusCode = 401
+                throw error
+            }
 
-        // generate access and refresh tokens
-        const { accessToken, refreshToken } = generateTokens(existingUser)
+            // generate access and refresh tokens
+            const { accessToken, refreshToken } = generateTokens(existingUser)
 
-        // define expiration time for cookie
-        const expirationDate = getCookieExpiration(7)
+            // define expiration time for cookie
+            const expirationDate = getCookieExpiration(7)
 
-        // filter user data removing confidential fields
-        const user = {
-            id: existingUser.id,
-            name: existingUser.name,
-            email: existingUser.email
-        }
+            // filter user data removing confidential fields
+            const user = {
+                id: existingUser.id,
+                name: existingUser.name,
+                email: existingUser.email
+            }
 
-        res.cookie('refresh_cookie', refreshToken, {
-            expires: expirationDate,
-            httpOnly: true
-        })
-            .status(200)
-            .json({
-                accessToken: accessToken,
-                expires_in: 600_000, //in milliseconds
-                user: user
+            res.cookie('refresh_cookie', refreshToken, {
+                expires: expirationDate,
+                httpOnly: true
             })
+                .status(200)
+                .json({
+                    accessToken: accessToken,
+                    expires_in: 600_000, //in milliseconds
+                    user: user
+                })
+        }
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500

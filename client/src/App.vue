@@ -5,6 +5,9 @@ import DialogSignUp from '@/components/DialogSignUp.vue'
 import DialogLogin from '@/components/DialogLogin.vue'
 import DialogPasswordReset from '@/components/DialogPasswordReset.vue'
 import NotificationList from '@/components/NotificationList.vue'
+import { mapActions } from 'pinia'
+import { useUserStore } from '@/stores/user'
+import { useNotificationsStore } from '@/stores/notifications'
 
 export default {
     components: {
@@ -14,6 +17,35 @@ export default {
         DialogLogin,
         DialogPasswordReset,
         NotificationList
+    },
+    methods: {
+        ...mapActions(useUserStore, ['setUser']),
+        ...mapActions(useNotificationsStore, ['createNotification']),
+        async tryAutomaticLogin() {
+            try {
+                // try to login using stored refresh token
+                const loginResponse = await this.$axios.post('/auth/tokens/refresh', {})
+                console.log(loginResponse.data)
+                this.setUser(loginResponse.data)
+
+                // start a timer to refresh the access token before it expires
+                const waitTime = Math.max(loginResponse.data.expires_in - 10_000, 10_000) // times in milliseconds
+                setTimeout(this.tryAutomaticLogin, waitTime)
+            } catch (err) {
+                if (err.response?.status === 401) {
+                    console.log(err.response.data)
+                } else {
+                    console.log(err)
+                    this.createNotification({
+                        type: 'danger',
+                        message: 'An error occurred while trying to login. Please do a manual login'
+                    })
+                }
+            }
+        }
+    },
+    async mounted() {
+        await this.tryAutomaticLogin()
     }
 }
 </script>
