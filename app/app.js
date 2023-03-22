@@ -12,6 +12,8 @@ const app = express()
 
 app.use(pinoHTTP({ logger }))
 app.use(helmet())
+// this helps reducing fingerprinting
+app.disable('x-powered-by')
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
