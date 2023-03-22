@@ -4,6 +4,7 @@ const { logger } = require('./utils/logger.js')
 const pinoHTTP = require('pino-http')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
+const User = require('./models/User')
 
 const signupRoutes = require('./routes/signupRoutes')
 const authRoutes = require('./routes/authRoutes')
@@ -47,3 +48,7 @@ process.on('uncaughtException', (err) => {
     }, 1000).unref()
     process.exit(1)
 })
+
+// start blacklisted token cleanup timer
+User.removeExpiredTokensFromBlacklist()
+setInterval(User.removeExpiredTokensFromBlacklist, config.tokenCleanupInterval)

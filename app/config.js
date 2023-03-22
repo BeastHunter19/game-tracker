@@ -24,7 +24,8 @@ const config = {
             user: process.env.VERIFICATION_EMAIL_USER,
             pass: process.env.VERIFICATION_EMAIL_PASSWORD
         }
-    }
+    },
+    tokenCleanupInterval: process.env.TOKEN_CLEANUP_INTERVAL || 3_600_000 // every hour
 }
 
 module.exports = config

@@ -1,6 +1,8 @@
 const db = require('../utils/db')
 const { logger } = require('../utils/logger')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const config = require('../config')
 
 const User = {}
 
@@ -128,11 +130,41 @@ User.isTokenBlacklisted = async (id, token) => {
         const result = await db.query(
             `SELECT *
              FROM blacklisted_tokens
-             WHERE id = ? AND token = ?`
+             WHERE user = UUID_TO_BIN(?) AND token = ?`,
+            [id, token]
         )
         return result.length > 0
     } catch (err) {
         logger.error(err, 'Could not check for blacklisted token')
+        throw err
+    }
+}
+
+User.removeExpiredTokensFromBlacklist = async () => {
+    try {
+        const tokens = await db.query(
+            `SELECT token
+             FROM blacklisted_tokens`
+        )
+        let toRemove = []
+        tokens.forEach((token) => {
+            try {
+                if (jwt.verify(token, config.secrets.refresh)) {
+                    return
+                }
+            } catch (err) {
+                if (err.message === 'jwt expired') {
+                    toRemove.push(token)
+                }
+            }
+        })
+        db.query(
+            `DELETE FROM blacklisted_tokens
+             WHERE token IN (?)`,
+            [toRemove]
+        )
+    } catch (err) {
+        logger.error(err, 'Could not remove expired tokens')
         throw err
     }
 }
