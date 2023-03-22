@@ -13,7 +13,8 @@ const config = {
     secrets: {
         access: process.env.ACCESS_JWT_SECRET,
         verify: process.env.VERIFY_JWT_SECRET,
-        reset: process.env.RESET_JWT_SECRET
+        reset: process.env.RESET_JWT_SECRET,
+        refresh: process.env.REFRESH_JWT_SECRET
     },
     email: {
         host: process.env.VERIFICATION_EMAIL_HOST,

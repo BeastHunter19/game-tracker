@@ -123,4 +123,18 @@ User.logout = async (id, refreshToken) => {
     }
 }
 
+User.isTokenBlacklisted = async (id, token) => {
+    try {
+        const result = await db.query(
+            `SELECT *
+             FROM blacklisted_tokens
+             WHERE id = ? AND token = ?`
+        )
+        return result.length > 0
+    } catch (err) {
+        logger.error(err, 'Could not check for blacklisted token')
+        throw err
+    }
+}
+
 module.exports = User

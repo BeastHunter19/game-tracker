@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { logger } = require('../utils/logger')
+const { generateTokens, getCookieExpiration } = require('../utils/tokens')
 const {
     sendVerificationEmail,
     sendPasswordResetEmail,
@@ -14,16 +15,10 @@ exports.postLogin = async (req, res, next) => {
     try {
         logger.info(req.user)
         // generate access and refresh tokens
-        const accessToken = jwt.sign({ id: req.user.id }, config.secrets.access, {
-            expiresIn: '10m'
-        })
-        const refreshToken = jwt.sign({ id: req.user.id }, config.secrets.access, {
-            expiresIn: '7d'
-        })
+        const { accessToken, refreshToken } = generateTokens(req.user)
 
         // define expiration time for cookie
-        const currentDate = new Date()
-        const expirationDate = new Date(currentDate.setDate(currentDate.getDate() + 7))
+        const expirationDate = getCookieExpiration(7)
 
         // filter user data removing confidential fields
         const user = {
@@ -163,6 +158,55 @@ exports.postLogout = async (req, res, next) => {
         res.status(200).json({
             message: 'Logged out successfully'
         })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
+
+exports.postRefreshTokens = async (req, res, next) => {
+    const refreshToken = req.cookies.refresh_cookie
+    try {
+        const { id } = jwt.verify(refreshToken, config.secrets.refresh)
+        const existingUser = await User.getByID(id)
+        if (!existingUser) {
+            const error = new Error('User not found')
+            error.statusCode = 404
+            throw error
+        }
+        const isBlacklisted = await User.isTokenBlacklisted(id, refreshToken)
+        if (isBlacklisted) {
+            const error = new Error('Unauthorized')
+            error.statusCode = 401
+            throw error
+        }
+
+        // generate access and refresh tokens
+        const { accessToken, refreshToken } = generateTokens(existingUser)
+
+        // define expiration time for cookie
+        const expirationDate = getCookieExpiration(7)
+
+        // filter user data removing confidential fields
+        const user = {
+            id: existingUser.id,
+            name: existingUser.name,
+            email: existingUser.email
+        }
+
+        res.cookie('refresh_cookie', refreshToken, {
+            expires: expirationDate,
+            httpOnly: true
+        })
+            .status(200)
+            .json({
+                accessToken: accessToken,
+                expires_in: 600_000, //in milliseconds
+                user: user
+            })
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500
