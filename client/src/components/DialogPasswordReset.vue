@@ -27,7 +27,7 @@ export default {
                     this.$refs.modalComponent.closeModal()
                 } catch (err) {
                     console.log(err)
-                    if (err.response.status === 404) {
+                    if (err.response?.status === 404) {
                         this.createNotification({
                             type: 'warning',
                             message:

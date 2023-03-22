@@ -31,7 +31,7 @@ export default {
                     })
                 } catch (err) {
                     console.log(err)
-                    if (err.response.status === 401) {
+                    if (err.response?.status === 401) {
                         this.createNotification({
                             type: 'warning',
                             message: 'The email and/or password provided are wrong. Try again.'
