@@ -1,6 +1,6 @@
 <script>
 import { RouterLink } from 'vue-router'
-import { mapState, mapActions } from 'pinia'
+import { mapStores, mapActions } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useNotificationsStore } from '@/stores/notifications'
 import SearchBar from './SearchBar.vue'
@@ -16,22 +16,22 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['loggedIn', 'user', 'accessToken'])
+        ...mapStores(useUserStore)
     },
     methods: {
         async logout() {
             try {
                 const logoutResponse = await this.$axios.post(
-                    `/auth/logout/${this.user.id}`,
+                    `/auth/logout/${this.userStore.user.id}`,
                     {},
                     {
                         headers: {
-                            Authorization: `Bearer ${this.accessToken}`
+                            Authorization: `Bearer ${this.userStore.accessToken}`
                         }
                     }
                 )
                 console.log(logoutResponse.data)
-                useUserStore().$reset()
+                this.userStore.$reset()
                 this.createNotification({
                     type: 'success',
                     message: 'You have logged out successfully!'
@@ -113,7 +113,7 @@ export default {
 
                     <!-- Login buttons -->
                     <div
-                        v-if="!loggedIn"
+                        v-if="!userStore.loggedIn"
                         class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end"
                     >
                         <button
