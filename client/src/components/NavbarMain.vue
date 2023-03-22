@@ -1,21 +1,50 @@
 <script>
 import { RouterLink } from 'vue-router'
-import { mapState } from 'pinia'
+import { mapState, mapActions } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import { useNotificationsStore } from '@/stores/notifications'
 import SearchBar from './SearchBar.vue'
 
 export default {
+    components: {
+        RouterLink,
+        SearchBar
+    },
     data() {
         return {
             appPages: this.$router.getRoutes()
         }
     },
     computed: {
-        ...mapState(useUserStore, ['loggedIn'])
+        ...mapState(useUserStore, ['loggedIn', 'user', 'accessToken'])
     },
-    components: {
-        RouterLink,
-        SearchBar
+    methods: {
+        async logout() {
+            try {
+                const logoutResponse = await this.$axios.post(
+                    `/auth/logout/${this.user.id}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${this.accessToken}`
+                        }
+                    }
+                )
+                console.log(logoutResponse.data)
+                useUserStore().$reset()
+                this.createNotification({
+                    type: 'success',
+                    message: 'You have logged out successfully!'
+                })
+            } catch (err) {
+                console.log(err)
+                this.createNotification({
+                    type: 'danger',
+                    message: 'An error occurred while logging out'
+                })
+            }
+        },
+        ...mapActions(useNotificationsStore, ['createNotification'])
     }
 }
 </script>
@@ -106,7 +135,9 @@ export default {
                     </div>
                     <!-- Show these instead if logged in -->
                     <div v-else class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end">
-                        <button type="button" class="btn btn-primary shadow me-2">Logout</button>
+                        <button @click="logout" type="button" class="btn btn-primary shadow me-2">
+                            Logout
+                        </button>
                     </div>
                 </div>
             </div>

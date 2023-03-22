@@ -108,4 +108,19 @@ User.updatePassword = async (id, token, newPassword) => {
     }
 }
 
+User.logout = async (id, refreshToken) => {
+    try {
+        const result = await db.query(
+            `INSERT INTO blacklisted_tokens(token, user)
+             VALUES (?, UUID_TO_BIN(?))`,
+            [refreshToken, id]
+        )
+
+        return result.affectedRows !== 0
+    } catch (err) {
+        logger.error(err, 'Could not blacklist token')
+        throw err
+    }
+}
+
 module.exports = User

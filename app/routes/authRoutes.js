@@ -7,7 +7,8 @@ const {
     patchVerifyEmail,
     postResendVerificationEmail,
     postPasswordReset,
-    patchPasswordUpdate
+    patchPasswordUpdate,
+    postLogout
 } = require('../controllers/authController')
 
 const router = Router()
@@ -53,6 +54,13 @@ router.patch(
         body('token').trim().isString()
     ],
     patchPasswordUpdate
+)
+
+router.post(
+    '/logout/:userId',
+    passport.authenticate('jwt', { session: false }),
+    isOwner,
+    postLogout
 )
 
 module.exports = router

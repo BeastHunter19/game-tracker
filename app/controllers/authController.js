@@ -151,3 +151,23 @@ exports.patchPasswordUpdate = async (req, res, next) => {
         return err
     }
 }
+
+exports.postLogout = async (req, res, next) => {
+    try {
+        const loggedOut = await User.logout(req.user.id, req.cookies.refresh_cookie)
+        if (!loggedOut) {
+            const error = new Error('User not found')
+            error.statusCode = 404
+            throw error
+        }
+        res.status(200).json({
+            message: 'Logged out successfully'
+        })
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
