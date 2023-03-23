@@ -29,6 +29,10 @@ export default {
                         type: 'success',
                         message: 'You have logged in successfully!'
                     })
+
+                    // start a timer to refresh the access token before it expires
+                    const waitTime = Math.max(loginResponse.data.expires_in - 10_000, 10_000) // times in milliseconds
+                    setTimeout(this.tryAutomaticLogin, waitTime)
                 } catch (err) {
                     console.log(err)
                     if (err.response?.status === 401) {
@@ -45,6 +49,28 @@ export default {
                 }
             }
             this.wasValidated = true
+        },
+        async tryAutomaticLogin() {
+            try {
+                // try to login using stored refresh token
+                const loginResponse = await this.$axios.post('/auth/tokens/refresh', {})
+                console.log(loginResponse.data)
+                this.setUser(loginResponse.data)
+
+                // start a timer to refresh the access token before it expires
+                const waitTime = Math.max(loginResponse.data.expires_in - 10_000, 10_000) // times in milliseconds
+                setTimeout(this.tryAutomaticLogin, waitTime)
+            } catch (err) {
+                if (err.response?.status === 401) {
+                    console.log(err.response.data)
+                } else {
+                    console.log(err)
+                    this.createNotification({
+                        type: 'danger',
+                        message: 'An error occurred while trying to login. Please do a manual login'
+                    })
+                }
+            }
         },
         ...mapActions(useUserStore, ['setUser']),
         ...mapActions(useNotificationsStore, ['createNotification'])
