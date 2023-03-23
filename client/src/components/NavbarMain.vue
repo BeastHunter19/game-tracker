@@ -3,12 +3,14 @@ import { RouterLink } from 'vue-router'
 import { mapStores, mapActions } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useNotificationsStore } from '@/stores/notifications'
-import SearchBar from './SearchBar.vue'
+import SearchBar from '@/components/SearchBar.vue'
+import NavbarUserPanel from '@/components/NavbarUserPanel.vue'
 
 export default {
     components: {
         RouterLink,
-        SearchBar
+        SearchBar,
+        NavbarUserPanel
     },
     data() {
         return {
@@ -134,11 +136,10 @@ export default {
                         </button>
                     </div>
                     <!-- Show these instead if logged in -->
-                    <div v-else class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end">
-                        <button @click="logout" type="button" class="btn btn-primary shadow me-2">
-                            Logout
-                        </button>
-                    </div>
+                    <NavbarUserPanel
+                        v-else
+                        class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-center justify-content-lg-end"
+                    ></NavbarUserPanel>
                 </div>
             </div>
         </nav>

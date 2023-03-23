@@ -4,6 +4,8 @@
     --gt-color-secondary-active: #217035;
     --gt-color-secondary-transparent: #34a04fc2;
     --gt-color-main: #7b10ff;
+    --gt-color-main-lighter: #9742ff;
+    --gt-color-main-darker: #630bce;
     --gt-color-bg: #a3a8e9;
     --gt-color-bg-gradient: #6d74ca;
     --gt-color-card: #e0e8f0;
@@ -22,4 +24,5 @@ body {
 
 #app {
     height: 100%;
+    overflow-y: auto;
 }
