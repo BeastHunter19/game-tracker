@@ -13,11 +13,18 @@ export default {
     },
     data() {
         return {
-            appPages: this.$router.getRoutes()
+            appPages: this.$router.getRoutes().filter((value) => {
+                return value.meta.mainNavigation
+            })
         }
     },
     computed: {
-        ...mapState(useUserStore, ['loggedIn'])
+        ...mapState(useUserStore, ['loggedIn']),
+        authenticatedPages() {
+            return this.appPages.filter((value) => {
+                return !(value.meta.requiresAuth && !this.loggedIn)
+            })
+        }
     }
 }
 </script>
@@ -62,7 +69,7 @@ export default {
 
                         <ul class="navbar-nav nav-pills">
                             <li
-                                v-for="(page, index) in appPages"
+                                v-for="(page, index) in authenticatedPages"
                                 :key="index"
                                 class="nav-item mx-xl-2 mb-2 mb-lg-0"
                             >

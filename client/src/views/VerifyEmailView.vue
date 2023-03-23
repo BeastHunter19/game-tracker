@@ -22,6 +22,11 @@ export default {
     },
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification'])
+    },
+    beforeRouteEnter(to) {
+        if (!to.query.token) {
+            return { name: 'home' }
+        }
     }
 }
 </script>

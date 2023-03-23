@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-    <span class="avatar rounded-circle shadow">{{ userInitials }}</span>
+    <span class="avatar rounded-circle shadow fw-bold">{{ userInitials }}</span>
 </template>
 
 <style scoped>

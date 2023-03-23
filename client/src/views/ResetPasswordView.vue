@@ -2,7 +2,12 @@
 import DialogPasswordUpdate from '@/components/DialogPasswordUpdate.vue'
 
 export default {
-    components: { DialogPasswordUpdate }
+    components: { DialogPasswordUpdate },
+    beforeRouteEnter(to) {
+        if (!to.query.token) {
+            return { name: 'home' }
+        }
+    }
 }
 </script>
 
