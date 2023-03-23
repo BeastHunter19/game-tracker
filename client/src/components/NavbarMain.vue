@@ -1,8 +1,7 @@
 <script>
 import { RouterLink } from 'vue-router'
-import { mapStores, mapActions } from 'pinia'
+import { mapState } from 'pinia'
 import { useUserStore } from '@/stores/user'
-import { useNotificationsStore } from '@/stores/notifications'
 import SearchBar from '@/components/SearchBar.vue'
 import NavbarUserPanel from '@/components/NavbarUserPanel.vue'
 
@@ -18,35 +17,7 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useUserStore)
-    },
-    methods: {
-        async logout() {
-            try {
-                const logoutResponse = await this.$axios.post(
-                    `/auth/logout/${this.userStore.user.id}`,
-                    {},
-                    {
-                        headers: {
-                            Authorization: `Bearer ${this.userStore.accessToken}`
-                        }
-                    }
-                )
-                console.log(logoutResponse.data)
-                this.userStore.$reset()
-                this.createNotification({
-                    type: 'success',
-                    message: 'You have logged out successfully!'
-                })
-            } catch (err) {
-                console.log(err)
-                this.createNotification({
-                    type: 'danger',
-                    message: 'An error occurred while logging out'
-                })
-            }
-        },
-        ...mapActions(useNotificationsStore, ['createNotification'])
+        ...mapState(useUserStore, ['loggedIn'])
     }
 }
 </script>
@@ -115,7 +86,7 @@ export default {
 
                     <!-- Login buttons -->
                     <div
-                        v-if="!userStore.loggedIn"
+                        v-if="!loggedIn"
                         class="col-xl ms-2 ms-xl-0 mb-2 mb-lg-0 d-flex justify-content-end"
                     >
                         <button

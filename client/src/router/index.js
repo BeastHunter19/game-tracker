@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import VerifyEmailView from '@/views/VerifyEmailView.vue'
-import UserProfileView from '@/views/UserProfileView.vue'
+import UserSettingsView from '@/views/UserSettingsView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 
 const router = createRouter({
@@ -28,7 +28,12 @@ const router = createRouter({
         {
             path: '/profile',
             name: 'profile',
-            component: UserProfileView
+            component: HomeView
+        },
+        {
+            path: '/settings',
+            name: 'settings',
+            component: UserSettingsView
         },
         {
             path: '/verify/email',

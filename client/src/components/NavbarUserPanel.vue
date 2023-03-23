@@ -1,8 +1,43 @@
 <script>
 import UserAvatar from '@/components/UserAvatar.vue'
+import { mapStores, mapActions } from 'pinia'
+import { useUserStore } from '@/stores/user'
+import { useNotificationsStore } from '@/stores/notifications'
 
 export default {
-    components: { UserAvatar }
+    components: { UserAvatar },
+    computed: {
+        ...mapStores(useUserStore)
+    },
+    methods: {
+        async logout() {
+            try {
+                const logoutResponse = await this.$axios.post(
+                    `/auth/logout/${this.userStore.user.id}`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${this.userStore.accessToken}`
+                        }
+                    }
+                )
+                console.log(logoutResponse.data)
+                this.userStore.$reset()
+                this.createNotification({
+                    type: 'success',
+                    message: 'You have logged out successfully!'
+                })
+                this.$router.push('/')
+            } catch (err) {
+                console.log(err)
+                this.createNotification({
+                    type: 'danger',
+                    message: 'An error occurred while logging out'
+                })
+            }
+        },
+        ...mapActions(useNotificationsStore, ['createNotification'])
+    }
 }
 </script>
 
@@ -22,13 +57,13 @@ export default {
                 <li>
                     <h6 class="dropdown-header">
                         Welcome back, <br />
-                        <b>Francesco Coppola</b>
+                        <b>{{ userStore.user.name }}</b>
                     </h6>
                 </li>
-                <li><a class="dropdown-item" href="#">Profile</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><RouterLink to="/profile" class="dropdown-item">Profile</RouterLink></li>
+                <li><RouterLink to="/settings" class="dropdown-item">Settings</RouterLink></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><button @click="logout" class="dropdown-item">Logout</button></li>
             </ul>
         </li>
     </ul>
