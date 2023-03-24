@@ -7,7 +7,10 @@
     --gt-color-main-lighter: #9742ff;
     --gt-color-main-darker: #630bce;
     --gt-color-bg: #a3a8e9;
-    --gt-color-bg-gradient: #6d74ca;
+    --gt-color-bg-gradient-1: #8891ec;
+    --gt-color-bg-gradient-2: #9659db;
+    --gt-color-bg-gradient-3: #508ddd;
+    --gt-color-bg-gradient-4: #5c3bd4;
     --gt-color-card: #e0e8f0;
     --gt-color-card-hover: #cedceb;
     --gt-color-card-active: #c2cad3;
@@ -19,10 +22,28 @@ html {
 
 body {
     height: 100%;
-    background: linear-gradient(to left top, var(--gt-color-bg), var(--gt-color-bg-gradient));
+    background: linear-gradient(
+        -45deg,
+        var(--gt-color-bg-gradient-1),
+        var(--gt-color-bg-gradient-2),
+        var(--gt-color-bg-gradient-3)
+    );
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
 }
 
 #app {
     height: 100%;
-    overflow-y: auto;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
