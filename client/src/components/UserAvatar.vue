@@ -17,12 +17,19 @@ export default {
 </script>
 
 <template>
-    <span class="avatar rounded-circle shadow fw-bold">{{ userInitials }}</span>
+    <span class="d-inline-block avatar rounded-circle shadow fw-bold text-center">{{
+        userInitials
+    }}</span>
 </template>
 
 <style scoped>
 .avatar {
     padding: 12px;
     background-color: var(--gt-color-main-lighter);
+    width: 45px;
+    height: 45px;
+    line-height: 21px;
+    margin-top: -5px;
+    margin-bottom: -5px;
 }
 </style>
