@@ -45,7 +45,7 @@ export default {
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
             <a
-                class="nav-link dropdown-toggle"
+                class="nav-link dropdown-toggle d-none d-lg-block"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
@@ -61,6 +61,27 @@ export default {
                         Welcome back, <br />
                         <b>{{ userStore.user.name }}</b>
                     </h6>
+                </li>
+                <li>
+                    <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings" class="dropdown-item rounded-2">Settings</RouterLink>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><button @click="logout" class="dropdown-item rounded-2">Logout</button></li>
+            </ul>
+
+            <!-- Mobile only version -->
+            <ul
+                class="dropdown-menu dropdown-menu-end dropdown-menu-dark gap-1 p-2 rounded-3 shadow d-grid d-lg-none"
+            >
+                <li class="d-flex justify-content-between">
+                    <h6 class="dropdown-header">
+                        Welcome back, <br />
+                        <b>{{ userStore.user.name }}</b>
+                    </h6>
+                    <UserAvatar></UserAvatar>
                 </li>
                 <li>
                     <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
