@@ -1,6 +1,7 @@
 <script>
 import GameCard from '@/components/GameCard.vue'
 import HomePageHero from '@/components/HomePageHero.vue'
+import HomePageFeatures from '@/components/HomePageFeatures.vue'
 import { mapStores } from 'pinia'
 import { useUserStore } from '@/stores/user'
 
@@ -20,13 +21,16 @@ export default {
     computed: {
         ...mapStores(useUserStore)
     },
-    components: { GameCard, HomePageHero }
+    components: { GameCard, HomePageHero, HomePageFeatures }
 }
 </script>
 
 <template>
     <main>
-        <HomePageHero v-if="!userStore.loggedIn"></HomePageHero>
+        <div v-if="!userStore.loggedIn">
+            <HomePageHero></HomePageHero>
+            <HomePageFeatures></HomePageFeatures>
+        </div>
         <div v-else>
             <GameCard :gameInfo="testInfo"></GameCard>
             <GameCard :gameInfo="testInfo"></GameCard>
