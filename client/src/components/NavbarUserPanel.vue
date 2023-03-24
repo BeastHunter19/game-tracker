@@ -53,17 +53,23 @@ export default {
             >
                 <UserAvatar></UserAvatar>
             </a>
-            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark">
+            <ul
+                class="dropdown-menu dropdown-menu-end dropdown-menu-dark gap-1 p-2 rounded-3 shadow"
+            >
                 <li>
                     <h6 class="dropdown-header">
                         Welcome back, <br />
                         <b>{{ userStore.user.name }}</b>
                     </h6>
                 </li>
-                <li><RouterLink to="/profile" class="dropdown-item">Profile</RouterLink></li>
-                <li><RouterLink to="/settings" class="dropdown-item">Settings</RouterLink></li>
+                <li>
+                    <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/settings" class="dropdown-item rounded-2">Settings</RouterLink>
+                </li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><button @click="logout" class="dropdown-item">Logout</button></li>
+                <li><button @click="logout" class="dropdown-item rounded-2">Logout</button></li>
             </ul>
         </li>
     </ul>
