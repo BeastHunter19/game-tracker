@@ -51,9 +51,11 @@ export default {
 </script>
 
 <template>
-    <NavbarMain></NavbarMain>
+    <div class="d-flex flex-column h-100">
+        <NavbarMain></NavbarMain>
 
-    <RouterView />
+        <RouterView class="overflow-auto" />
+    </div>
 
     <!-- Notification panel-->
     <NotificationList></NotificationList>
