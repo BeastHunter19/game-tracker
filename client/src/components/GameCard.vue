@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-    <div class="card m-4 text" style="width: 18rem">
+    <div class="card m-4 text shadow" style="min-width: 18rem">
         <img :src="gameInfo.image" class="card-img-top" alt="Cover image for the game" />
         <div class="card-body">
             <h5 class="card-title">{{ gameInfo.title + ' (' + gameInfo.release + ')' }}</h5>
@@ -41,7 +41,7 @@ export default {
             <!-- Logged in only buttons -->
             <div v-if="loggedIn" class="d-flex justify-content-around">
                 <button class="btn btn-primary rounded-5">Played</button>
-                <button class="btn btn-primary rounded-5">Wishlist</button>
+                <button class="btn btn-primary rounded-5">Watch</button>
                 <button class="btn btn-primary rounded-5">Backlog</button>
             </div>
         </div>
