@@ -53,6 +53,7 @@ export default {
     border: none;
     cursor: pointer;
     --bs-card-bg: var(--gt-color-card);
+    box-shadow: 0.75rem 0.75rem 1rem rgba(0, 0, 0, 0.15), -0.75rem 0.75rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
 .card:hover {
