@@ -44,7 +44,7 @@ const router = createRouter({
             component: HomeView,
             meta: {
                 requiresAuth: true,
-                mainNavigation: true
+                mainNavigation: false
             }
         },
         {
