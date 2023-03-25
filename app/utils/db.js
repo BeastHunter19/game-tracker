@@ -1,9 +1,10 @@
 const config = require('../config')
 const mysql = require('mysql2/promise')
 
+const pool = mysql.createPool(config.db)
+
 async function query(sql, params) {
-    const connection = await mysql.createConnection(config.db)
-    const [results] = await connection.execute(sql, params)
+    const [results] = await pool.execute(sql, params)
     return results
 }
 
