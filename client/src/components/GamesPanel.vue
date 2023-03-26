@@ -101,7 +101,7 @@ export default {
             <RouterLink
                 v-if="extendedRoute"
                 :to="{ name: extendedRoute }"
-                class="fs-4 text-decoration-none"
+                class="fs-4 me-4 text-decoration-none"
                 role="button"
             >
                 View all
@@ -120,6 +120,8 @@ export default {
                     v-for="(game, index) in gameList"
                     :key="index"
                     :gameInfo="game"
+                    class="mx-2 my-4 m-md-4"
+                    style="min-width: 12rem"
                 ></GameCard>
             </div>
             <button @click="scrollRight" class="btn btn-link p-0" :disabled="!rightChevronActive">

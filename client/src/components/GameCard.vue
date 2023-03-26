@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-    <div class="card mx-2 my-4 m-md-4 text shadow" style="min-width: 12rem; width: 12rem">
+    <div class="card shadow">
         <img :src="gameInfo.image" class="card-img-top" alt="Cover image for the game" />
         <div class="card-body">
             <h5 class="card-title">{{ gameInfo.title + ' (' + gameInfo.release + ')' }}</h5>
