@@ -23,6 +23,9 @@ export default {
         gameList: {
             type: Array,
             required: true
+        },
+        extendedRoute: {
+            type: String
         }
     },
     computed: {
@@ -95,10 +98,15 @@ export default {
             <h2 class="ms-4 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
-            <span class="fs-4 link-primary cursor" role="button">
+            <RouterLink
+                v-if="extendedRoute"
+                :to="{ name: extendedRoute }"
+                class="fs-4 text-decoration-none"
+                role="button"
+            >
                 View all
                 <i class="bi bi-chevron-expand"></i>
-            </span>
+            </RouterLink>
         </div>
         <div class="d-flex align-items-center">
             <button @click="scrollLeft" class="btn btn-link p-0" :disabled="!leftChevronActive">
@@ -122,10 +130,6 @@ export default {
 </template>
 
 <style scoped>
-.link-primary {
-    cursor: pointer;
-}
-
 .chevron-active {
     cursor: pointer;
 }
