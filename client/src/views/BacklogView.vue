@@ -1,10 +1,8 @@
 <script>
-import GamesPanel from '@/components/GamesPanel.vue'
-import { mapStores } from 'pinia'
-import { useGamesStore } from '@/stores/games'
+import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
 
 export default {
-    components: { GamesPanel },
+    components: { GamesPanelExpanded },
     data() {
         return {
             testArray: Array(20).fill({
@@ -17,20 +15,16 @@ export default {
                 added: true
             })
         }
-    },
-    computed: {
-        ...mapStores(useGamesStore)
     }
 }
 </script>
 
 <template>
-    <GamesPanel
-        title="Backlog"
-        icon="clock-history"
-        :gameList="testArray"
-        extendedRoute="backlog"
-    ></GamesPanel>
-    <GamesPanel title="Watch List" icon="binoculars" :gameList="testArray"></GamesPanel>
-    <GamesPanel title="Already Played" icon="controller" :gameList="testArray"></GamesPanel>
+    <main>
+        <GamesPanelExpanded
+            title="Backlog"
+            icon="clock-history"
+            :gameList="testArray"
+        ></GamesPanelExpanded>
+    </main>
 </template>
