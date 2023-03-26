@@ -12,7 +12,6 @@ export default {
         icon: {
             type: String
         },
-        // TODO: start using this to get the games
         gameList: {
             type: Array,
             required: true
@@ -22,26 +21,37 @@ export default {
         iconClass() {
             return `bi-${this.icon}`
         }
+    },
+    methods: {
+        closePanel() {
+            this.$router.back()
+        }
     }
 }
 </script>
 
 <template>
     <ContentPanel>
-        <div class="d-flex flex-row justify-content-between align-items-center">
+        <div class="d-flex flex-row justify-content-between align-items-center mb-4">
             <h2 class="ms-4 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
-            <div
-                ref="cardsContainer"
-                class="cards-container d-flex flex-row justify-content-start overflow-auto w-100"
-            >
-                <GameCard
-                    v-for="(game, index) in gameList"
-                    :key="index"
-                    :gameInfo="game"
-                ></GameCard>
-            </div>
+            <span @click="closePanel" class="fs-4 me-4 link-primary cursor" role="button">
+                Close
+                <i class="bi bi-x-lg"></i>
+            </span>
+        </div>
+        <div ref="cardsContainer" class="cards-container w-100">
+            <GameCard v-for="(game, index) in gameList" :key="index" :gameInfo="game"></GameCard>
         </div>
     </ContentPanel>
 </template>
+
+<style scoped>
+.cards-container {
+    display: grid;
+    gap: 25px;
+    grid-template-columns: repeat(auto-fill, 12rem);
+    justify-content: space-around;
+}
+</style>
