@@ -6,15 +6,6 @@ export default {
     components: { GameCard, ContentPanel },
     data() {
         return {
-            testInfo: {
-                title: 'Bloodborne',
-                release: '2015',
-                developer: 'From Software',
-                genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
-                platforms: ['PlayStation 4', 'PC (magari)'],
-                image: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
-                added: true
-            },
             leftChevronActive: false,
             rightChevronActive: true,
             leftObserver: undefined,
@@ -29,7 +20,6 @@ export default {
         icon: {
             type: String
         },
-        // TODO: start using this to get the games
         gameList: {
             type: Array,
             required: true
@@ -118,7 +108,11 @@ export default {
                 ref="cardsContainer"
                 class="cards-container d-flex flex-row justify-content-start overflow-auto w-100"
             >
-                <GameCard v-for="(card, index) in 20" :key="index" :gameInfo="testInfo"></GameCard>
+                <GameCard
+                    v-for="(game, index) in gameList"
+                    :key="index"
+                    :gameInfo="game"
+                ></GameCard>
             </div>
             <button @click="scrollRight" class="btn btn-link p-0" :disabled="!rightChevronActive">
                 <i class="bi bi-chevron-right fs-3"></i>
