@@ -11,19 +11,20 @@ export default {
     computed: {
         ...mapState(useUserStore, ['loggedIn']),
         showButtons() {
-            return this.loggedIn && !this.gameInfo.added
+            return this.loggedIn
         }
     }
 }
 </script>
 
 <template>
-    <div class="card mx-2 my-4 m-md-4 text shadow" style="min-width: 14rem">
+    <div class="card mx-2 my-4 m-md-4 text shadow" style="min-width: 12rem; width: 12rem">
         <img :src="gameInfo.image" class="card-img-top" alt="Cover image for the game" />
         <div class="card-body">
             <h5 class="card-title">{{ gameInfo.title + ' (' + gameInfo.release + ')' }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ gameInfo.developer }}</h6>
 
+            <!-- These should go in full game view
             <div class="d-flex flex-wrap mb-1">
                 <span
                     v-for="(genre, index) in gameInfo.genres"
@@ -40,12 +41,19 @@ export default {
                     >{{ platform }}</span
                 >
             </div>
+            -->
 
             <!-- Logged in only buttons -->
             <div v-if="showButtons" class="d-flex justify-content-around">
-                <button class="btn btn-primary rounded-5">Played</button>
-                <button class="btn btn-primary rounded-5">Watch</button>
-                <button class="btn btn-primary rounded-5">Backlog</button>
+                <button class="btn btn-primary rounded-circle">
+                    <i class="bi bi-controller"></i>
+                </button>
+                <button class="btn btn-primary rounded-circle">
+                    <i class="bi bi-binoculars"></i>
+                </button>
+                <button class="btn btn-primary rounded-circle">
+                    <i class="bi bi-clock-history"></i>
+                </button>
             </div>
         </div>
     </div>
