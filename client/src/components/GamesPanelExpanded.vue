@@ -15,6 +15,10 @@ export default {
         gameList: {
             type: Array,
             required: true
+        },
+        allowClose: {
+            type: Boolean,
+            default: true
         }
     },
     computed: {
@@ -36,7 +40,12 @@ export default {
             <h2 class="ms-4 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
-            <span @click="closePanel" class="fs-4 me-4 link-primary cursor" role="button">
+            <span
+                v-if="allowClose"
+                @click="closePanel"
+                class="fs-4 me-4 link-primary cursor"
+                role="button"
+            >
                 Close
                 <i class="bi bi-x-lg"></i>
             </span>
