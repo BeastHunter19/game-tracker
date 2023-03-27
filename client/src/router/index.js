@@ -5,6 +5,8 @@ import VerifyEmailView from '@/views/VerifyEmailView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import BacklogView from '@/views/BacklogView.vue'
+import WatchlistView from '@/views/WatchlistView.vue'
+import PlayedView from '@/views/PlayedView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -79,6 +81,24 @@ const router = createRouter({
             path: '/profile/backlog',
             name: 'backlog',
             component: BacklogView,
+            meta: {
+                requiresAuth: true,
+                mainNavigation: false
+            }
+        },
+        {
+            path: '/profile/watchlist',
+            name: 'watchlist',
+            component: WatchlistView,
+            meta: {
+                requiresAuth: true,
+                mainNavigation: false
+            }
+        },
+        {
+            path: '/profile/played',
+            name: 'played',
+            component: PlayedView,
             meta: {
                 requiresAuth: true,
                 mainNavigation: false

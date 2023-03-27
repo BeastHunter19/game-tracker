@@ -31,6 +31,16 @@ export default {
         :gameList="testArray"
         extendedRoute="backlog"
     ></GamesPanel>
-    <GamesPanel title="Watch List" icon="binoculars" :gameList="testArray"></GamesPanel>
-    <GamesPanel title="Already Played" icon="controller" :gameList="testArray"></GamesPanel>
+    <GamesPanel
+        title="Watch List"
+        icon="binoculars"
+        :gameList="testArray"
+        extendedRoute="watchlist"
+    ></GamesPanel>
+    <GamesPanel
+        title="Already Played"
+        icon="controller"
+        :gameList="testArray"
+        extendedRoute="played"
+    ></GamesPanel>
 </template>
