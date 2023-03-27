@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import HomeView from '@/views/HomeView.vue'
 import PopularView from '@/views/PopularView.vue'
+import CategoriesView from '@/views/CategoriesView.vue'
+import CategoryView from '@/views/CategoryView.vue'
 import VerifyEmailView from '@/views/VerifyEmailView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
@@ -33,10 +35,19 @@ const router = createRouter({
         {
             path: '/categories',
             name: 'categories',
-            component: HomeView,
+            component: CategoriesView,
             meta: {
                 requiresAuth: false,
                 mainNavigation: true
+            }
+        },
+        {
+            path: '/categories/:categoryName',
+            name: 'category',
+            component: CategoryView,
+            meta: {
+                requiresAuth: false,
+                mainNavigation: false
             }
         },
         {
