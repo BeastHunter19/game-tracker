@@ -4,12 +4,13 @@ import HomeView from '@/views/HomeView.vue'
 import PopularView from '@/views/PopularView.vue'
 import CategoriesView from '@/views/CategoriesView.vue'
 import CategoryView from '@/views/CategoryView.vue'
-import VerifyEmailView from '@/views/VerifyEmailView.vue'
-import UserSettingsView from '@/views/UserSettingsView.vue'
-import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import SearchResultsView from '@/views/SearchResultsView.vue'
 import BacklogView from '@/views/BacklogView.vue'
 import WatchlistView from '@/views/WatchlistView.vue'
 import PlayedView from '@/views/PlayedView.vue'
+import VerifyEmailView from '@/views/VerifyEmailView.vue'
+import UserSettingsView from '@/views/UserSettingsView.vue'
+import ResetPasswordView from '@/views/ResetPasswordView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,9 +52,45 @@ const router = createRouter({
             }
         },
         {
+            path: '/search',
+            name: 'search',
+            component: SearchResultsView,
+            meta: {
+                requiresAuth: false,
+                mainNavigation: false
+            }
+        },
+        {
             path: '/profile',
             name: 'profile',
             component: HomeView,
+            meta: {
+                requiresAuth: true,
+                mainNavigation: false
+            }
+        },
+        {
+            path: '/profile/backlog',
+            name: 'backlog',
+            component: BacklogView,
+            meta: {
+                requiresAuth: true,
+                mainNavigation: false
+            }
+        },
+        {
+            path: '/profile/watchlist',
+            name: 'watchlist',
+            component: WatchlistView,
+            meta: {
+                requiresAuth: true,
+                mainNavigation: false
+            }
+        },
+        {
+            path: '/profile/played',
+            name: 'played',
+            component: PlayedView,
             meta: {
                 requiresAuth: true,
                 mainNavigation: false
@@ -83,33 +120,6 @@ const router = createRouter({
             component: ResetPasswordView,
             meta: {
                 requiresAuth: false,
-                mainNavigation: false
-            }
-        },
-        {
-            path: '/profile/backlog',
-            name: 'backlog',
-            component: BacklogView,
-            meta: {
-                requiresAuth: true,
-                mainNavigation: false
-            }
-        },
-        {
-            path: '/profile/watchlist',
-            name: 'watchlist',
-            component: WatchlistView,
-            meta: {
-                requiresAuth: true,
-                mainNavigation: false
-            }
-        },
-        {
-            path: '/profile/played',
-            name: 'played',
-            component: PlayedView,
-            meta: {
-                requiresAuth: true,
                 mainNavigation: false
             }
         }
