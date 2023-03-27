@@ -50,8 +50,9 @@ export default {
 <style scoped>
 .cards-container {
     display: grid;
-    gap: 25px;
+    column-gap: 10px;
+    row-gap: 30px;
     grid-template-columns: repeat(auto-fill, 12rem);
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 </style>
