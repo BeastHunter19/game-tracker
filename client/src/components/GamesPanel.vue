@@ -25,7 +25,7 @@ export default {
             required: true
         },
         extendedRoute: {
-            type: String
+            type: Object
         }
     },
     computed: {
@@ -100,7 +100,7 @@ export default {
             </h2>
             <RouterLink
                 v-if="extendedRoute"
-                :to="{ name: extendedRoute }"
+                :to="extendedRoute"
                 class="fs-4 me-4 text-decoration-none"
                 role="button"
             >

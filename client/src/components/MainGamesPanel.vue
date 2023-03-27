@@ -29,18 +29,18 @@ export default {
         title="Backlog"
         icon="clock-history"
         :gameList="testArray"
-        extendedRoute="backlog"
+        :extendedRoute="{ name: 'backlog' }"
     ></GamesPanel>
     <GamesPanel
         title="Watch List"
         icon="binoculars"
         :gameList="testArray"
-        extendedRoute="watchlist"
+        :extendedRoute="{ name: 'watchlist' }"
     ></GamesPanel>
     <GamesPanel
         title="Already Played"
         icon="controller"
         :gameList="testArray"
-        extendedRoute="played"
+        :extendedRoute="{ name: 'played' }"
     ></GamesPanel>
 </template>
