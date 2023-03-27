@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import HomeView from '@/views/HomeView.vue'
+import PopularView from '@/views/PopularView.vue'
 import VerifyEmailView from '@/views/VerifyEmailView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
@@ -23,10 +24,7 @@ const router = createRouter({
         {
             path: '/popular',
             name: 'popular',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('../views/AboutView.vue'),
+            component: PopularView,
             meta: {
                 requiresAuth: false,
                 mainNavigation: true
