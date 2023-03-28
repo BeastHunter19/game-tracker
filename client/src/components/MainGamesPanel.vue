@@ -5,6 +5,7 @@ import { useGamesStore } from '@/stores/games'
 
 export default {
     components: { GamesPanel },
+    inheritAttrs: false,
     data() {
         return {
             testArray: Array(20).fill({
@@ -30,17 +31,20 @@ export default {
         icon="clock-history"
         :gameList="testArray"
         :extendedRoute="{ name: 'backlog' }"
+        v-bind="$attrs"
     ></GamesPanel>
     <GamesPanel
         title="Watch List"
         icon="binoculars"
         :gameList="testArray"
         :extendedRoute="{ name: 'watchlist' }"
+        v-bind="$attrs"
     ></GamesPanel>
     <GamesPanel
         title="Already Played"
         icon="controller"
         :gameList="testArray"
         :extendedRoute="{ name: 'played' }"
+        v-bind="$attrs"
     ></GamesPanel>
 </template>
