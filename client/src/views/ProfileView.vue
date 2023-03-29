@@ -1,8 +1,10 @@
 <script>
 import MainGamesPanel from '@/components/MainGamesPanel.vue'
+import UserAvatar from '@/components/UserAvatar.vue'
+import ContentPanel from '@/components/ContentPanel.vue'
 
 export default {
-    components: { MainGamesPanel },
+    components: { MainGamesPanel, UserAvatar, ContentPanel },
     data() {
         return {
             testArray: Array(20).fill({
@@ -21,9 +23,16 @@ export default {
 
 <template>
     <main class="w-100 mw-100">
-        <div class="container-fluid p-0 m-0">
-            <div class="row justify-content-around row-cols-auto row-cols-lg-3 mw-100 mx-auto">
-                <MainGamesPanel class="col mx-lg-1 py-lg-4 px-lg-2"></MainGamesPanel>
+        <div class="container-fluid p-0 m-0 mt-4">
+            <div class="row mw-100 g-0 mb-4">
+                <div class="mw-100">
+                    <ContentPanel class="col mx-2 mx-md-4">
+                        <UserAvatar size="100px"></UserAvatar>
+                    </ContentPanel>
+                </div>
+            </div>
+            <div class="row g-0 justify-content-around row-cols-auto row-cols-lg-3 mw-100">
+                <MainGamesPanel class="col mx-lg-4 py-lg-4 px-lg-2"></MainGamesPanel>
             </div>
         </div>
     </main>

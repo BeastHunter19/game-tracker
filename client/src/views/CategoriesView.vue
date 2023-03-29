@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main class="mt-4">
         <GamesPanel
             v-for="(category, index) in categories"
             :key="index"

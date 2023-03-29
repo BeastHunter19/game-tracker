@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-    <ContentPanel>
+    <ContentPanel class="mb-4 mx-2 mx-md-4">
         <h1 class="display-5 fw-bold">Get started</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4 fs-4">

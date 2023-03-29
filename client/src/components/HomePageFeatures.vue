@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-    <ContentPanel>
+    <ContentPanel class="mb-4 mx-2 mx-md-4">
         <div class="container px-4 py-1">
             <div class="row g-5 py-2 row-cols-1 row-cols-lg-3">
                 <div class="feature col">
