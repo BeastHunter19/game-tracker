@@ -23,7 +23,26 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useGamesStore, useUserStore)
+        ...mapStores(useGamesStore, useUserStore),
+        ownedGames() {
+            return this.gamesStore.played.length + this.gamesStore.backlog.length
+        },
+        watchedGames() {
+            return this.gamesStore.watchlist.length
+        },
+        playedGames() {
+            return this.gamesStore.played.length
+        },
+        backlogGames() {
+            return this.gamesStore.backlog.length
+        },
+        playedPercentage() {
+            if (this.ownedGames === 0) {
+                return 0
+            } else {
+                return (this.playedGames / this.ownedGames) * 100
+            }
+        }
     },
     methods: {
         async resendVerificationEmail() {
@@ -61,27 +80,60 @@ export default {
             <div class="row mw-100 g-0 mb-4">
                 <div class="mw-100">
                     <ContentPanel class="col mx-2 mx-md-4">
-                        <div class="d-flex align-items-center gap-4">
-                            <UserAvatar size="100px" textSize="2"></UserAvatar>
-                            <p class="fs-5">
-                                {{ userStore.user.name }}
-                                <br />
-                                {{ userStore.user.email }}
-                                <span v-if="userStore.user.verified" class="badge bg-primary">
-                                    Verified
-                                </span>
-                                <span v-if="!userStore.user.verified" class="badge bg-danger">
-                                    Not verified
-                                </span>
-                                <br />
-                                <button
-                                    @click="resendVerificationEmail"
-                                    v-if="!userStore.user.verified"
-                                    class="btn btn-primary mt-3"
-                                >
-                                    Verify email
-                                </button>
-                            </p>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center gap-4">
+                                <UserAvatar size="100px" textSize="2"></UserAvatar>
+                                <p class="fs-5">
+                                    {{ userStore.user.name }}
+                                    <br />
+                                    {{ userStore.user.email }}
+                                    <span v-if="userStore.user.verified" class="badge bg-primary">
+                                        Verified
+                                    </span>
+                                    <span v-if="!userStore.user.verified" class="badge bg-danger">
+                                        Not verified
+                                    </span>
+                                    <br />
+                                    <button
+                                        @click="resendVerificationEmail"
+                                        v-if="!userStore.user.verified"
+                                        class="btn btn-primary mt-3"
+                                    >
+                                        Verify email
+                                    </button>
+                                </p>
+                            </div>
+                            <div class="fs-5">
+                                <div class="row">
+                                    <h3 class="col-12 text-start">Statistics</h3>
+                                </div>
+                                <div class="row g-5 text-nowrap">
+                                    <span class="col-6">Owned: {{ ownedGames }}</span>
+                                    <span class="col-6">Watched: {{ watchedGames }}</span>
+                                </div>
+                                <div class="row g-5 mb-2 text-nowrap">
+                                    <span class="col-6">Played: {{ playedGames }}</span>
+                                    <span class="col-6">Backlog: {{ backlogGames }}</span>
+                                </div>
+                                <div class="row">
+                                    <span class="col-12 mb-2 text-start">Completed games:</span>
+                                </div>
+                                <div class="row px-2">
+                                    <div class="col-12 progress p-0" style="height: 20px">
+                                        <div
+                                            class="progress-bar"
+                                            role="progressbar"
+                                            aria-label="Percentage of played games over total owned"
+                                            aria-valuemin="0"
+                                            aria-valuemax="100"
+                                            :style="`width: ${playedPercentage}%`"
+                                            :aria-valuenow="playedPercentage"
+                                        >
+                                            {{ Math.round(playedPercentage) }}%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </ContentPanel>
                 </div>
