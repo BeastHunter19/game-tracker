@@ -23,7 +23,7 @@ export default {
     <main>
         <GamesPanelExpanded
             title="Popular"
-            icon="bar-chart-line"
+            icon="graph-up-arrow"
             :gameList="testArray"
             :allowClose="false"
         ></GamesPanelExpanded>
