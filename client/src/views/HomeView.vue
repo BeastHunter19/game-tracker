@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-    <main class="mt-4">
+    <main class="pt-4">
         <div v-if="!userStore.loggedIn">
             <HomePageHero></HomePageHero>
             <HomePageFeatures></HomePageFeatures>
