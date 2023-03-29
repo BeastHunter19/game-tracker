@@ -28,6 +28,7 @@ export default {
     <main>
         <GamesPanelExpanded
             :title="`Search: ${searchQuery}`"
+            icon="search"
             :gameList="testArray"
         ></GamesPanelExpanded>
     </main>
