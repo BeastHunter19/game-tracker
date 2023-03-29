@@ -45,7 +45,7 @@ export default {
     <ul class="navbar-nav">
         <li class="nav-item dropdown">
             <a
-                class="nav-link dropdown-toggle d-none d-lg-block"
+                class="nav-link d-none d-lg-block"
                 href="#"
                 role="button"
                 data-bs-toggle="dropdown"
