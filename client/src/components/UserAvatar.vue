@@ -7,6 +7,10 @@ export default {
         size: {
             type: String,
             default: '45px'
+        },
+        textSize: {
+            type: String,
+            default: '5'
         }
     },
     computed: {
@@ -20,6 +24,9 @@ export default {
         },
         sizeStyle() {
             return `width: ${this.size}; height: ${this.size};`
+        },
+        fontSize() {
+            return `fs-${this.textSize}`
         }
     }
 }
@@ -30,15 +37,13 @@ export default {
         class="d-inline-block avatar rounded-circle shadow fw-bold text-center d-flex align-items-center justify-content-center"
         :style="sizeStyle"
     >
-        <span>{{ userInitials }}</span>
+        <span class="" :class="fontSize">{{ userInitials }}</span>
     </span>
 </template>
 
 <style scoped>
 .avatar {
-    padding: 12px;
     background-color: var(--gt-color-main-lighter);
-    line-height: 21px;
     margin-top: -5px;
     margin-bottom: -5px;
 }
