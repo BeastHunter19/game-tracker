@@ -37,13 +37,13 @@ export default {
 <template>
     <ContentPanel class="my-4 mx-2 mx-md-4">
         <div class="d-flex flex-row justify-content-between align-items-center mb-4">
-            <h2 class="ms-4 text-start">
+            <h2 class="ms-4 mb-0 fs-3 text-start text-nowrap">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
             <span
                 v-if="allowClose"
                 @click="closePanel"
-                class="fs-4 me-4 link-primary cursor"
+                class="fs-4 me-4 link-primary"
                 role="button"
             >
                 Close
