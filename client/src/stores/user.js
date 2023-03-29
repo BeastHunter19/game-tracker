@@ -12,6 +12,9 @@ export const useUserStore = defineStore('user', {
         setUser(userDetails) {
             this.user = userDetails.user
             this.accessToken = userDetails.accessToken
+        },
+        setEmailVerified() {
+            this.user.verified = true
         }
     }
 })

@@ -1,5 +1,6 @@
 <script>
 import { useNotificationsStore } from '@/stores/notifications'
+import { useUserStore } from '@/stores/user'
 import { mapActions } from 'pinia'
 
 export default {
@@ -11,6 +12,7 @@ export default {
                 type: 'success',
                 message: 'You have successfully verified your email!'
             })
+            this.setEmailVerified()
         } catch (err) {
             console.log(err)
             this.createNotification({
@@ -21,7 +23,8 @@ export default {
         }
     },
     methods: {
-        ...mapActions(useNotificationsStore, ['createNotification'])
+        ...mapActions(useNotificationsStore, ['createNotification']),
+        ...mapActions(useUserStore, ['setEmailVerified'])
     },
     beforeRouteEnter(to) {
         if (!to.query.token) {

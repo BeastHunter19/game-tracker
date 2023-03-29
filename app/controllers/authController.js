@@ -24,7 +24,8 @@ exports.postLogin = async (req, res, next) => {
         const user = {
             id: req.user.id,
             name: req.user.name,
-            email: req.user.email
+            email: req.user.email,
+            verified: req.user.email_verification_timestamp !== null
         }
 
         res.cookie('refresh_cookie', refreshToken, {
@@ -197,7 +198,8 @@ exports.postRefreshTokens = async (req, res, next) => {
             const user = {
                 id: existingUser.id,
                 name: existingUser.name,
-                email: existingUser.email
+                email: existingUser.email,
+                verified: existingUser.email_verification_timestamp !== null
             }
 
             res.cookie('refresh_cookie', refreshToken, {
