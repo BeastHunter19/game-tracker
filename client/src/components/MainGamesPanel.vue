@@ -26,25 +26,37 @@ export default {
 </script>
 
 <template>
-    <GamesPanel
-        title="Backlog"
-        icon="clock-history"
-        :gameList="testArray"
-        :extendedRoute="{ name: 'backlog' }"
-        v-bind="$attrs"
-    ></GamesPanel>
-    <GamesPanel
-        title="Watch List"
-        icon="binoculars"
-        :gameList="testArray"
-        :extendedRoute="{ name: 'watchlist' }"
-        v-bind="$attrs"
-    ></GamesPanel>
-    <GamesPanel
-        title="Already Played"
-        icon="controller"
-        :gameList="testArray"
-        :extendedRoute="{ name: 'played' }"
-        v-bind="$attrs"
-    ></GamesPanel>
+    <div>
+        <GamesPanel
+            title="Backlog"
+            icon="clock-history"
+            :gameList="testArray"
+            :extendedRoute="{ name: 'backlog' }"
+            v-bind="$attrs"
+        ></GamesPanel>
+    </div>
+    <div>
+        <GamesPanel
+            title="Watchlist"
+            icon="binoculars"
+            :gameList="testArray"
+            :extendedRoute="{ name: 'watchlist' }"
+            v-bind="$attrs"
+        ></GamesPanel>
+    </div>
+    <div>
+        <GamesPanel
+            title="Played"
+            icon="controller"
+            :gameList="testArray"
+            :extendedRoute="{ name: 'played' }"
+            v-bind="$attrs"
+        ></GamesPanel>
+    </div>
 </template>
+
+<style scoped>
+div {
+    max-width: 100%;
+}
+</style>

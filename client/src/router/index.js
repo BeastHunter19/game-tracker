@@ -5,6 +5,7 @@ import PopularView from '@/views/PopularView.vue'
 import CategoriesView from '@/views/CategoriesView.vue'
 import CategoryView from '@/views/CategoryView.vue'
 import SearchResultsView from '@/views/SearchResultsView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 import BacklogView from '@/views/BacklogView.vue'
 import WatchlistView from '@/views/WatchlistView.vue'
 import PlayedView from '@/views/PlayedView.vue'
@@ -63,7 +64,7 @@ const router = createRouter({
         {
             path: '/profile',
             name: 'profile',
-            component: HomeView,
+            component: ProfileView,
             meta: {
                 requiresAuth: true,
                 mainNavigation: false
