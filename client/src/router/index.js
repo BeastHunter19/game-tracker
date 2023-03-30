@@ -12,6 +12,7 @@ import PlayedView from '@/views/PlayedView.vue'
 import VerifyEmailView from '@/views/VerifyEmailView.vue'
 import UserSettingsView from '@/views/UserSettingsView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
+import GameDetailsView from '@/views/GameDetailsView.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -119,6 +120,15 @@ const router = createRouter({
             path: '/password/update',
             name: 'update',
             component: ResetPasswordView,
+            meta: {
+                requiresAuth: false,
+                mainNavigation: false
+            }
+        },
+        {
+            path: '/games/:gameID',
+            name: 'game',
+            component: GameDetailsView,
             meta: {
                 requiresAuth: false,
                 mainNavigation: false

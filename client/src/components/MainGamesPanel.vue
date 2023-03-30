@@ -9,6 +9,7 @@ export default {
     data() {
         return {
             testArray: Array(20).fill({
+                id: 1234,
                 title: 'Bloodborne',
                 release: '2015',
                 developer: 'From Software',

@@ -13,12 +13,22 @@ export default {
         showButtons() {
             return this.loggedIn
         }
+    },
+    methods: {
+        openDetails() {
+            this.$router.push({
+                name: 'game',
+                params: {
+                    gameID: this.gameInfo.id
+                }
+            })
+        }
     }
 }
 </script>
 
 <template>
-    <div class="card shadow">
+    <div @click="openDetails" class="card shadow">
         <img :src="gameInfo.image" class="card-img-top" alt="Cover image for the game" />
         <div class="card-body">
             <h5 class="card-title">{{ gameInfo.title + ' (' + gameInfo.release + ')' }}</h5>
@@ -45,13 +55,13 @@ export default {
 
             <!-- Logged in only buttons -->
             <div v-if="showButtons" class="d-flex justify-content-around">
-                <button class="btn btn-primary rounded-circle">
+                <button @click.stop class="btn btn-primary rounded-circle">
                     <i class="bi bi-controller"></i>
                 </button>
-                <button class="btn btn-primary rounded-circle">
+                <button @click.stop class="btn btn-primary rounded-circle">
                     <i class="bi bi-binoculars"></i>
                 </button>
-                <button class="btn btn-primary rounded-circle">
+                <button @click.stop class="btn btn-primary rounded-circle">
                     <i class="bi bi-clock-history"></i>
                 </button>
             </div>
