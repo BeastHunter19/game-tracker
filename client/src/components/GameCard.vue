@@ -1,7 +1,10 @@
 <script>
 import { mapState } from 'pinia'
 import { useUserStore } from '@/stores/user'
+import AddButtons from './AddButtons.vue'
+
 export default {
+    components: { AddButtons },
     props: {
         gameInfo: {
             type: Object,
@@ -34,37 +37,8 @@ export default {
             <h5 class="card-title">{{ gameInfo.title + ' (' + gameInfo.release + ')' }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ gameInfo.developer }}</h6>
 
-            <!-- These should go in full game view
-            <div class="d-flex flex-wrap mb-1">
-                <span
-                    v-for="(genre, index) in gameInfo.genres"
-                    :key="index"
-                    class="badge rounded-pill text-bg-secondary m-1"
-                    >{{ genre }}</span
-                >
-            </div>
-            <div class="d-flex flex-wrap mb-2">
-                <span
-                    v-for="(platform, index) in gameInfo.platforms"
-                    :key="index"
-                    class="badge rounded-pill text-bg-primary m-1"
-                    >{{ platform }}</span
-                >
-            </div>
-            -->
-
             <!-- Logged in only buttons -->
-            <div v-if="showButtons" class="d-flex justify-content-around">
-                <button @click.stop class="btn btn-primary rounded-circle">
-                    <i class="bi bi-controller"></i>
-                </button>
-                <button @click.stop class="btn btn-primary rounded-circle">
-                    <i class="bi bi-binoculars"></i>
-                </button>
-                <button @click.stop class="btn btn-primary rounded-circle">
-                    <i class="bi bi-clock-history"></i>
-                </button>
-            </div>
+            <AddButtons v-if="showButtons" :gameInfo="gameInfo"></AddButtons>
         </div>
     </div>
 </template>
