@@ -26,6 +26,10 @@ const config = {
             pass: process.env.VERIFICATION_EMAIL_PASSWORD
         }
     },
+    igdb: {
+        clientID: process.env.IGDB_CLIENT_ID,
+        clientSecret: process.env.IGDB_CLIENT_SECRET
+    },
     tokenCleanupInterval: process.env.TOKEN_CLEANUP_INTERVAL || 3_600_000 // every hour
 }
 

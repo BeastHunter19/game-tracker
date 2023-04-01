@@ -6,6 +6,8 @@ const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
 const User = require('./models/User')
 
+const igdb = require('./utils/igdb')
+
 const signupRoutes = require('./routes/signupRoutes')
 const authRoutes = require('./routes/authRoutes')
 
@@ -47,6 +49,14 @@ process.on('uncaughtException', (err) => {
         process.abort()
     }, 1000).unref()
     process.exit(1)
+})
+
+// authenticate with IGDB api and start refresh timer
+igdb.authenticate().then(() => {
+    console.log('authenticated')
+    igdb.query.post('/games', 'fields *;').then((data) => {
+        console.log(data)
+    })
 })
 
 // start blacklisted token cleanup timer
