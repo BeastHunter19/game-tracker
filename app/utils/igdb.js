@@ -33,7 +33,6 @@ async function authenticate() {
             method: 'POST'
         })
         const data = await response.json()
-        console.log(data)
         accessToken = data.access_token
         setTimeout(authenticate, data.expires_in - 3000)
     } catch (err) {

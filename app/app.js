@@ -10,6 +10,7 @@ const igdb = require('./utils/igdb')
 
 const signupRoutes = require('./routes/signupRoutes')
 const authRoutes = require('./routes/authRoutes')
+const gamesRoutes = require('./routes/gamesRoutes')
 
 const app = express()
 
@@ -24,6 +25,7 @@ app.use(cookieParser())
 
 app.use('/signup', signupRoutes)
 app.use('/auth', authRoutes)
+app.use('/api', gamesRoutes)
 
 // error handler middleware
 app.use((error, req, res, next) => {
@@ -52,12 +54,7 @@ process.on('uncaughtException', (err) => {
 })
 
 // authenticate with IGDB api and start refresh timer
-igdb.authenticate().then(() => {
-    console.log('authenticated')
-    igdb.query.post('/games', 'fields *;').then((data) => {
-        console.log(data)
-    })
-})
+igdb.authenticate()
 
 // start blacklisted token cleanup timer
 User.removeExpiredTokensFromBlacklist()

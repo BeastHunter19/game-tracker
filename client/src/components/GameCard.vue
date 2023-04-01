@@ -15,6 +15,15 @@ export default {
         ...mapState(useUserStore, ['loggedIn']),
         showButtons() {
             return this.loggedIn
+        },
+        gameCover() {
+            return this.gameInfo.image ?? 'https://placehold.co/264x374?text=Cover'
+        },
+        release() {
+            return this.gameInfo.release ?? 'N/A'
+        },
+        developer() {
+            return this.gameInfo.developer ?? 'N/A'
         }
     },
     methods: {
@@ -31,11 +40,11 @@ export default {
 </script>
 
 <template>
-    <div @click="openDetails" class="card shadow">
-        <img :src="gameInfo.image" class="card-img-top" alt="Cover image for the game" />
+    <div @click="openDetails" class="card shadow" style="min-width: 12rem">
+        <img :src="gameCover" class="card-img-top" alt="Cover image for the game" />
         <div class="card-body">
-            <h5 class="card-title">{{ gameInfo.title + ' (' + gameInfo.release + ')' }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ gameInfo.developer }}</h6>
+            <h5 class="card-title">{{ gameInfo.title + ' (' + release + ')' }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ developer }}</h6>
 
             <!-- Logged in only buttons -->
             <AddButtons v-if="showButtons" :gameInfo="gameInfo"></AddButtons>

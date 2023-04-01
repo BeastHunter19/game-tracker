@@ -121,7 +121,6 @@ export default {
                     :key="index"
                     :gameInfo="game"
                     class="mx-2 my-4 m-md-4"
-                    style="min-width: 12rem"
                 ></GameCard>
             </div>
             <button @click="scrollRight" class="btn btn-link p-0" :disabled="!rightChevronActive">
