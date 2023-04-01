@@ -13,6 +13,7 @@ export default {
                 description: `Bloodborne è un videogioco souls-like dark fantasy sviluppato dalla software house giapponese FromSoftware, con la collaborazione di SCE Japan Studio e pubblicato da Sony Computer Entertainment in esclusiva per PlayStation 4. Diretto da Hidetaka Miyazaki, già ideatore di Demon's Souls e di Dark Souls.`,
                 genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
                 platforms: ['PlayStation 4', 'PC (magari)'],
+                websites: ['reddit', 'main', 'steam'],
                 cover: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
                 images: [
                     'https://www.lorebloodborne.it/wp-content/uploads/2021/09/Lady-Maria.jpg',
@@ -122,6 +123,17 @@ export default {
                                     :key="index"
                                     class="badge rounded-pill text-bg-primary"
                                     >{{ platform }}</span
+                                >
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <span class="col-3 fs-5">Websites:</span>
+                            <div class="col-9 d-flex flex-wrap align-items-center gap-2">
+                                <span
+                                    v-for="(website, index) in gameInfo.websites"
+                                    :key="index"
+                                    class="badge rounded-pill text-bg-primary"
+                                    >{{ website }}</span
                                 >
                             </div>
                         </div>
