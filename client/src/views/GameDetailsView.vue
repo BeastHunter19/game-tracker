@@ -86,18 +86,16 @@ export default {
                     </div>
                 </div>
             </div>
-            <div
-                class="row g-0 justify-content-around row-cols-1 row-cols-lg-2 mw-100 ms-lg-4 mb-4"
-            >
-                <div class="col mw-100">
-                    <ContentPanel class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100 gap-4">
+            <div class="row g-0 justify-content-around row-cols-1 row-cols-lg-2 mw-100 ms-lg-4">
+                <div class="col mw-100 mb-4">
+                    <ContentPanel class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100">
                         <h1 class="text-start">{{ gameInfo.title }}</h1>
                         <h2 class="text-start">{{ gameInfo.release }}</h2>
                         <h3 class="text-start">{{ gameInfo.developer }}</h3>
                         <p class="text-start fs-5">{{ gameInfo.description }}</p>
                     </ContentPanel>
                 </div>
-                <div class="col mw-100">
+                <div class="col mw-100 mb-4">
                     <ContentPanel class="mb-4 mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-lg-2 h-100">
                         <div class="row mb-4">
                             <div class="col-6 fs-5">
