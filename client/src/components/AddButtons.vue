@@ -1,8 +1,12 @@
 <script>
 import { useGamesStore } from '@/stores/games'
 import { mapStores } from 'pinia'
+import clickedOutside from '@/directives/clickedOutside'
 
 export default {
+    directives: {
+        clickedOutside
+    },
     data() {
         return {
             showMore: false
@@ -14,7 +18,7 @@ export default {
             required: true
         }
     },
-    emits: ['addToList', 'removeFromList'],
+    emits: ['add-to-list', 'addToList', 'remove-from-list', 'removeFromList'],
     computed: {
         ...mapStores(useGamesStore),
         inPlayed() {
@@ -54,6 +58,9 @@ export default {
         },
         toggleButtons() {
             this.showMore = !this.showMore
+        },
+        closeButtons() {
+            this.showMore = false
         }
     }
 }
@@ -96,7 +103,7 @@ export default {
         </button>
 
         <Transition name="fold">
-            <div v-show="showMore">
+            <div v-show="showMore" v-clicked-outside="closeButtons">
                 <div class="d-flex flex-column gap-1">
                     <button
                         @click.stop="togglePlayed"
