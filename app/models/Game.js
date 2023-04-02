@@ -15,7 +15,7 @@ function formatGameSummary(gameInfo) {
         : null
     const allDevelopers = gameInfo.involved_companies?.filter((value) => value.developer === true)
     console.log(allDevelopers)
-    const developer = allDevelopers ? allDevelopers[0].company.name : null
+    const developer = allDevelopers?.at(0) ? allDevelopers.at(0)?.company?.name : null
     return {
         id: gameInfo.id,
         title: gameInfo.name,
