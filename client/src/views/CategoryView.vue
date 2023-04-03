@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main class="p-4 px-2 px-md-4">
         <GamesPanelExpanded :title="category" :gameList="testArray"></GamesPanelExpanded>
     </main>
 </template>

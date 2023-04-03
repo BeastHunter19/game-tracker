@@ -4,6 +4,7 @@ import ContentPanel from '@/components/ContentPanel.vue'
 
 export default {
     components: { GameCard, ContentPanel },
+    emits: ['reachedBottom', 'reached-bottom'],
     props: {
         title: {
             type: String,
@@ -21,6 +22,11 @@ export default {
             default: true
         }
     },
+    data() {
+        return {
+            bottomOberver: undefined
+        }
+    },
     computed: {
         iconClass() {
             return `bi-${this.icon}`
@@ -29,14 +35,50 @@ export default {
     methods: {
         closePanel() {
             this.$router.back()
+        },
+        onReachedBottom(entries) {
+            for (const entry of entries) {
+                console.log(entry.intersectionRatio)
+                if (entry.isIntersecting) {
+                    this.$emit('reachedBottom')
+                    this.bottomObserver.unobserve(entry.target)
+                }
+            }
+        },
+        updateObservedItem() {
+            const lastCard = this.$refs.cardsContainer.querySelector(':scope>*:last-child')
+            console.log(lastCard)
+            if (lastCard) {
+                this.bottomObserver.disconnect()
+                this.bottomObserver.observe(lastCard)
+            }
+        }
+    },
+    mounted() {
+        // this will make a new request when user reaches the bottom of the panel
+        const observerOptions = {
+            root: this.$refs.cardsContainer,
+            threshold: 1
+        }
+        this.bottomObserver = new IntersectionObserver(this.onReachedBottom, observerOptions)
+        this.updateObservedItem()
+    },
+    watch: {
+        gameList: {
+            handler(newList, oldList) {
+                if (newList[newList.length - 1] !== oldList[oldList.length - 1]) {
+                    this.updateObservedItem()
+                }
+            },
+            flush: 'post'
         }
     }
 }
 </script>
 
 <template>
-    <ContentPanel class="my-4 mx-2 mx-md-4">
-        <div class="d-flex flex-row justify-content-between align-items-center mb-4">
+    <ContentPanel class="h-100">
+        <div class="d-flex flex-row justify-content-between align-items-center">
             <h2 class="ms-4 mb-0 fs-3 text-start text-nowrap">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
@@ -50,7 +92,7 @@ export default {
                 <i class="bi bi-x-lg"></i>
             </span>
         </div>
-        <div ref="cardsContainer" class="cards-container w-100">
+        <div ref="cardsContainer" class="cards-container w-100 h-100 overflow-auto py-4">
             <GameCard v-for="(game, index) in gameList" :key="index" :gameInfo="game"></GameCard>
         </div>
     </ContentPanel>
