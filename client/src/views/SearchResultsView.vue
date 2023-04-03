@@ -7,7 +7,9 @@ export default {
     components: { GamesPanelExpanded },
     data() {
         return {
-            searchResults: []
+            searchResults: [],
+            limit: 30,
+            offset: 0
         }
     },
     computed: {
@@ -19,6 +21,8 @@ export default {
         '$route.query': {
             handler(newValue, oldValue) {
                 if (newValue !== oldValue) {
+                    this.offset = 0
+                    this.searchResults = []
                     this.search()
                 }
             },
@@ -31,8 +35,11 @@ export default {
             try {
                 const query = new URLSearchParams()
                 query.set('query', this.$route.query.query)
+                query.set('limit', this.limit)
+                query.set('offset', this.offset)
                 const response = await this.$axios.get('/api/search?' + query.toString())
-                this.searchResults = response.data
+                this.searchResults = this.searchResults.concat(response.data)
+                this.offset += this.limit
             } catch (err) {
                 console.log(err)
                 this.createNotification({
@@ -46,8 +53,9 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main class="p-4 px-2 px-md-4">
         <GamesPanelExpanded
+            @reachedBottom="search"
             :title="`Search: ${searchQuery}`"
             icon="search"
             :gameList="searchResults"

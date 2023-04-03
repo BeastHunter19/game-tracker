@@ -2,8 +2,8 @@ const Game = require('../models/Game')
 
 exports.getSearch = async (req, res, next) => {
     try {
-        const searchQuery = req.query.query
-        const searchResults = await Game.search(searchQuery)
+        const { query, limit, offset } = req.query
+        const searchResults = await Game.search(query, limit, offset)
         res.status(200).json(searchResults)
     } catch (err) {
         if (!err.statusCode) {

@@ -25,11 +25,11 @@ function formatGameSummary(gameInfo) {
     }
 }
 
-Game.search = async (query) => {
+Game.search = async (query, limit = 50, offset = 0) => {
     try {
         const response = await igdb.query.post(
             '/games',
-            `search "${query}"; fields ${summaryFields};`
+            `search "${query}"; fields ${summaryFields}; limit ${limit}; offset ${offset};`
         )
         console.log(response.data)
         return response.data.map((value) => formatGameSummary(value))
