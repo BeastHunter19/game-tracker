@@ -8,52 +8,53 @@ export const useGamesStore = defineStore('games', {
     }),
     actions: {
         addToBacklog(gameInfo) {
-            let index = this.watchlist.indexOf(gameInfo)
+            let index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.watchlist.splice(index, 1)
             }
-            index = this.played.indexOf(gameInfo)
+            index = this.played.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.played.splice(index, 1)
             }
             this.backlog.push(gameInfo)
         },
         addToWatchlist(gameInfo) {
-            let index = this.played.indexOf(gameInfo)
+            let index = this.played.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.played.splice(index, 1)
             }
-            index = this.backlog.indexOf(gameInfo)
+            index = this.backlog.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.backlog.splice(index, 1)
             }
             this.watchlist.push(gameInfo)
         },
         addToPlayed(gameInfo) {
-            let index = this.watchlist.indexOf(gameInfo)
+            let index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.watchlist.splice(index, 1)
             }
-            index = this.backlog.indexOf(gameInfo)
+            index = this.backlog.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.backlog.splice(index, 1)
             }
             this.played.push(gameInfo)
         },
         removeFromBacklog(gameInfo) {
-            let index = this.backlog.indexOf(gameInfo)
+            let index = this.backlog.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.backlog.splice(index, 1)
             }
         },
         removeFromWatchlist(gameInfo) {
-            let index = this.watchlist.indexOf(gameInfo)
+            let index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.watchlist.splice(index, 1)
             }
         },
         removeFromPlayed(gameInfo) {
-            let index = this.played.indexOf(gameInfo)
+            let index = this.played.findIndex((value) => value.id === gameInfo.id)
+            console.log(this.played)
             if (index > -1) {
                 this.played.splice(index, 1)
             }
