@@ -104,9 +104,10 @@ export default {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
 }
 
-.game-info > h5 {
-    line-height: 1.2rem;
-    max-height: 2.4rem;
+.game-info > h5,
+h6 {
+    line-height: 1.4rem;
+    max-height: 2.8rem;
     overflow: hidden;
 }
 </style>
