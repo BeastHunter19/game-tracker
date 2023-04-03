@@ -38,4 +38,17 @@ Game.search = async (query) => {
     }
 }
 
+Game.getPopular = async (limit = 50, offset = 0) => {
+    try {
+        const response = await igdb.query.post(
+            '/games',
+            `fields ${summaryFields},total_rating; sort total_rating desc; where total_rating != null & total_rating_count >= 100; limit ${limit}; offset ${offset};`
+        )
+        console.log(response.data)
+        return response.data.map((value) => formatGameSummary(value))
+    } catch (err) {
+        logger.error(err, `Could not retrieve popular games at offset ${offset}`)
+    }
+}
+
 module.exports = Game

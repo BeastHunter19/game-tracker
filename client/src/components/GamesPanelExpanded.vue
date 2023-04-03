@@ -47,7 +47,6 @@ export default {
         },
         updateObservedItem() {
             const lastCard = this.$refs.cardsContainer.querySelector(':scope>*:last-child')
-            console.log(lastCard)
             if (lastCard) {
                 this.bottomObserver.disconnect()
                 this.bottomObserver.observe(lastCard)
