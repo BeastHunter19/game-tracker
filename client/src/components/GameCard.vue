@@ -29,13 +29,15 @@ export default {
         }
     },
     methods: {
-        openDetails() {
-            this.$router.push({
-                name: 'game',
-                params: {
-                    gameID: this.gameInfo.id
-                }
-            })
+        openDetails(event) {
+            if (!event.target.closest('button')) {
+                this.$router.push({
+                    name: 'game',
+                    params: {
+                        gameID: this.gameInfo.id
+                    }
+                })
+            }
         },
         addToList(listName) {
             if (listName === 'backlog') {

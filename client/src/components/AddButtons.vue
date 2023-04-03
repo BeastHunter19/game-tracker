@@ -59,8 +59,10 @@ export default {
         toggleButtons() {
             this.showMore = !this.showMore
         },
-        closeButtons() {
-            this.showMore = false
+        closeButtons(event) {
+            if (!this.$el.contains(event.target)) {
+                this.showMore = false
+            }
         }
     }
 }
@@ -70,7 +72,7 @@ export default {
     <div class="d-flex flex-column align-items-start position-relative gap-1">
         <button
             v-if="inPlayed"
-            @click.stop="togglePlayed"
+            @click="togglePlayed"
             class="btn btn-dark rounded-circle"
             :class="{ 'active-list': inPlayed }"
         >
@@ -78,7 +80,7 @@ export default {
         </button>
         <button
             v-else-if="inWatchlist"
-            @click.stop="toggleWatchlist"
+            @click="toggleWatchlist"
             class="btn btn-dark rounded-circle"
             :class="{ 'active-list': inWatchlist }"
         >
@@ -86,7 +88,7 @@ export default {
         </button>
         <button
             v-else-if="inBacklog"
-            @click.stop="toggleBacklog"
+            @click="toggleBacklog"
             class="btn btn-dark rounded-circle"
             :class="{ 'active-list': inBacklog }"
         >
@@ -95,7 +97,7 @@ export default {
 
         <button
             v-else
-            @click.stop="toggleButtons"
+            @click="toggleButtons"
             class="btn btn-dark rounded-circle btn-more"
             :class="{ rotated: showMore }"
         >
@@ -106,21 +108,21 @@ export default {
             <div v-show="showMore" v-clicked-outside="closeButtons">
                 <div class="d-flex flex-column gap-1">
                     <button
-                        @click.stop="togglePlayed"
+                        @click="togglePlayed"
                         class="btn btn-dark rounded-circle"
                         :class="{ 'active-list': inPlayed }"
                     >
                         <i class="bi bi-controller"></i>
                     </button>
                     <button
-                        @click.stop="toggleWatchlist"
+                        @click="toggleWatchlist"
                         class="btn btn-dark rounded-circle"
                         :class="{ 'active-list': inWatchlist }"
                     >
                         <i class="bi bi-binoculars"></i>
                     </button>
                     <button
-                        @click.stop="toggleBacklog"
+                        @click="toggleBacklog"
                         class="btn btn-dark rounded-circle"
                         :class="{ 'active-list': inBacklog }"
                     >
