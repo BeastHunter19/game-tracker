@@ -31,7 +31,7 @@ export default {
                 console.log(err)
                 this.createNotification({
                     type: 'danger',
-                    message: 'An error while fetching game details.'
+                    message: 'An error occurred while fetching game details.'
                 })
             }
         }
