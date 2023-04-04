@@ -124,7 +124,7 @@ export default {
                                 <span
                                     v-for="(genre, index) in gameInfo.genres"
                                     :key="index"
-                                    class="badge rounded-pill text-bg-secondary"
+                                    class="badge rounded-pill text-bg-primary"
                                     >{{ genre }}</span
                                 >
                             </div>
@@ -135,7 +135,7 @@ export default {
                                 <span
                                     v-for="(platform, index) in gameInfo.platforms"
                                     :key="index"
-                                    class="badge rounded-pill text-bg-primary"
+                                    class="badge rounded-pill text-bg-secondary"
                                 >
                                     {{ platform }}
                                 </span>
