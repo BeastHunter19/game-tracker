@@ -118,7 +118,7 @@ export default {
                                 {{ gameInfo.rating?.toFixed(2) }}
                             </div>
                         </div>
-                        <div class="row mb-4">
+                        <div v-if="gameInfo.genres?.length > 0" class="row mb-4">
                             <span class="col-3 fs-5">Categories:</span>
                             <div class="col-9 d-flex flex-wrap align-items-center gap-2">
                                 <span
@@ -129,7 +129,7 @@ export default {
                                 >
                             </div>
                         </div>
-                        <div v-if="gameInfo.platforms" class="row mb-4">
+                        <div v-if="gameInfo.platforms?.length > 0" class="row mb-4">
                             <span class="col-3 fs-5">Platforms:</span>
                             <div class="col-9 d-flex flex-wrap align-items-center gap-2">
                                 <span
@@ -141,7 +141,7 @@ export default {
                                 </span>
                             </div>
                         </div>
-                        <div v-if="gameInfo.websites" class="row mb-4">
+                        <div v-if="gameInfo.websites?.length > 0" class="row mb-4">
                             <span class="col-3 fs-5">Websites:</span>
                             <div class="col-9 d-flex flex-wrap align-items-center gap-2">
                                 <a
@@ -157,10 +157,14 @@ export default {
                 </div>
             </div>
 
-            <div class="row g-0 justify-content-around row-cols-1 mw-100">
+            <div
+                v-if="gameInfo.similarGames?.length > 0"
+                class="row g-0 justify-content-around row-cols-1 mw-100"
+            >
                 <div class="col mw-100 mb-4">
                     <GamesPanel
                         title="Similar Games"
+                        icon="lightbulb"
                         :gameList="gameInfo.similarGames ?? []"
                     ></GamesPanel>
                 </div>
