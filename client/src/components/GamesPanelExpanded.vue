@@ -38,7 +38,6 @@ export default {
         },
         onReachedBottom(entries) {
             for (const entry of entries) {
-                console.log(entry.intersectionRatio)
                 if (entry.isIntersecting) {
                     this.$emit('reachedBottom')
                     this.bottomObserver.unobserve(entry.target)
