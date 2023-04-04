@@ -59,13 +59,17 @@ export default {
         },
         updateObservedLeft() {
             const firstCard = this.$refs.cardsContainer.querySelector(':scope>*:first-child')
-            this.leftObserver.disconnect()
-            this.leftObserver.observe(firstCard)
+            if (firstCard) {
+                this.leftObserver.disconnect()
+                this.leftObserver.observe(firstCard)
+            }
         },
         updateObservedRight() {
             const lastCard = this.$refs.cardsContainer.querySelector(':scope>*:last-child')
-            this.rightObserver.disconnect()
-            this.rightObserver.observe(lastCard)
+            if (lastCard) {
+                this.rightObserver.disconnect()
+                this.rightObserver.observe(lastCard)
+            }
         }
     },
     mounted() {

@@ -157,14 +157,11 @@ export default {
                 </div>
             </div>
 
-            <div
-                v-if="gameInfo.similarGames"
-                class="row g-0 justify-content-around row-cols-1 mw-100"
-            >
+            <div class="row g-0 justify-content-around row-cols-1 mw-100">
                 <div class="col mw-100 mb-4">
                     <GamesPanel
                         title="Similar Games"
-                        :gameList="gameInfo.similarGames"
+                        :gameList="gameInfo.similarGames ?? []"
                     ></GamesPanel>
                 </div>
             </div>
