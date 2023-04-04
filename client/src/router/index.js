@@ -10,7 +10,6 @@ import BacklogView from '@/views/BacklogView.vue'
 import WatchlistView from '@/views/WatchlistView.vue'
 import PlayedView from '@/views/PlayedView.vue'
 import VerifyEmailView from '@/views/VerifyEmailView.vue'
-import UserSettingsView from '@/views/UserSettingsView.vue'
 import ResetPasswordView from '@/views/ResetPasswordView.vue'
 import GameDetailsView from '@/views/GameDetailsView.vue'
 
@@ -93,15 +92,6 @@ const router = createRouter({
             path: '/profile/played',
             name: 'played',
             component: PlayedView,
-            meta: {
-                requiresAuth: true,
-                mainNavigation: false
-            }
-        },
-        {
-            path: '/settings',
-            name: 'settings',
-            component: UserSettingsView,
             meta: {
                 requiresAuth: true,
                 mainNavigation: false

@@ -65,9 +65,6 @@ export default {
                 <li>
                     <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
                 </li>
-                <li>
-                    <RouterLink to="/settings" class="dropdown-item rounded-2">Settings</RouterLink>
-                </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><button @click="logout" class="dropdown-item rounded-2">Logout</button></li>
             </ul>
@@ -85,9 +82,6 @@ export default {
                 </li>
                 <li>
                     <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
-                </li>
-                <li>
-                    <RouterLink to="/settings" class="dropdown-item rounded-2">Settings</RouterLink>
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><button @click="logout" class="dropdown-item rounded-2">Logout</button></li>
