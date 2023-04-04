@@ -60,3 +60,18 @@ exports.getCategories = async (req, res, next) => {
         return err
     }
 }
+
+exports.getSingleCategory = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const { limit, offset } = req.query
+        const results = await Game.getGamesByGenre(id, limit, offset)
+        res.status(200).json(results)
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}

@@ -111,7 +111,9 @@ Game.getPopular = async (limit = 50, offset = 0) => {
     try {
         const response = await igdb.query.post(
             '/games',
-            `fields ${summaryFields}; sort total_rating desc; where total_rating != null & total_rating_count >= 100; limit ${limit}; offset ${offset};`
+            `fields ${summaryFields}; sort total_rating desc; 
+            where total_rating != null & total_rating_count >= 100; 
+            limit ${limit}; offset ${offset};`
         )
         console.log(response.data)
         return response.data.map((value) => formatGameSummary(value))
@@ -149,10 +151,10 @@ Game.getGenres = async (limit = 500, offset = 0, gamesPerCategory = 10) => {
         let response
         for (const genre of allGenres) {
             builtMultiQuery = builtMultiQuery.concat(
-                `query games \"${genre.name}\" {
+                `query games \"${genre.id}\" {
                 fields ${summaryFields};
                 sort total_rating desc;
-                where genres = [${genre.id}] & total_rating != null & total_rating_count >= 100;
+                where genres = [${genre.id}] & total_rating != null & total_rating_count >= 50;
                 limit ${gamesPerCategory};
                 };\n`
             )
@@ -168,14 +170,32 @@ Game.getGenres = async (limit = 500, offset = 0, gamesPerCategory = 10) => {
             result = result.concat(response.data)
         }
         result = result.map((value) => {
+            const index = allGenres.findIndex((genre) => genre.id == value.name)
             return {
-                name: value.name,
+                id: value.name,
+                name: index > -1 ? allGenres[index].name : '',
                 games: value.result.map((gameInfo) => formatGameSummary(gameInfo))
             }
         })
         return result
     } catch (err) {
         logger.error(err, 'Could not get game genres')
+        throw err
+    }
+}
+
+Game.getGamesByGenre = async (id, limit = 50, offset = 0) => {
+    try {
+        const response = await igdb.query.post(
+            '/games',
+            `fields ${summaryFields}; sort total_rating desc; 
+            where genres = [${id}] & total_rating != null & total_rating_count >= 50; 
+            limit ${limit}; offset ${offset};`
+        )
+        console.log(response.data)
+        return response.data.map((value) => formatGameSummary(value))
+    } catch (err) {
+        logger.error(err, `Could not retrieve popular games at offset ${offset}`)
         throw err
     }
 }

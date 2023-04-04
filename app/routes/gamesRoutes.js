@@ -3,7 +3,8 @@ const {
     getSearch,
     getPopular,
     getGameDetails,
-    getCategories
+    getCategories,
+    getSingleCategory
 } = require('../controllers/gamesController')
 
 const router = Router()
@@ -15,5 +16,7 @@ router.get('/popular', getPopular)
 router.get('/games/:gameID', getGameDetails)
 
 router.get('/categories', getCategories)
+
+router.get('/categories/:id', getSingleCategory)
 
 module.exports = router

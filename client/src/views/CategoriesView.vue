@@ -83,7 +83,11 @@ export default {
             :key="index"
             :title="category.name"
             :gameList="category.games"
-            :extendedRoute="{ name: 'category', params: { categoryName: category.name } }"
+            :extendedRoute="{
+                name: 'category',
+                params: { id: category.id },
+                query: { name: category.name }
+            }"
         ></GamesPanel>
     </main>
 </template>
