@@ -1,27 +1,38 @@
 <script>
 import ContentPanel from '@/components/ContentPanel.vue'
+import GamesPanel from '@/components/GamesPanel.vue'
+import { useNotificationsStore } from '@/stores/notifications'
+import { mapActions } from 'pinia'
 
 export default {
-    components: { ContentPanel },
+    components: { ContentPanel, GamesPanel },
     data() {
         return {
-            gameInfo: {
-                id: 1234,
-                title: 'Bloodborne',
-                release: 'March 24, 2015',
-                developer: 'From Software',
-                description: `Bloodborne è un videogioco souls-like dark fantasy sviluppato dalla software house giapponese FromSoftware, con la collaborazione di SCE Japan Studio e pubblicato da Sony Computer Entertainment in esclusiva per PlayStation 4. Diretto da Hidetaka Miyazaki, già ideatore di Demon's Souls e di Dark Souls.`,
-                genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
-                platforms: ['PlayStation 4', 'PC (magari)'],
-                websites: ['reddit', 'main', 'steam'],
-                cover: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
-                images: [
-                    'https://www.lorebloodborne.it/wp-content/uploads/2021/09/Lady-Maria.jpg',
-                    'https://assets.reedpopcdn.com/news-videogiochi-bloodborne-pc-tutti-rumor-sono-100-percent-fake-modder-lance-mcdonald-1618329215390.jpg/BROK/thumbnail/1200x630/news-videogiochi-bloodborne-pc-tutti-rumor-sono-100-percent-fake-modder-lance-mcdonald-1618329215390.jpg',
-                    'https://images.everyeye.it/img-articoli/bloodborne-25340.jpg'
-                ],
-                rating: 99,
-                added: true
+            gameInfo: {}
+        }
+    },
+    watch: {
+        '$route.params': {
+            handler(newValue, oldValue) {
+                if (newValue !== oldValue) {
+                    this.getDetails()
+                }
+            },
+            immediate: true
+        }
+    },
+    methods: {
+        ...mapActions(useNotificationsStore, ['createNotification']),
+        async getDetails() {
+            try {
+                const response = await this.$axios.get(`/api/games/${this.$route.params.gameID}`)
+                this.gameInfo = response.data
+            } catch (err) {
+                console.log(err)
+                this.createNotification({
+                    type: 'danger',
+                    message: 'An error while fetching game details.'
+                })
             }
         }
     }
@@ -29,7 +40,7 @@ export default {
 </script>
 
 <template>
-    <main class="w-100 mw-100">
+    <main class="w-100 mw-100" :key="gameInfo.id">
         <div class="container-fluid p-0 m-0 mt-4">
             <div class="row g-0 justify-content-around row-cols-1 mw-100 ms-lg-4">
                 <div class="col mw-100 mb-4">
@@ -90,16 +101,21 @@ export default {
                 <div class="col mw-100 mb-4">
                     <ContentPanel class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100">
                         <h1 class="text-start">{{ gameInfo.title }}</h1>
-                        <h2 class="text-start">{{ gameInfo.release }}</h2>
-                        <h3 class="text-start">{{ gameInfo.developer }}</h3>
+                        <h2 class="text-start">Released: {{ gameInfo.release }}</h2>
+                        <h3 class="text-start">
+                            {{
+                                `Developer: ${gameInfo.developer}, Publisher: ${gameInfo.publisher}`
+                            }}
+                        </h3>
                         <p class="text-start fs-5">{{ gameInfo.description }}</p>
                     </ContentPanel>
                 </div>
                 <div class="col mw-100 mb-4">
                     <ContentPanel class="mb-4 mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-lg-2 h-100">
-                        <div class="row mb-4">
-                            <div class="col-6 fs-5">
-                                Critics aggregate rating: {{ gameInfo.rating }}
+                        <div v-if="gameInfo.rating" class="row mb-4">
+                            <div class="col fs-5">
+                                Critics and users aggregate rating:
+                                {{ gameInfo.rating?.toFixed(2) }}
                             </div>
                         </div>
                         <div class="row mb-4">
@@ -113,29 +129,43 @@ export default {
                                 >
                             </div>
                         </div>
-                        <div class="row mb-4">
+                        <div v-if="gameInfo.platforms" class="row mb-4">
                             <span class="col-3 fs-5">Platforms:</span>
                             <div class="col-9 d-flex flex-wrap align-items-center gap-2">
                                 <span
                                     v-for="(platform, index) in gameInfo.platforms"
                                     :key="index"
                                     class="badge rounded-pill text-bg-primary"
-                                    >{{ platform }}</span
                                 >
+                                    {{ platform }}
+                                </span>
                             </div>
                         </div>
-                        <div class="row mb-4">
+                        <div v-if="gameInfo.websites" class="row mb-4">
                             <span class="col-3 fs-5">Websites:</span>
                             <div class="col-9 d-flex flex-wrap align-items-center gap-2">
-                                <span
+                                <a
                                     v-for="(website, index) in gameInfo.websites"
                                     :key="index"
-                                    class="badge rounded-pill text-bg-primary"
-                                    >{{ website }}</span
+                                    :href="website.url"
+                                    class="badge rounded-pill text-bg-primary text-decoration-none"
+                                    >{{ website.type }}</a
                                 >
                             </div>
                         </div>
                     </ContentPanel>
+                </div>
+            </div>
+
+            <div
+                v-if="gameInfo.similarGames"
+                class="row g-0 justify-content-around row-cols-1 mw-100"
+            >
+                <div class="col mw-100 mb-4">
+                    <GamesPanel
+                        title="Similar Games"
+                        :gameList="gameInfo.similarGames"
+                    ></GamesPanel>
                 </div>
             </div>
         </div>
@@ -148,7 +178,7 @@ export default {
 }
 
 .custom-item {
-    height: 50vh;
+    height: 70vh;
 }
 
 .custom-img {

@@ -27,3 +27,17 @@ exports.getPopular = async (req, res, next) => {
         return err
     }
 }
+
+exports.getGameDetails = async (req, res, next) => {
+    try {
+        const { gameID } = req.params
+        const result = await Game.getDetails(gameID)
+        res.status(200).json(result)
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
