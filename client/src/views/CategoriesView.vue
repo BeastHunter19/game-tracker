@@ -1,46 +1,85 @@
 <script>
 import GamesPanel from '@/components/GamesPanel.vue'
+import { useNotificationsStore } from '@/stores/notifications'
+import { mapActions } from 'pinia'
 
 export default {
     components: { GamesPanel },
     data() {
         return {
             // this will contain an object for each category with a name and the game list
-            categories: [
-                {
-                    name: 'Soulslike',
-                    games: Array(20).fill({
-                        title: 'Bloodborne',
-                        release: '2015',
-                        developer: 'From Software',
-                        genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
-                        platforms: ['PlayStation 4', 'PC (magari)'],
-                        image: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
-                        added: true
-                    })
-                },
-                {
-                    name: 'Action',
-                    games: Array(20).fill({
-                        title: 'Bloodborne',
-                        release: '2015',
-                        developer: 'From Software',
-                        genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
-                        platforms: ['PlayStation 4', 'PC (magari)'],
-                        image: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
-                        added: true
-                    })
+            categories: [],
+            limit: 5,
+            offset: 0,
+            bottomObserver: undefined
+        }
+    },
+    computed: {
+        filteredCategories() {
+            return this.categories.filter((category) => category.games?.length > 0)
+        }
+    },
+    methods: {
+        ...mapActions(useNotificationsStore, ['createNotification']),
+        async getCategories() {
+            try {
+                const query = new URLSearchParams()
+                query.set('limit', this.limit)
+                query.set('offset', this.offset)
+                const response = await this.$axios.get('/api/categories?' + query.toString())
+                this.categories = this.categories.concat(response.data)
+                this.offset += this.limit
+            } catch (err) {
+                console.log(err)
+                this.createNotification({
+                    type: 'danger',
+                    message: 'An error occurred while fetching genres.'
+                })
+            }
+        },
+        onReachedBottom(entries) {
+            for (const entry of entries) {
+                if (entry.isIntersecting) {
+                    this.getCategories()
+                    this.bottomObserver.unobserve(entry.target)
                 }
-            ]
+            }
+        },
+        updateObservedItem() {
+            const lastPanel = this.$refs.panelsContainer.querySelector(':scope>*:last-child')
+            if (lastPanel) {
+                this.bottomObserver.disconnect()
+                this.bottomObserver.observe(lastPanel)
+            }
+        }
+    },
+    async mounted() {
+        this.getCategories()
+
+        const observerOptions = {
+            root: this.$refs.panelsContainer,
+            threshold: 1
+        }
+        this.bottomObserver = new IntersectionObserver(this.onReachedBottom, observerOptions)
+        this.updateObservedItem()
+    },
+    watch: {
+        categories: {
+            handler(newList, oldList) {
+                if (newList[newList.length - 1] !== oldList[oldList.length - 1]) {
+                    this.updateObservedItem()
+                }
+            },
+            flush: 'post'
         }
     }
 }
 </script>
 
 <template>
-    <main class="pt-4">
+    <main ref="panelsContainer" class="pt-4">
         <GamesPanel
-            v-for="(category, index) in categories"
+            v-for="(category, index) in filteredCategories"
             :key="index"
             :title="category.name"
             :gameList="category.games"

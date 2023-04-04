@@ -41,3 +41,22 @@ exports.getGameDetails = async (req, res, next) => {
         return err
     }
 }
+
+exports.getCategories = async (req, res, next) => {
+    try {
+        const { limit, offset, games } = req.query
+        let result
+        if (games) {
+            results = await Game.getGenres(limit, offset, games)
+        } else {
+            results = await Game.getGenres(limit, offset)
+        }
+        res.status(200).json(results)
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}

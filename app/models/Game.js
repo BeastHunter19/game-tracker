@@ -103,6 +103,7 @@ Game.search = async (query, limit = 50, offset = 0) => {
         return response.data.map((value) => formatGameSummary(value))
     } catch (err) {
         logger.error(err, 'Could not make search through IGDB')
+        throw err
     }
 }
 
@@ -116,6 +117,7 @@ Game.getPopular = async (limit = 50, offset = 0) => {
         return response.data.map((value) => formatGameSummary(value))
     } catch (err) {
         logger.error(err, `Could not retrieve popular games at offset ${offset}`)
+        throw err
     }
 }
 
@@ -129,6 +131,52 @@ Game.getDetails = async (id) => {
         return formatGameFullDetails(response.data[0])
     } catch (err) {
         logger.error(err, `Could not fetch game details for game with id ${id}`)
+        throw err
+    }
+}
+
+Game.getGenres = async (limit = 500, offset = 0, gamesPerCategory = 10) => {
+    try {
+        const genresResponse = await igdb.query.post(
+            '/genres',
+            `fields id,name; limit ${limit}; offset ${offset};`
+        )
+        const allGenres = genresResponse.data
+
+        let pendingQueries = 0
+        let builtMultiQuery = ''
+        let result = []
+        let response
+        for (const genre of allGenres) {
+            builtMultiQuery = builtMultiQuery.concat(
+                `query games \"${genre.name}\" {
+                fields ${summaryFields};
+                sort total_rating desc;
+                where genres = [${genre.id}] & total_rating != null & total_rating_count >= 100;
+                limit ${gamesPerCategory};
+                };\n`
+            )
+            if (++pendingQueries === 10) {
+                pendingQueries = 0
+                response = await igdb.query.post('/multiquery', builtMultiQuery)
+                builtMultiQuery = ''
+                result = result.concat(response.data)
+            }
+        }
+        if (pendingQueries) {
+            response = await igdb.query.post('/multiquery', builtMultiQuery)
+            result = result.concat(response.data)
+        }
+        result = result.map((value) => {
+            return {
+                name: value.name,
+                games: value.result.map((gameInfo) => formatGameSummary(gameInfo))
+            }
+        })
+        return result
+    } catch (err) {
+        logger.error(err, 'Could not get game genres')
+        throw err
     }
 }
 
