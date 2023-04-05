@@ -121,11 +121,16 @@ export default {
                         <div v-if="gameInfo.genres?.length > 0" class="row mb-4">
                             <span class="col-3 fs-5">Categories:</span>
                             <div class="col-9 d-flex flex-wrap align-items-center gap-2">
-                                <span
+                                <RouterLink
                                     v-for="(genre, index) in gameInfo.genres"
                                     :key="index"
-                                    class="badge rounded-pill text-bg-primary"
-                                    >{{ genre }}</span
+                                    :to="{
+                                        name: 'category',
+                                        params: { id: genre.id },
+                                        query: { name: genre.name }
+                                    }"
+                                    class="badge rounded-pill text-bg-primary text-decoration-none"
+                                    >{{ genre.name }}</RouterLink
                                 >
                             </div>
                         </div>

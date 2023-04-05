@@ -61,7 +61,7 @@ function formatGameFullDetails(gameInfo) {
               return `https://images.igdb.com/igdb/image/upload/t_1080p/${screenshot?.image_id}.jpg`
           })
         : []
-    const genres = gameInfo.genres ? gameInfo.genres.map((genre) => genre.name) : []
+    const genres = gameInfo.genres ?? []
     const platforms = gameInfo.platforms ? gameInfo.platforms.map((platform) => platform.name) : []
     // returns only official, wikia, steam, wikipedia and twitch links
     const websites = gameInfo.websites
