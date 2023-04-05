@@ -1,15 +1,22 @@
 <script>
 import ContentPanel from '@/components/ContentPanel.vue'
 import GamesPanel from '@/components/GamesPanel.vue'
+import AddButtons from '@/components/AddButtons.vue'
 import { useNotificationsStore } from '@/stores/notifications'
-import { mapActions } from 'pinia'
+import { useUserStore } from '@/stores/user'
+import { useGamesStore } from '@/stores/games'
+import { mapActions, mapState, mapStores } from 'pinia'
 
 export default {
-    components: { ContentPanel, GamesPanel },
+    components: { ContentPanel, GamesPanel, AddButtons },
     data() {
         return {
             gameInfo: {}
         }
+    },
+    computed: {
+        ...mapState(useUserStore, ['loggedIn']),
+        ...mapStores(useGamesStore)
     },
     watch: {
         '$route.params': {
@@ -33,6 +40,24 @@ export default {
                     type: 'danger',
                     message: 'An error occurred while fetching game details.'
                 })
+            }
+        },
+        addToList(listName) {
+            if (listName === 'backlog') {
+                this.gamesStore.addToBacklog(this.gameInfo)
+            } else if (listName === 'watchlist') {
+                this.gamesStore.addToWatchlist(this.gameInfo)
+            } else if (listName === 'played') {
+                this.gamesStore.addToPlayed(this.gameInfo)
+            }
+        },
+        removeFromList(listName) {
+            if (listName === 'backlog') {
+                this.gamesStore.removeFromBacklog(this.gameInfo)
+            } else if (listName === 'watchlist') {
+                this.gamesStore.removeFromWatchlist(this.gameInfo)
+            } else if (listName === 'played') {
+                this.gamesStore.removeFromPlayed(this.gameInfo)
             }
         }
     }
@@ -99,7 +124,16 @@ export default {
             </div>
             <div class="row g-0 justify-content-around row-cols-1 row-cols-lg-2 mw-100 ms-lg-4">
                 <div class="col mw-100 mb-4">
-                    <ContentPanel class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100">
+                    <ContentPanel
+                        class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100 position-relative"
+                    >
+                        <AddButtons
+                            v-if="loggedIn && gameInfo.id"
+                            :gameID="gameInfo.id"
+                            class="position-absolute top-0 end-0 m-4"
+                            @addToList="addToList"
+                            @removeFromList="removeFromList"
+                        ></AddButtons>
                         <h1 class="text-start">{{ gameInfo.title }}</h1>
                         <h2 class="text-start">Released: {{ gameInfo.release }}</h2>
                         <h3 class="text-start">
