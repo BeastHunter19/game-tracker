@@ -201,4 +201,19 @@ Game.getGamesByGenre = async (id, limit = 50, offset = 0) => {
     }
 }
 
+Game.getListByID = async (ids) => {
+    try {
+        const response = await igdb.query.post(
+            '/games',
+            `fields ${summaryFields};
+            where id = (${ids.join(',')});`
+        )
+        console.log(response.data)
+        return response.data.map((value) => formatGameSummary(value))
+    } catch (err) {
+        logger.error(err, 'Could not get games')
+        throw err
+    }
+}
+
 module.exports = Game
