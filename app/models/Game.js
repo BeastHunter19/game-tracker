@@ -8,7 +8,7 @@ const summaryFields =
 
 const detailedFields =
     summaryFields +
-    ',summary,genres.name,platforms.name,websites.category,websites.url,total_rating,screenshots.image_id,\
+    ',summary,genres.name,platforms.name,websites.category,websites.url,total_rating,total_rating_count,screenshots.image_id,\
     similar_games.id,similar_games.cover.image_id,similar_games.first_release_date,similar_games.involved_companies.*,\
     similar_games.involved_companies.company.name,similar_games.name'
 
@@ -85,6 +85,7 @@ function formatGameFullDetails(gameInfo) {
         release: releaseDate,
         description: gameInfo.summary,
         rating: gameInfo.total_rating,
+        ratingCount: gameInfo.total_rating_count,
         images: [coverImageURL, ...screenshots],
         genres: genres,
         platforms: platforms,

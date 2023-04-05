@@ -117,6 +117,10 @@ export default {
                                 Critics and users aggregate rating:
                                 {{ gameInfo.rating?.toFixed(2) }}
                             </div>
+                            <div v-if="gameInfo.ratingCount" class="col fs-5">
+                                Total ratings:
+                                {{ gameInfo.ratingCount }}
+                            </div>
                         </div>
                         <div v-if="gameInfo.genres?.length > 0" class="row mb-4">
                             <span class="col-3 fs-5">Categories:</span>
