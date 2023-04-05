@@ -54,7 +54,6 @@ export const useGamesStore = defineStore('games', {
         },
         removeFromPlayed(gameInfo) {
             let index = this.played.findIndex((value) => value.id === gameInfo.id)
-            console.log(this.played)
             if (index > -1) {
                 this.played.splice(index, 1)
             }
