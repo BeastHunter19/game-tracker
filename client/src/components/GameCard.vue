@@ -72,6 +72,7 @@ export default {
         </div>
         <!-- Logged in only buttons -->
         <AddButtons
+            v-if="loggedIn"
             :gameID="gameInfo.id"
             class="position-absolute top-0 end-0 m-2"
             @addToList="addToList"
