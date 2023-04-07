@@ -82,8 +82,12 @@ exports.getGamesList = async (req, res, next) => {
         const { userId, listName } = req.params
         const gameIDs = await User.getList(userId, listName)
         console.log(gameIDs)
-        const games = await Game.getListByID(gameIDs)
-        res.status(200).json(games)
+        if (gameIDs?.length === 0) {
+            res.status(200).json([])
+        } else {
+            const games = await Game.getListByID(gameIDs)
+            res.status(200).json(games)
+        }
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500

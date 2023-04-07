@@ -71,6 +71,30 @@ export const useGamesStore = defineStore('games', {
             } catch (err) {
                 console.log(err)
             }
+        },
+        async fetchBacklog() {
+            try {
+                const { $axios } = useGlobals()
+                const user = useUserStore()
+                const backlog = await $axios.get(`/api/user/${user.user.id}/backlog`, {
+                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                })
+                this.backlog = backlog.data
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async fetchWatchlist() {
+            try {
+                const { $axios } = useGlobals()
+                const user = useUserStore()
+                const watchlist = await $axios.get(`/api/user/${user.user.id}/watchlist`, {
+                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                })
+                this.watchlist = watchlist.data
+            } catch (err) {
+                console.log(err)
+            }
         }
     }
 })
