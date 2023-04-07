@@ -169,4 +169,24 @@ User.removeExpiredTokensFromBlacklist = async () => {
     }
 }
 
+User.getList = async (userID, listName) => {
+    try {
+        if (!['backlog', 'watchlist', 'played'].includes(listName)) {
+            const err = new Error()
+            err.message(`List named \"${listName}\" does not exist`)
+            throw err
+        }
+        const games = await db.query(
+            `SELECT game
+             FROM ?
+             WHERE user = UUID_TO_BIN(?)`,
+            [listName, userID]
+        )
+        return games
+    } catch (err) {
+        logger.error(err, 'Could not get list')
+        throw err
+    }
+}
+
 module.exports = User

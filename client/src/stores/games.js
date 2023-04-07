@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { useGlobals } from '@/main'
+import { useUserStore } from '@/stores/user'
 
 export const useGamesStore = defineStore('games', {
     state: () => ({
@@ -56,6 +58,16 @@ export const useGamesStore = defineStore('games', {
             let index = this.played.findIndex((value) => value.id === gameInfo.id)
             if (index > -1) {
                 this.played.splice(index, 1)
+            }
+        },
+        async fetchPlayed() {
+            try {
+                const { $axios } = useGlobals()
+                const user = useUserStore()
+                const played = await $axios.get(`/api/user/${user.user.id}/played`)
+                this.played = played.data
+            } catch (err) {
+                console.log(err)
             }
         }
     }

@@ -5,9 +5,10 @@ import DialogSignUp from '@/components/DialogSignUp.vue'
 import DialogLogin from '@/components/DialogLogin.vue'
 import DialogPasswordReset from '@/components/DialogPasswordReset.vue'
 import NotificationList from '@/components/NotificationList.vue'
-import { mapActions } from 'pinia'
+import { mapActions, mapState, mapStores } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useNotificationsStore } from '@/stores/notifications'
+import { useGamesStore } from '@/stores/games'
 
 export default {
     components: {
@@ -18,9 +19,13 @@ export default {
         DialogPasswordReset,
         NotificationList
     },
+    computed: {
+        ...mapStores(useGamesStore)
+    },
     methods: {
         ...mapActions(useUserStore, ['setUser']),
         ...mapActions(useNotificationsStore, ['createNotification']),
+
         async tryAutomaticLogin() {
             try {
                 // try to login using stored refresh token
@@ -46,6 +51,10 @@ export default {
     },
     async mounted() {
         await this.tryAutomaticLogin()
+    },
+    async created() {
+        // fetch user lists
+        this.gamesStore.fetchPlayed()
     }
 }
 </script>

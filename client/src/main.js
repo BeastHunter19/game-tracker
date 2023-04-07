@@ -15,4 +15,6 @@ app.use(createPinia())
 app.use(router)
 app.use(axios)
 
+export const useGlobals = () => app.config.globalProperties
+
 app.mount('#app')

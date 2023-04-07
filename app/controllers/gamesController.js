@@ -1,4 +1,5 @@
 const Game = require('../models/Game')
+const User = require('../models/User')
 
 exports.getSearch = async (req, res, next) => {
     try {
@@ -67,6 +68,21 @@ exports.getSingleCategory = async (req, res, next) => {
         const { limit, offset } = req.query
         const results = await Game.getGamesByGenre(id, limit, offset)
         res.status(200).json(results)
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
+
+exports.getGamesList = async (req, res, next) => {
+    try {
+        const { userID, listName } = req.params
+        const gameIDs = await User.getList(userID, listName)
+        const games = await Game.getListByID(gameIDs)
+        res.status(200).json(games)
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500
