@@ -4,6 +4,7 @@ const { logger } = require('./utils/logger.js')
 const pinoHTTP = require('pino-http')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 const User = require('./models/User')
 
 const igdb = require('./utils/igdb')
@@ -13,6 +14,14 @@ const authRoutes = require('./routes/authRoutes')
 const gamesRoutes = require('./routes/gamesRoutes')
 
 const app = express()
+
+app.use(
+    cors({
+        origin: config.frontendURL,
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true
+    })
+)
 
 app.use(pinoHTTP({ logger }))
 app.use(helmet())
