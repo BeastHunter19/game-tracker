@@ -5,7 +5,7 @@ import DialogSignUp from '@/components/DialogSignUp.vue'
 import DialogLogin from '@/components/DialogLogin.vue'
 import DialogPasswordReset from '@/components/DialogPasswordReset.vue'
 import NotificationList from '@/components/NotificationList.vue'
-import { mapActions, mapState, mapStores } from 'pinia'
+import { mapActions, mapStores } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useGamesStore } from '@/stores/games'
@@ -51,9 +51,6 @@ export default {
     },
     async mounted() {
         await this.tryAutomaticLogin()
-    },
-    async created() {
-        // fetch user lists
         this.gamesStore.fetchPlayed()
     }
 }

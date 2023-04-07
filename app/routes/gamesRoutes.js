@@ -23,7 +23,7 @@ router.get('/categories', getCategories)
 router.get('/categories/:id', getSingleCategory)
 
 router.get(
-    '/user/:userID/:listName',
+    '/user/:userId/:listName',
     passport.authenticate('jwt', { session: false }),
     isOwner,
     getGamesList

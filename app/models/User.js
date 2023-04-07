@@ -178,11 +178,11 @@ User.getList = async (userID, listName) => {
         }
         const games = await db.query(
             `SELECT game
-             FROM ?
+             FROM ${listName} 
              WHERE user = UUID_TO_BIN(?)`,
-            [listName, userID]
+            [userID]
         )
-        return games
+        return games.map((value) => value.game)
     } catch (err) {
         logger.error(err, 'Could not get list')
         throw err

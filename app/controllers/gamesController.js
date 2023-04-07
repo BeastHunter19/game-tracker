@@ -79,8 +79,9 @@ exports.getSingleCategory = async (req, res, next) => {
 
 exports.getGamesList = async (req, res, next) => {
     try {
-        const { userID, listName } = req.params
-        const gameIDs = await User.getList(userID, listName)
+        const { userId, listName } = req.params
+        const gameIDs = await User.getList(userId, listName)
+        console.log(gameIDs)
         const games = await Game.getListByID(gameIDs)
         res.status(200).json(games)
     } catch (err) {

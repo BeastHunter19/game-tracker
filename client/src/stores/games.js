@@ -64,7 +64,9 @@ export const useGamesStore = defineStore('games', {
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                const played = await $axios.get(`/api/user/${user.user.id}/played`)
+                const played = await $axios.get(`/api/user/${user.user.id}/played`, {
+                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                })
                 this.played = played.data
             } catch (err) {
                 console.log(err)
