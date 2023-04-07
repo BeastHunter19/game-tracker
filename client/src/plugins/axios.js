@@ -4,7 +4,8 @@ export default {
     install: (app) => {
         app.config.globalProperties.$axios = axios.create({
             baseURL: import.meta.env.VITE_BACKEND_URL,
-            withCredentials: true
+            withCredentials: true,
+            responseType: 'json'
         })
     }
 }
