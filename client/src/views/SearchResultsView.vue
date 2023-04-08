@@ -56,7 +56,7 @@ export default {
     <main class="p-4 px-2 px-md-4">
         <GamesPanelExpanded
             @reachedBottom="search"
-            :title="`Search: ${searchQuery}`"
+            title="Search"
             icon="search"
             :gameList="searchResults"
         ></GamesPanelExpanded>

@@ -80,7 +80,7 @@ export default {
             <div class="row g-0 justify-content-around row-cols-1 row-cols-lg-2 mw-100 ms-lg-4">
                 <div class="col mw-100 mb-4">
                     <ContentPanel
-                        class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-lg-2 h-100 d-flex justify-content-center align-items-center gap-4"
+                        class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-lg-2 h-100 d-flex justify-content-center align-items-center gap-4 flex-wrap"
                     >
                         <UserAvatar size="100px" textSize="2"></UserAvatar>
                         <p class="fs-5">
@@ -115,10 +115,10 @@ export default {
                                 </h3>
                             </div>
                             <ul class="row g-2 mb-3 text-start text-nowrap">
-                                <li class="col-8">Owned: {{ ownedGames }}</li>
-                                <li class="col-4">Watched: {{ watchedGames }}</li>
-                                <li class="col-8">Played: {{ playedGames }}</li>
-                                <li class="col-4">Backlog: {{ backlogGames }}</li>
+                                <li class="col col-sm-8">Owned: {{ ownedGames }}</li>
+                                <li class="col col-sm-4">Watched: {{ watchedGames }}</li>
+                                <li class="col col-sm-8">Played: {{ playedGames }}</li>
+                                <li class="col col-sm-4">Backlog: {{ backlogGames }}</li>
                             </ul>
                             <div class="row">
                                 <span class="col-12 mb-2 text-start">Completed games:</span>
@@ -140,7 +140,7 @@ export default {
                     </ContentPanel>
                 </div>
             </div>
-            <div class="row g-0 justify-content-around row-cols-auto row-cols-lg-3 mw-100 ms-lg-4">
+            <div class="row g-0 justify-content-stretch row-cols-lg-3 mw-100 ms-lg-4">
                 <MainGamesPanel class="col ms-lg-0 me-lg-4 py-lg-4 px-lg-2"></MainGamesPanel>
             </div>
         </div>

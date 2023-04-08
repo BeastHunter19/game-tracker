@@ -35,7 +35,7 @@ export default {
             <div class="container-fluid d-flex align-items-center">
                 <!-- Mobile only elements -->
                 <div class="d-flex d-lg-none col flex-nowrap align-items-center">
-                    <RouterLink to="/" class="navbar-brand d-inline d-lg-none ms-2">GT</RouterLink>
+                    <RouterLink to="/" class="navbar-brand d-none d-sm-inline ms-2">GT</RouterLink>
                     <div
                         class="flex-grow-1 flex-shrink-1 mx-2 justify-content-center d-flex d-lg-none"
                     >

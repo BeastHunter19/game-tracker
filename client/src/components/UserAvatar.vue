@@ -23,7 +23,7 @@ export default {
             return names[0][0]?.toUpperCase() + names[1][0]?.toUpperCase()
         },
         sizeStyle() {
-            return `width: ${this.size}; height: ${this.size};`
+            return `width: ${this.size}; height: ${this.size}; min-width: ${this.size}; min-height: ${this.size};`
         },
         fontSize() {
             return `fs-${this.textSize}`
