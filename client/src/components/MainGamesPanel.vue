@@ -6,22 +6,17 @@ import { useGamesStore } from '@/stores/games'
 export default {
     components: { GamesPanel },
     inheritAttrs: false,
-    data() {
-        return {
-            testArray: Array(20).fill({
-                id: 1234,
-                title: 'Bloodborne',
-                release: '2015',
-                developer: 'From Software',
-                genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
-                platforms: ['PlayStation 4', 'PC (magari)'],
-                image: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
-                added: true
-            })
-        }
-    },
     computed: {
-        ...mapStores(useGamesStore)
+        ...mapStores(useGamesStore),
+        backlog() {
+            return this.gamesStore.backlog.slice(0, 10)
+        },
+        watchlist() {
+            return this.gamesStore.watchlist.slice(0, 10)
+        },
+        played() {
+            return this.gamesStore.played.slice(0, 10)
+        }
     }
 }
 </script>
@@ -31,7 +26,7 @@ export default {
         <GamesPanel
             title="Backlog"
             icon="clock-history"
-            :gameList="testArray"
+            :gameList="backlog"
             :extendedRoute="{ name: 'backlog' }"
             v-bind="$attrs"
         ></GamesPanel>
@@ -40,7 +35,7 @@ export default {
         <GamesPanel
             title="Watchlist"
             icon="binoculars"
-            :gameList="testArray"
+            :gameList="watchlist"
             :extendedRoute="{ name: 'watchlist' }"
             v-bind="$attrs"
         ></GamesPanel>
@@ -49,7 +44,7 @@ export default {
         <GamesPanel
             title="Played"
             icon="controller"
-            :gameList="testArray"
+            :gameList="played"
             :extendedRoute="{ name: 'played' }"
             v-bind="$attrs"
         ></GamesPanel>

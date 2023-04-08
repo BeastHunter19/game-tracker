@@ -169,7 +169,7 @@ User.removeExpiredTokensFromBlacklist = async () => {
     }
 }
 
-User.getList = async (userID, listName) => {
+User.getList = async (userID, listName, limit = 50, offset = 0) => {
     try {
         if (!['backlog', 'watchlist', 'played'].includes(listName)) {
             const err = new Error()
@@ -179,8 +179,9 @@ User.getList = async (userID, listName) => {
         const games = await db.query(
             `SELECT game
              FROM ${listName} 
-             WHERE user = UUID_TO_BIN(?)`,
-            [userID]
+             WHERE user = UUID_TO_BIN(?)
+             LIMIT ? OFFSET ?`,
+            [userID, limit, offset]
         )
         return games.map((value) => value.game)
     } catch (err) {

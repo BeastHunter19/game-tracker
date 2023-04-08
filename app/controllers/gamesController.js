@@ -47,6 +47,7 @@ exports.getCategories = async (req, res, next) => {
     try {
         const { limit, offset, games } = req.query
         let result
+        // games is the maximum number of games per genre that the client wants
         if (games) {
             results = await Game.getGenres(limit, offset, games)
         } else {
@@ -80,12 +81,14 @@ exports.getSingleCategory = async (req, res, next) => {
 exports.getGamesList = async (req, res, next) => {
     try {
         const { userId, listName } = req.params
-        const gameIDs = await User.getList(userId, listName)
+        const { limit, offset } = req.query
+        const gameIDs = await User.getList(userId, listName, limit, offset)
         console.log(gameIDs)
         if (gameIDs?.length === 0) {
             res.status(200).json([])
         } else {
-            const games = await Game.getListByID(gameIDs)
+            // pagination is already done at the db level
+            const games = await Game.getListByID(gameIDs, 500, 0)
             res.status(200).json(games)
         }
     } catch (err) {

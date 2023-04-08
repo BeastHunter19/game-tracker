@@ -10,13 +10,16 @@ export const useUserStore = defineStore('user', {
         loggedIn: (state) => Object.keys(state.user).length !== 0
     },
     actions: {
-        setUser(userDetails) {
+        async setUser(userDetails) {
             this.user = userDetails.user
             this.accessToken = userDetails.accessToken
             const gamesStore = useGamesStore()
-            gamesStore.fetchBacklog()
-            gamesStore.fetchWatchlist()
-            gamesStore.fetchPlayed()
+            // these will have to finish before terminating login, so the home page can be populated
+            await gamesStore.fetchBacklog(10, 0)
+            await gamesStore.fetchWatchlist(10, 0)
+            await gamesStore.fetchPlayed(10, 0)
+            // this one will happen in the background
+            gamesStore.fetchAll()
         },
         setEmailVerified() {
             this.user.verified = true

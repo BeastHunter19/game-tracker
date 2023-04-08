@@ -1,20 +1,18 @@
 <script>
 import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
+import { useGamesStore } from '@/stores/games'
+import { mapState, mapActions } from 'pinia'
 
 export default {
     components: { GamesPanelExpanded },
-    data() {
-        return {
-            testArray: Array(20).fill({
-                title: 'Bloodborne',
-                release: '2015',
-                developer: 'From Software',
-                genres: ['Adventure', 'Role-playing (RPG)', 'Action', 'Souls-like'],
-                platforms: ['PlayStation 4', 'PC (magari)'],
-                image: 'https://assets.reedpopcdn.com/-1616688899670.jpg/BROK/thumbnail/1600x900/quality/100/-1616688899670.jpg',
-                added: true
-            })
-        }
+    computed: {
+        ...mapState(useGamesStore, ['played'])
+    },
+    methods: {
+        ...mapActions(useGamesStore, ['fetchAllPlayed'])
+    },
+    mounted() {
+        this.fetchAllPlayed()
     }
 }
 </script>
@@ -24,7 +22,7 @@ export default {
         <GamesPanelExpanded
             title="Already Played"
             icon="controller"
-            :gameList="testArray"
+            :gameList="played"
         ></GamesPanelExpanded>
     </main>
 </template>

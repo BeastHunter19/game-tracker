@@ -201,12 +201,13 @@ Game.getGamesByGenre = async (id, limit = 50, offset = 0) => {
     }
 }
 
-Game.getListByID = async (ids) => {
+Game.getListByID = async (ids, limit = 50, offset = 0) => {
     try {
         const response = await igdb.query.post(
             '/games',
             `fields ${summaryFields};
-            where id = (${ids.join(',')});`
+            where id = (${ids.join(',')});
+            limit ${limit}; offset ${offset};`
         )
         console.log(response.data)
         return response.data.map((value) => formatGameSummary(value))

@@ -109,41 +109,94 @@ export const useGamesStore = defineStore('games', {
                 console.log(err)
             }
         },
-        async fetchPlayed() {
+        async fetchPlayed(limit, offset) {
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                const played = await $axios.get(`/api/user/${user.user.id}/played`, {
-                    headers: { Authorization: `Bearer ${user.accessToken}` }
-                })
-                this.played = played.data
+                const query = new URLSearchParams()
+                query.set('limit', limit)
+                query.set('offset', offset)
+                const played = await $axios.get(
+                    `/api/user/${user.user.id}/played?${query.toString()}`,
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                this.played = this.played.concat(played.data)
+                return played.data.length
             } catch (err) {
                 console.log(err)
             }
         },
-        async fetchBacklog() {
+        async fetchBacklog(limit, offset) {
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                const backlog = await $axios.get(`/api/user/${user.user.id}/backlog`, {
-                    headers: { Authorization: `Bearer ${user.accessToken}` }
-                })
-                this.backlog = backlog.data
+                const query = new URLSearchParams()
+                query.set('limit', limit)
+                query.set('offset', offset)
+                const backlog = await $axios.get(
+                    `/api/user/${user.user.id}/backlog?${query.toString()}`,
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                this.backlog = this.backlog.concat(backlog.data)
+                return backlog.data.length
             } catch (err) {
                 console.log(err)
             }
         },
-        async fetchWatchlist() {
+        async fetchWatchlist(limit, offset) {
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                const watchlist = await $axios.get(`/api/user/${user.user.id}/watchlist`, {
-                    headers: { Authorization: `Bearer ${user.accessToken}` }
-                })
-                this.watchlist = watchlist.data
+                const query = new URLSearchParams()
+                query.set('limit', limit)
+                query.set('offset', offset)
+                const watchlist = await $axios.get(
+                    `/api/user/${user.user.id}/watchlist?${query.toString()}`,
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                this.watchlist = this.watchlist.concat(watchlist.data)
+                return watchlist.data.length
             } catch (err) {
                 console.log(err)
             }
+        },
+        async fetchAll() {
+            this.fetchAllBacklog()
+            this.fetchAllWatchlist()
+            this.fetchAllPlayed()
+        },
+        async fetchAllBacklog() {
+            let fetchCount,
+                totalFetched = 0
+            this.backlog = []
+            do {
+                fetchCount = await this.fetchBacklog(500, totalFetched)
+                totalFetched += fetchCount
+            } while (fetchCount === 500)
+        },
+        async fetchAllWatchlist() {
+            let fetchCount,
+                totalFetched = 0
+            this.watchlist = []
+            do {
+                fetchCount = await this.fetchWatchlist(500, totalFetched)
+                totalFetched += fetchCount
+            } while (fetchCount === 500)
+        },
+        async fetchAllPlayed() {
+            let fetchCount,
+                totalFetched = 0
+            this.played = []
+            do {
+                fetchCount = await this.fetchPlayed(500, totalFetched)
+                totalFetched += fetchCount
+            } while (fetchCount === 500)
         }
     }
 })

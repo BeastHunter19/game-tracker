@@ -31,7 +31,7 @@ export default {
                 // try to login using stored refresh token
                 const loginResponse = await this.$axios.post('/auth/tokens/refresh', {})
                 console.log(loginResponse.data)
-                this.setUser(loginResponse.data)
+                await this.setUser(loginResponse.data)
 
                 // start a timer to refresh the access token before it expires
                 const waitTime = Math.max(loginResponse.data.expires_in - 10_000, 10_000) // times in milliseconds

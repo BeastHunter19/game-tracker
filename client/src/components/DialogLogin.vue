@@ -23,8 +23,8 @@ export default {
                 try {
                     const loginResponse = await this.$axios.post('/auth/login', loginDetails)
                     console.log(loginResponse.data)
-                    this.setUser(loginResponse.data)
                     this.$refs.modalComponent.closeModal()
+                    await this.setUser(loginResponse.data)
                     this.createNotification({
                         type: 'success',
                         message: 'You have logged in successfully!'
