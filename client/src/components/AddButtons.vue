@@ -75,6 +75,7 @@ export default {
             @click="togglePlayed"
             class="btn btn-dark rounded-circle"
             :class="{ 'active-list': inPlayed }"
+            title="Add to Played"
         >
             <i class="bi bi-controller"></i>
         </button>
@@ -83,6 +84,7 @@ export default {
             @click="toggleWatchlist"
             class="btn btn-dark rounded-circle"
             :class="{ 'active-list': inWatchlist }"
+            title="Add to Watchlist"
         >
             <i class="bi bi-binoculars"></i>
         </button>
@@ -91,6 +93,7 @@ export default {
             @click="toggleBacklog"
             class="btn btn-dark rounded-circle"
             :class="{ 'active-list': inBacklog }"
+            title="Add to Backlog"
         >
             <i class="bi bi-clock-history"></i>
         </button>
