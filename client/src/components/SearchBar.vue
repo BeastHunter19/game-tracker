@@ -2,7 +2,8 @@
 export default {
     data() {
         return {
-            searchQuery: ''
+            searchQuery: '',
+            searchTimer: null
         }
     },
     methods: {
@@ -16,6 +17,14 @@ export default {
             } else {
                 this.$router.push(searchRoute)
             }
+        }
+    },
+    watch: {
+        searchQuery() {
+            if (this.searchTimer) {
+                clearTimeout(this.searchTimer)
+            }
+            this.searchTimer = setTimeout(this.search, 1000)
         }
     }
 }
