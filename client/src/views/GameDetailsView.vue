@@ -16,7 +16,13 @@ export default {
     },
     computed: {
         ...mapState(useUserStore, ['loggedIn']),
-        ...mapStores(useGamesStore)
+        ...mapStores(useGamesStore),
+        publisher() {
+            return this.gameInfo.publisher ?? 'N/A'
+        },
+        developer() {
+            return this.gameInfo.developer ?? 'N/A'
+        }
     },
     watch: {
         '$route.params': {
@@ -134,12 +140,12 @@ export default {
                             @addToList="addToList"
                             @removeFromList="removeFromList"
                         ></AddButtons>
-                        <h1 class="text-start">{{ gameInfo.title }}</h1>
-                        <h2 class="text-start">Released: {{ gameInfo.release }}</h2>
+                        <h1 v-if="gameInfo.title" class="text-start">{{ gameInfo.title }}</h1>
+                        <h2 v-if="gameInfo.release" class="text-start">
+                            Released: {{ gameInfo.release }}
+                        </h2>
                         <h3 class="text-start">
-                            {{
-                                `Developer: ${gameInfo.developer}, Publisher: ${gameInfo.publisher}`
-                            }}
+                            {{ `Developer: ${developer}, Publisher: ${publisher}` }}
                         </h3>
                         <p class="text-start fs-5">{{ gameInfo.description }}</p>
                     </ContentPanel>
