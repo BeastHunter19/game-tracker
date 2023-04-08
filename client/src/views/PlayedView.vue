@@ -20,7 +20,7 @@ export default {
 <template>
     <main class="p-4 px-2 px-md-4">
         <GamesPanelExpanded
-            title="Already Played"
+            title="Played"
             icon="controller"
             :gameList="played"
         ></GamesPanelExpanded>
