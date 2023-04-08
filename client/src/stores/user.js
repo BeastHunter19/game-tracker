@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useGamesStore } from '@/stores/games'
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -12,6 +13,10 @@ export const useUserStore = defineStore('user', {
         setUser(userDetails) {
             this.user = userDetails.user
             this.accessToken = userDetails.accessToken
+            const gamesStore = useGamesStore()
+            gamesStore.fetchBacklog()
+            gamesStore.fetchWatchlist()
+            gamesStore.fetchPlayed()
         },
         setEmailVerified() {
             this.user.verified = true

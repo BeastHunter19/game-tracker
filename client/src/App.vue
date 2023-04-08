@@ -51,9 +51,6 @@ export default {
     },
     async mounted() {
         await this.tryAutomaticLogin()
-        this.gamesStore.fetchPlayed()
-        this.gamesStore.fetchBacklog()
-        this.gamesStore.fetchWatchlist()
     }
 }
 </script>
