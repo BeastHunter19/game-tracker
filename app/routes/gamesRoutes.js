@@ -7,7 +7,9 @@ const {
     getGameDetails,
     getCategories,
     getSingleCategory,
-    getGamesList
+    getGamesList,
+    putGameList,
+    deleteGameList
 } = require('../controllers/gamesController')
 
 const router = Router()
@@ -27,6 +29,20 @@ router.get(
     passport.authenticate('jwt', { session: false }),
     isOwner,
     getGamesList
+)
+
+router.put(
+    '/user/:userId/:listName/:gameId',
+    passport.authenticate('jwt', { session: false }),
+    isOwner,
+    putGameList
+)
+
+router.delete(
+    '/user/:userId/:listName/:gameId',
+    passport.authenticate('jwt', { session: false }),
+    isOwner,
+    deleteGameList
 )
 
 module.exports = router

@@ -96,3 +96,31 @@ exports.getGamesList = async (req, res, next) => {
         return err
     }
 }
+
+exports.putGameList = async (req, res, next) => {
+    try {
+        const { userId, listName, gameId } = req.params
+        await User.addToList(userId, listName, Number(gameId))
+        res.status(200).end()
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
+
+exports.deleteGameList = async (req, res, next) => {
+    try {
+        const { userId, listName, gameId } = req.params
+        await User.removeFromList(userId, listName, Number(gameId))
+        res.status(200).end()
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}

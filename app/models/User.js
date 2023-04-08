@@ -189,4 +189,53 @@ User.getList = async (userID, listName) => {
     }
 }
 
+User.addToList = async (userID, listName, gameID) => {
+    try {
+        const lists = ['backlog', 'watchlist', 'played']
+        if (!lists.includes(listName)) {
+            const err = new Error()
+            err.message(`List named \"${listName}\" does not exist`)
+            throw err
+        }
+        lists.splice(lists.indexOf(listName), 1)
+        await db.query(
+            `DELETE FROM ${lists[0]}
+             WHERE user = UUID_TO_BIN(?) AND game = ?`,
+            [userID, gameID]
+        )
+        await db.query(
+            `DELETE FROM ${lists[1]}
+             WHERE user = UUID_TO_BIN(?) AND game = ?`,
+            [userID, gameID]
+        )
+        await db.query(
+            `INSERT INTO ${listName}
+             VALUES (UUID_TO_BIN(?), ?)`,
+            [userID, gameID]
+        )
+    } catch (err) {
+        logger.error(err, `Could not add to list ${listName}`)
+        throw err
+    }
+}
+
+User.removeFromList = async (userID, listName, gameID) => {
+    try {
+        const lists = ['backlog', 'watchlist', 'played']
+        if (!lists.includes(listName)) {
+            const err = new Error()
+            err.message(`List named \"${listName}\" does not exist`)
+            throw err
+        }
+        await db.query(
+            `DELETE FROM ${listName}
+             WHERE user = UUID_TO_BIN(?) AND game = ?`,
+            [userID, gameID]
+        )
+    } catch (err) {
+        logger.error(err, `Could not remove from list ${listName}`)
+        throw err
+    }
+}
+
 module.exports = User
