@@ -55,6 +55,7 @@ export default {
         toggleRightChevron(entries) {
             for (const entry of entries) {
                 this.rightChevronActive = !entry.isIntersecting
+                return
             }
         },
         updateObservedLeft() {
@@ -84,13 +85,16 @@ export default {
         this.updateObservedRight()
     },
     watch: {
-        gameList(newList, oldList) {
-            if (newList[0] !== oldList[0]) {
-                this.updateObservedLeft()
-            }
-            if (newList[newList.length - 1] !== oldList[oldList.length - 1]) {
-                this.updateObservedRight()
-            }
+        gameList: {
+            handler(newList, oldList) {
+                if (newList[0] !== oldList[0]) {
+                    this.updateObservedLeft()
+                }
+                if (newList[newList.length - 1] !== oldList[oldList.length - 1]) {
+                    this.updateObservedRight()
+                }
+            },
+            flush: 'post'
         }
     }
 }
