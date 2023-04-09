@@ -19,9 +19,7 @@ const config = {
         refresh: process.env.REFRESH_JWT_SECRET
     },
     email: {
-        host: process.env.VERIFICATION_EMAIL_HOST,
-        port: process.env.VERIFICATION_EMAIL_PORT,
-        secure: process.env.VERIFICATION_EMAIL_PORT == 465,
+        service: process.env.VERIFICATION_EMAIL_SERVICE,
         auth: {
             user: process.env.VERIFICATION_EMAIL_USER,
             pass: process.env.VERIFICATION_EMAIL_PASSWORD

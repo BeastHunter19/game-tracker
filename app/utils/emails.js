@@ -13,7 +13,7 @@ module.exports.sendVerificationEmail = async (user) => {
         const info = await transporter.sendMail({
             from: {
                 name: 'Game Tracker',
-                address: 'noreply@gametracker.com'
+                address: config.email.auth.user
             },
             to: {
                 name: user.name,
