@@ -163,8 +163,8 @@ export default {
                             </div>
                         </div>
                         <div v-if="gameInfo.genres?.length > 0" class="row mb-4">
-                            <span class="col-3 fs-5">Categories:</span>
-                            <div class="col-9 d-flex flex-wrap align-items-center gap-2">
+                            <span class="col col-sm-3 fs-5">Categories:</span>
+                            <div class="col col-sm-9 d-flex flex-wrap align-items-center gap-2">
                                 <RouterLink
                                     v-for="(genre, index) in gameInfo.genres"
                                     :key="index"
@@ -179,8 +179,8 @@ export default {
                             </div>
                         </div>
                         <div v-if="gameInfo.platforms?.length > 0" class="row mb-4">
-                            <span class="col-3 fs-5">Platforms:</span>
-                            <div class="col-9 d-flex flex-wrap align-items-center gap-2">
+                            <span class="col col-sm-3 fs-5">Platforms:</span>
+                            <div class="col col-sm-9 d-flex flex-wrap align-items-center gap-2">
                                 <span
                                     v-for="(platform, index) in gameInfo.platforms"
                                     :key="index"
@@ -191,8 +191,8 @@ export default {
                             </div>
                         </div>
                         <div v-if="gameInfo.websites?.length > 0" class="row mb-4">
-                            <span class="col-3 fs-5">Websites:</span>
-                            <div class="col-9 d-flex flex-wrap align-items-center gap-2">
+                            <span class="col col-sm-3 fs-5">Websites:</span>
+                            <div class="col col-sm-9 d-flex flex-wrap align-items-center gap-2">
                                 <a
                                     v-for="(website, index) in gameInfo.websites"
                                     :key="index"
