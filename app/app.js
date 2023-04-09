@@ -17,7 +17,7 @@ const app = express()
 
 app.use(
     cors({
-        origin: config.frontendURL,
+        origin: [config.frontendURL, config.frontendURLtest],
         methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE'],
         allowedHeaders: [
             'Content-Type',

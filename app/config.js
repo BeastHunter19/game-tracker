@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 const config = {
-    frontendURL: process.env.FRONTEND_URL || 'http://localhost:5173',
+    frontendURL: process.env.FRONTEND_URL,
+    frontendURLtest: process.env.FRONTEND_TEST_URL,
     port: process.env.PORT || 3000,
     public: '../client/',
     db: {
