@@ -20,9 +20,6 @@ export const useUserStore = defineStore('user', {
             await gamesStore.fetchPlayed(10, 0)
             // this one will happen in the background
             gamesStore.fetchAll()
-        },
-        setEmailVerified() {
-            this.user.verified = true
         }
     }
 })

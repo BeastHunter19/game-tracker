@@ -12,7 +12,6 @@ export default {
                 type: 'success',
                 message: 'You have successfully verified your email!'
             })
-            this.setEmailVerified()
         } catch (err) {
             console.log(err)
             this.createNotification({
