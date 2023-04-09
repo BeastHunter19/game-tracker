@@ -40,7 +40,7 @@ app.disable('x-powered-by')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(history())
+//app.use(history())
 
 app.use('/signup', signupRoutes)
 app.use('/auth', authRoutes)
