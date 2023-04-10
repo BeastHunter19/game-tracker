@@ -22,7 +22,7 @@ export const useGamesStore = defineStore('games', {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.fetchBacklog()
+                this.fetchAllBacklog()
             } catch (err) {
                 console.log(err)
             }
@@ -39,7 +39,7 @@ export const useGamesStore = defineStore('games', {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.fetchWatchlist()
+                this.fetchAllWatchlist()
             } catch (err) {
                 console.log(err)
             }
@@ -56,7 +56,7 @@ export const useGamesStore = defineStore('games', {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.fetchPlayed()
+                this.fetchAllPlayed()
             } catch (err) {
                 console.log(err)
             }
@@ -72,7 +72,7 @@ export const useGamesStore = defineStore('games', {
                 await $axios.delete(`/api/user/${user.user.id}/backlog/${gameInfo.id}`, {
                     headers: { Authorization: `Bearer ${user.accessToken}` }
                 })
-                this.fetchBacklog()
+                this.fetchAllBacklog()
             } catch (err) {
                 console.log(err)
             }
@@ -88,7 +88,7 @@ export const useGamesStore = defineStore('games', {
                 await $axios.delete(`/api/user/${user.user.id}/watchlist/${gameInfo.id}`, {
                     headers: { Authorization: `Bearer ${user.accessToken}` }
                 })
-                this.fetchWatchlist()
+                this.fetchAllWatchlist()
             } catch (err) {
                 console.log(err)
             }
@@ -104,7 +104,7 @@ export const useGamesStore = defineStore('games', {
                 await $axios.delete(`/api/user/${user.user.id}/played/${gameInfo.id}`, {
                     headers: { Authorization: `Bearer ${user.accessToken}` }
                 })
-                this.fetchPlayed()
+                this.fetchAllPlayed()
             } catch (err) {
                 console.log(err)
             }
