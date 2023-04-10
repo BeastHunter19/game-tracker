@@ -77,13 +77,13 @@ export default {
 <template>
     <ContentPanel class="h-100">
         <div class="d-flex flex-row justify-content-between align-items-center">
-            <h2 class="ms-4 mb-0 fs-3 text-start text-nowrap">
+            <h2 class="ms-4 mb-0 fs-3 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
             <span
                 v-if="allowClose"
                 @click="closePanel"
-                class="fs-4 me-4 link-primary"
+                class="fs-4 me-4 link-primary text-nowrap"
                 role="button"
             >
                 Close
@@ -97,6 +97,11 @@ export default {
 </template>
 
 <style scoped>
+h2 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 .cards-container {
     display: grid;
     column-gap: 10px;
