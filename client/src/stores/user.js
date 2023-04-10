@@ -14,10 +14,6 @@ export const useUserStore = defineStore('user', {
             this.user = userDetails.user
             this.accessToken = userDetails.accessToken
             const gamesStore = useGamesStore()
-            // these will have to finish before terminating login, so the home page can be populated
-            await gamesStore.fetchBacklog(10, 0)
-            await gamesStore.fetchWatchlist(10, 0)
-            await gamesStore.fetchPlayed(10, 0)
             // this one will happen in the background
             gamesStore.fetchAll()
         }
