@@ -4,6 +4,7 @@ import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
 
 export default {
+    name: 'CategoryView',
     components: { GamesPanelExpanded },
     data() {
         return {
@@ -23,7 +24,7 @@ export default {
     watch: {
         '$route.params': {
             handler(newValue, oldValue) {
-                if (newValue !== oldValue) {
+                if (newValue !== oldValue && this.$route.name === 'category') {
                     this.offset = 0
                     this.gameList = []
                     this.getGames()

@@ -4,6 +4,7 @@ import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
 
 export default {
+    name: 'SearchResultsView',
     components: { GamesPanelExpanded },
     data() {
         return {
@@ -20,7 +21,7 @@ export default {
     watch: {
         '$route.query': {
             handler(newValue, oldValue) {
-                if (newValue !== oldValue) {
+                if (newValue !== oldValue && this.$route.name === 'search') {
                     this.offset = 0
                     this.searchResults = []
                     this.search()

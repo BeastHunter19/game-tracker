@@ -8,6 +8,7 @@ import { useGamesStore } from '@/stores/games'
 import { mapActions, mapState, mapStores } from 'pinia'
 
 export default {
+    name: 'GameDetailsView',
     components: { ContentPanel, GamesPanel, AddButtons },
     data() {
         return {
@@ -27,7 +28,7 @@ export default {
     watch: {
         '$route.params': {
             handler(newValue, oldValue) {
-                if (newValue !== oldValue) {
+                if (newValue !== oldValue && this.$route.name === 'game') {
                     this.getDetails()
                 }
             },

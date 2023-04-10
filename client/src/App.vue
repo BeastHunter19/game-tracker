@@ -59,7 +59,11 @@ export default {
     <div class="d-flex flex-column h-100">
         <NavbarMain></NavbarMain>
 
-        <RouterView class="overflow-auto" />
+        <RouterView v-slot="{ Component }" class="overflow-auto">
+            <KeepAlive exclude="CategoryView,GameDetailsView,SearchResultsView">
+                <component :is="Component"></component>
+            </KeepAlive>
+        </RouterView>
     </div>
 
     <!-- Notification panel-->
