@@ -10,9 +10,6 @@ export default {
     },
     methods: {
         ...mapActions(useGamesStore, ['fetchAllWatchlist'])
-    },
-    mounted() {
-        this.fetchAllWatchlist()
     }
 }
 </script>

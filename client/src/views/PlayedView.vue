@@ -10,9 +10,6 @@ export default {
     },
     methods: {
         ...mapActions(useGamesStore, ['fetchAllPlayed'])
-    },
-    mounted() {
-        this.fetchAllPlayed()
     }
 }
 </script>

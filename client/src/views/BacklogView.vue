@@ -10,9 +10,6 @@ export default {
     },
     methods: {
         ...mapActions(useGamesStore, ['fetchAllBacklog'])
-    },
-    mounted() {
-        this.fetchAllBacklog()
     }
 }
 </script>
