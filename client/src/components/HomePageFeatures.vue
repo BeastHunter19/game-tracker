@@ -28,11 +28,10 @@ export default {
                     >
                         <i class="bi bi-controller"></i>
                     </div>
-                    <h3 class="fs-2">Already Played</h3>
+                    <h3 class="fs-2">Played</h3>
                     <p>
-                        Add games to your Already Played list to keep track of them and read
-                        statistics about your playing habits, in addition to suggestions for games
-                        that you may like.
+                        Add games to your Played list to keep track of them and see the percentage
+                        of games you own that you have completed.
                     </p>
                 </div>
                 <div class="feature col">
