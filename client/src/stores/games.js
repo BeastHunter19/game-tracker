@@ -7,7 +7,8 @@ export const useGamesStore = defineStore('games', {
     state: () => ({
         backlog: [],
         watchlist: [],
-        played: []
+        played: [],
+        loading: true
     }),
     actions: {
         async addToBacklog(gameInfo) {
@@ -276,9 +277,10 @@ export const useGamesStore = defineStore('games', {
             }
         },
         async fetchAll() {
-            this.fetchAllBacklog()
-            this.fetchAllWatchlist()
-            this.fetchAllPlayed()
+            await this.fetchAllBacklog()
+            await this.fetchAllWatchlist()
+            await this.fetchAllPlayed()
+            this.loading = false
         },
         async fetchAllBacklog() {
             let fetchedData,

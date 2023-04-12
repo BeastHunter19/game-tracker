@@ -1,16 +1,18 @@
 <script>
 import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
 
 export default {
     name: 'SearchResultsView',
-    components: { GamesPanelExpanded },
+    components: { GamesPanelExpanded, LoadingSpinner },
     data() {
         return {
             searchResults: [],
             limit: 30,
-            offset: 0
+            offset: 0,
+            loading: true
         }
     },
     computed: {
@@ -22,6 +24,7 @@ export default {
         '$route.query': {
             handler(newValue, oldValue) {
                 if (newValue !== oldValue && this.$route.name === 'search') {
+                    this.loading = true
                     this.offset = 0
                     this.searchResults = []
                     this.search()
@@ -41,6 +44,7 @@ export default {
                 const response = await this.$axios.get('/api/search?' + query.toString())
                 this.searchResults = this.searchResults.concat(response.data)
                 this.offset += this.limit
+                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
@@ -54,8 +58,10 @@ export default {
 </script>
 
 <template>
-    <main class="p-4 px-2 px-md-4">
+    <main class="p-4 px-2 px-md-4 h-100">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
         <GamesPanelExpanded
+            v-else
             @reachedBottom="search"
             title="Search"
             icon="search"

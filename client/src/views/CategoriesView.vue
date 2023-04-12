@@ -2,16 +2,18 @@
 import GamesPanel from '@/components/GamesPanel.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 export default {
-    components: { GamesPanel },
+    components: { GamesPanel, LoadingSpinner },
     data() {
         return {
             // this will contain an object for each category with a name and the game list
             categories: [],
             limit: 5,
             offset: 0,
-            bottomObserver: undefined
+            bottomObserver: undefined,
+            loading: true
         }
     },
     computed: {
@@ -29,6 +31,7 @@ export default {
                 const response = await this.$axios.get('/api/categories?' + query.toString())
                 this.categories = this.categories.concat(response.data)
                 this.offset += this.limit
+                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
@@ -77,17 +80,20 @@ export default {
 </script>
 
 <template>
-    <main ref="panelsContainer" class="pt-4">
-        <GamesPanel
-            v-for="(category, index) in filteredCategories"
-            :key="index"
-            :title="category.name"
-            :gameList="category.games"
-            :extendedRoute="{
-                name: 'category',
-                params: { id: category.id },
-                query: { name: category.name }
-            }"
-        ></GamesPanel>
+    <main ref="panelsContainer" class="pt-4 h-100">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
+        <template v-else>
+            <GamesPanel
+                v-for="(category, index) in filteredCategories"
+                :key="index"
+                :title="category.name"
+                :gameList="category.games"
+                :extendedRoute="{
+                    name: 'category',
+                    params: { id: category.id },
+                    query: { name: category.name }
+                }"
+            ></GamesPanel>
+        </template>
     </main>
 </template>

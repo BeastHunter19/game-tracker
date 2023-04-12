@@ -2,6 +2,7 @@
 import ContentPanel from '@/components/ContentPanel.vue'
 import GamesPanel from '@/components/GamesPanel.vue'
 import AddButtons from '@/components/AddButtons.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
@@ -9,10 +10,11 @@ import { mapActions, mapState, mapStores } from 'pinia'
 
 export default {
     name: 'GameDetailsView',
-    components: { ContentPanel, GamesPanel, AddButtons },
+    components: { ContentPanel, GamesPanel, AddButtons, LoadingSpinner },
     data() {
         return {
-            gameInfo: {}
+            gameInfo: {},
+            loading: true
         }
     },
     computed: {
@@ -29,6 +31,7 @@ export default {
         '$route.params': {
             handler(newValue, oldValue) {
                 if (newValue !== oldValue && this.$route.name === 'game') {
+                    this.loading = true
                     this.getDetails()
                 }
             },
@@ -41,6 +44,7 @@ export default {
             try {
                 const response = await this.$axios.get(`/api/games/${this.$route.params.gameID}`)
                 this.gameInfo = response.data
+                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
@@ -72,8 +76,9 @@ export default {
 </script>
 
 <template>
-    <main class="w-100 mw-100" :key="gameInfo.id">
-        <div class="container-fluid p-0 m-0 mt-4">
+    <main class="w-100 mw-100 h-100" :key="gameInfo.id">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
+        <div v-else class="container-fluid p-0 m-0 mt-4">
             <div class="row g-0 justify-content-around row-cols-1 mw-100 ms-lg-4">
                 <div class="col mw-100 mb-4">
                     <div
