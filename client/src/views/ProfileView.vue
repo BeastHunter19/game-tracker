@@ -9,6 +9,11 @@ import { mapStores, mapActions } from 'pinia'
 
 export default {
     components: { MainGamesPanel, UserAvatar, ContentPanel },
+    data() {
+        return {
+            sendingEmail: false
+        }
+    },
     computed: {
         ...mapStores(useGamesStore, useUserStore),
         ownedGames() {
@@ -34,6 +39,7 @@ export default {
     methods: {
         async resendVerificationEmail() {
             try {
+                this.sendingEmail = true
                 const resendResponse = await this.$axios.post(
                     `/auth/verify/resend/${this.userStore.user.id}`,
                     {},
@@ -43,6 +49,7 @@ export default {
                         }
                     }
                 )
+                this.sendingEmail = false
                 console.log(resendResponse.data)
                 this.createNotification({
                     type: 'success',
@@ -85,7 +92,14 @@ export default {
                                 @click="resendVerificationEmail"
                                 v-if="!userStore.user.verified"
                                 class="btn btn-primary mt-3"
+                                :disabled="sendingEmail"
                             >
+                                <span
+                                    v-show="sendingEmail"
+                                    class="spinner-border spinner-border-sm"
+                                    role="status"
+                                    aria-hidden="true"
+                                ></span>
                                 Verify email
                             </button>
                         </p>
