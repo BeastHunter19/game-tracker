@@ -122,8 +122,7 @@ export const useGamesStore = defineStore('games', {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.played = this.played.concat(played.data)
-                return played.data.length
+                return played.data
             } catch (err) {
                 console.log(err)
             }
@@ -141,8 +140,7 @@ export const useGamesStore = defineStore('games', {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.backlog = this.backlog.concat(backlog.data)
-                return backlog.data.length
+                return backlog.data
             } catch (err) {
                 console.log(err)
             }
@@ -160,8 +158,7 @@ export const useGamesStore = defineStore('games', {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.watchlist = this.watchlist.concat(watchlist.data)
-                return watchlist.data.length
+                return watchlist.data
             } catch (err) {
                 console.log(err)
             }
@@ -172,31 +169,37 @@ export const useGamesStore = defineStore('games', {
             this.fetchAllPlayed()
         },
         async fetchAllBacklog() {
-            let fetchCount,
+            let fetchedData,
                 totalFetched = 0
-            this.backlog = []
+            let backlog = []
             do {
-                fetchCount = await this.fetchBacklog(500, totalFetched)
-                totalFetched += fetchCount
-            } while (fetchCount === 500)
+                fetchedData = await this.fetchBacklog(500, totalFetched)
+                backlog = backlog.concat(fetchedData)
+                totalFetched += fetchedData.length
+            } while (fetchedData.length === 500)
+            this.backlog = backlog
         },
         async fetchAllWatchlist() {
-            let fetchCount,
+            let fetchedData,
                 totalFetched = 0
-            this.watchlist = []
+            let watchlist = []
             do {
-                fetchCount = await this.fetchWatchlist(500, totalFetched)
-                totalFetched += fetchCount
-            } while (fetchCount === 500)
+                fetchedData = await this.fetchWatchlist(500, totalFetched)
+                watchlist = watchlist.concat(fetchedData)
+                totalFetched += fetchedData
+            } while (fetchedData === 500)
+            this.watchlist = watchlist
         },
         async fetchAllPlayed() {
-            let fetchCount,
+            let fetchedData,
                 totalFetched = 0
-            this.played = []
+            let played = []
             do {
-                fetchCount = await this.fetchPlayed(500, totalFetched)
-                totalFetched += fetchCount
-            } while (fetchCount === 500)
+                fetchedData = await this.fetchPlayed(500, totalFetched)
+                played = played.concat(fetchedData)
+                totalFetched += fetchedData
+            } while (fetchedData === 500)
+            this.played = played
         }
     }
 })
