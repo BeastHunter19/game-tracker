@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { useGlobals } from '@/main'
 import { useUserStore } from '@/stores/user'
+import { useNotificationsStore } from '@/stores/notifications'
 
 export const useGamesStore = defineStore('games', {
     state: () => ({
@@ -10,102 +11,213 @@ export const useGamesStore = defineStore('games', {
     }),
     actions: {
         async addToBacklog(gameInfo) {
-            // this will update the ui instantly, but will be replaced after the requests
-            this.backlog.push(gameInfo)
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                await $axios.put(
+                const response = await $axios.put(
                     `/api/user/${user.user.id}/backlog/${gameInfo.id}`,
                     {},
                     {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.fetchAllBacklog()
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllBacklog()
+                    return
+                }
+
+                // remove from other lists first
+                let index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.watchlist.splice(index, 1)
+                }
+                index = this.played.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.played.splice(index, 1)
+                }
+                // only add game if it's not already there
+                index = this.backlog.findIndex((value) => value.id === gameInfo.id)
+                if (index === -1) {
+                    this.backlog.push(gameInfo)
+                }
             } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not add game to backlog.'
+                })
+                this.fetchAllBacklog()
                 console.log(err)
             }
         },
         async addToWatchlist(gameInfo) {
-            this.watchlist.push(gameInfo)
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                await $axios.put(
+                const response = await $axios.put(
                     `/api/user/${user.user.id}/watchlist/${gameInfo.id}`,
                     {},
                     {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.fetchAllWatchlist()
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllWatchlist()
+                    return
+                }
+
+                // remove from other lists first
+                let index = this.backlog.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.backlog.splice(index, 1)
+                }
+                index = this.played.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.played.splice(index, 1)
+                }
+                // only add game if it's not already there
+                index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
+                if (index === -1) {
+                    this.watchlist.push(gameInfo)
+                }
             } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not add game to watchlist.'
+                })
+                this.fetchAllWatchlist()
                 console.log(err)
             }
         },
         async addToPlayed(gameInfo) {
-            this.played.push(gameInfo)
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                await $axios.put(
+                const response = await $axios.put(
                     `/api/user/${user.user.id}/played/${gameInfo.id}`,
                     {},
                     {
                         headers: { Authorization: `Bearer ${user.accessToken}` }
                     }
                 )
-                this.fetchAllPlayed()
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllPlayed()
+                    return
+                }
+
+                // remove from other lists first
+                let index = this.backlog.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.backlog.splice(index, 1)
+                }
+                index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.watchlist.splice(index, 1)
+                }
+                // only add game if it's not already there
+                index = this.played.findIndex((value) => value.id === gameInfo.id)
+                if (index === -1) {
+                    this.played.push(gameInfo)
+                }
             } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not add game to played.'
+                })
+                this.fetchAllPlayed()
                 console.log(err)
             }
         },
         async removeFromBacklog(gameInfo) {
-            let index = this.backlog.findIndex((value) => value.id === gameInfo.id)
-            if (index > -1) {
-                this.backlog.splice(index, 1)
-            }
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                await $axios.delete(`/api/user/${user.user.id}/backlog/${gameInfo.id}`, {
-                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                const response = await $axios.delete(
+                    `/api/user/${user.user.id}/backlog/${gameInfo.id}`,
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllBacklog()
+                    return
+                }
+
+                let index = this.backlog.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.backlog.splice(index, 1)
+                }
+            } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not remove game from backlog.'
                 })
                 this.fetchAllBacklog()
-            } catch (err) {
                 console.log(err)
             }
         },
         async removeFromWatchlist(gameInfo) {
-            let index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
-            if (index > -1) {
-                this.watchlist.splice(index, 1)
-            }
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                await $axios.delete(`/api/user/${user.user.id}/watchlist/${gameInfo.id}`, {
-                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                const response = await $axios.delete(
+                    `/api/user/${user.user.id}/watchlist/${gameInfo.id}`,
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllWatchlist()
+                    return
+                }
+
+                let index = this.watchlist.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.watchlist.splice(index, 1)
+                }
+            } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not remove game from watchlist.'
                 })
                 this.fetchAllWatchlist()
-            } catch (err) {
                 console.log(err)
             }
         },
         async removeFromPlayed(gameInfo) {
-            let index = this.played.findIndex((value) => value.id === gameInfo.id)
-            if (index > -1) {
-                this.played.splice(index, 1)
-            }
             try {
                 const { $axios } = useGlobals()
                 const user = useUserStore()
-                await $axios.delete(`/api/user/${user.user.id}/played/${gameInfo.id}`, {
-                    headers: { Authorization: `Bearer ${user.accessToken}` }
+                const response = await $axios.delete(
+                    `/api/user/${user.user.id}/played/${gameInfo.id}`,
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                let index = this.played.findIndex((value) => value.id === gameInfo.id)
+                if (index > -1) {
+                    this.played.splice(index, 1)
+                }
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllPlayed()
+                }
+            } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not remove game from played.'
                 })
                 this.fetchAllPlayed()
-            } catch (err) {
                 console.log(err)
             }
         },
