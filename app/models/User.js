@@ -209,11 +209,12 @@ User.addToList = async (userID, listName, gameID) => {
              WHERE user = UUID_TO_BIN(?) AND game = ?`,
             [userID, gameID]
         )
-        await db.query(
-            `INSERT INTO ${listName}
+        const result = await db.query(
+            `INSERT IGNORE INTO ${listName}
              VALUES (UUID_TO_BIN(?), ?)`,
             [userID, gameID]
         )
+        return result.affectedRows !== 0
     } catch (err) {
         logger.error(err, `Could not add to list ${listName}`)
         throw err
@@ -228,11 +229,12 @@ User.removeFromList = async (userID, listName, gameID) => {
             err.message(`List named \"${listName}\" does not exist`)
             throw err
         }
-        await db.query(
+        const result = await db.query(
             `DELETE FROM ${listName}
              WHERE user = UUID_TO_BIN(?) AND game = ?`,
             [userID, gameID]
         )
+        return result.affectedRows !== 0
     } catch (err) {
         logger.error(err, `Could not remove from list ${listName}`)
         throw err
