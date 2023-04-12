@@ -14,7 +14,24 @@ const {
 
 const router = Router()
 
-router.post('/login', passport.authenticate('local', { session: false }), postLogin)
+router.post(
+    '/login',
+    [
+        body('email')
+            .trim()
+            .isString()
+            .isEmail()
+            .normalizeEmail()
+            .withMessage('Please enter a valid email.'),
+        body('password')
+            .trim()
+            .isString()
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters long')
+    ],
+    passport.authenticate('local', { session: false }),
+    postLogin
+)
 
 router.patch('/verify/email', patchVerifyEmail)
 
