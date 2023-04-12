@@ -17,12 +17,7 @@ const router = Router()
 router.post(
     '/login',
     [
-        body('email')
-            .trim()
-            .isString()
-            .isEmail()
-            .normalizeEmail()
-            .withMessage('Please enter a valid email.'),
+        body('email').trim().isString().isEmail().withMessage('Please enter a valid email.'),
         body('password')
             .trim()
             .isString()
@@ -44,14 +39,7 @@ router.post(
 
 router.post(
     '/password/reset',
-    [
-        body('email')
-            .trim()
-            .isString()
-            .isEmail()
-            .normalizeEmail()
-            .withMessage('Please enter a valid email.')
-    ],
+    [body('email').trim().isString().isEmail().withMessage('Please enter a valid email.')],
     postPasswordReset
 )
 
