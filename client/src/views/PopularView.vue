@@ -27,13 +27,14 @@ export default {
                 const response = await this.$axios.get('/api/popular?' + query.toString())
                 this.popularGames = this.popularGames.concat(response.data)
                 this.offset += this.limit
-                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
                     type: 'danger',
                     message: 'An error occurred while fetching popular games'
                 })
+            } finally {
+                this.loading = false
             }
         }
     }

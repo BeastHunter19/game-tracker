@@ -31,13 +31,14 @@ export default {
                 const response = await this.$axios.get('/api/categories?' + query.toString())
                 this.categories = this.categories.concat(response.data)
                 this.offset += this.limit
-                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
                     type: 'danger',
                     message: 'An error occurred while fetching genres.'
                 })
+            } finally {
+                this.loading = false
             }
         },
         onReachedBottom(entries) {

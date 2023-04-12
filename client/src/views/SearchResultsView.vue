@@ -44,13 +44,14 @@ export default {
                 const response = await this.$axios.get('/api/search?' + query.toString())
                 this.searchResults = this.searchResults.concat(response.data)
                 this.offset += this.limit
-                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
                     type: 'danger',
                     message: 'An error occurred during search.'
                 })
+            } finally {
+                this.loading = false
             }
         }
     }

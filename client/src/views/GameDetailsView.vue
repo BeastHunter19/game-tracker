@@ -44,13 +44,14 @@ export default {
             try {
                 const response = await this.$axios.get(`/api/games/${this.$route.params.gameID}`)
                 this.gameInfo = response.data
-                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
                     type: 'danger',
                     message: 'An error occurred while fetching game details.'
                 })
+            } finally {
+                this.loading = false
             }
         },
         addToList(listName) {

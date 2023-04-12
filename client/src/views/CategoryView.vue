@@ -48,13 +48,14 @@ export default {
                 )
                 this.gameList = this.gameList.concat(response.data)
                 this.offset += this.limit
-                this.loading = false
             } catch (err) {
                 console.log(err)
                 this.createNotification({
                     type: 'danger',
                     message: 'An error occurred while fetching games of genre ' + this.categoryName
                 })
+            } finally {
+                this.loading = false
             }
         }
     }

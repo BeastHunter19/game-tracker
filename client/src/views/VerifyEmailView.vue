@@ -15,7 +15,6 @@ export default {
         try {
             // ajax request to verify email
             await this.$axios.patch('/auth/verify/email', { token: this.$route.query.token })
-            this.loading = false
             this.createNotification({
                 type: 'success',
                 message: 'You have successfully verified your email!'
@@ -27,6 +26,8 @@ export default {
                 message:
                     'Email verification failed. You can request a new verification email from your profile page.'
             })
+        } finally {
+            this.loading = false
         }
     },
     methods: {

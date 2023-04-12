@@ -49,7 +49,6 @@ export default {
                         }
                     }
                 )
-                this.sendingEmail = false
                 console.log(resendResponse.data)
                 this.createNotification({
                     type: 'success',
@@ -61,6 +60,8 @@ export default {
                     type: 'danger',
                     message: 'An error occurred while sending the verification email'
                 })
+            } finally {
+                this.sendingEmail = false
             }
         },
         ...mapActions(useNotificationsStore, ['createNotification'])
