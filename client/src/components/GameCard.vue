@@ -30,7 +30,6 @@ export default {
     },
     methods: {
         openDetails(event) {
-            console.log(event.target)
             if (!event.target.classList.contains('btn') && !event.target.classList.contains('bi')) {
                 this.$router.push({
                     name: 'game',
