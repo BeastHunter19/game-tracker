@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 import HomeView from '@/views/HomeView.vue'
 import PopularView from '@/views/PopularView.vue'
 import CategoriesView from '@/views/CategoriesView.vue'
@@ -21,7 +20,6 @@ const router = createRouter({
             name: 'home',
             component: HomeView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: true
             }
         },
@@ -30,7 +28,6 @@ const router = createRouter({
             name: 'popular',
             component: PopularView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: true
             }
         },
@@ -39,7 +36,6 @@ const router = createRouter({
             name: 'categories',
             component: CategoriesView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: true
             }
         },
@@ -48,7 +44,6 @@ const router = createRouter({
             name: 'category',
             component: CategoryView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: false
             }
         },
@@ -57,7 +52,6 @@ const router = createRouter({
             name: 'search',
             component: SearchResultsView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: false
             }
         },
@@ -66,7 +60,6 @@ const router = createRouter({
             name: 'profile',
             component: ProfileView,
             meta: {
-                requiresAuth: true,
                 mainNavigation: false
             }
         },
@@ -75,7 +68,6 @@ const router = createRouter({
             name: 'backlog',
             component: BacklogView,
             meta: {
-                requiresAuth: true,
                 mainNavigation: false
             }
         },
@@ -84,7 +76,6 @@ const router = createRouter({
             name: 'watchlist',
             component: WatchlistView,
             meta: {
-                requiresAuth: true,
                 mainNavigation: false
             }
         },
@@ -93,7 +84,6 @@ const router = createRouter({
             name: 'played',
             component: PlayedView,
             meta: {
-                requiresAuth: true,
                 mainNavigation: false
             }
         },
@@ -102,7 +92,6 @@ const router = createRouter({
             name: 'verify',
             component: VerifyEmailView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: false
             }
         },
@@ -111,7 +100,6 @@ const router = createRouter({
             name: 'update',
             component: ResetPasswordView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: false
             }
         },
@@ -120,7 +108,6 @@ const router = createRouter({
             name: 'game',
             component: GameDetailsView,
             meta: {
-                requiresAuth: false,
                 mainNavigation: false
             }
         }
