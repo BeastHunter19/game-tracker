@@ -62,7 +62,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile',
+            path: '/profile/:userID',
             name: 'profile',
             component: ProfileView,
             meta: {
@@ -71,7 +71,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/backlog',
+            path: '/profile/:userID/backlog',
             name: 'backlog',
             component: BacklogView,
             meta: {
@@ -80,7 +80,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/watchlist',
+            path: '/profile/:userID/watchlist',
             name: 'watchlist',
             component: WatchlistView,
             meta: {
@@ -89,7 +89,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/played',
+            path: '/profile/:userID/played',
             name: 'played',
             component: PlayedView,
             meta: {
@@ -125,15 +125,6 @@ const router = createRouter({
             }
         }
     ]
-})
-
-router.beforeEach((to) => {
-    const userStore = useUserStore()
-    if (to.meta.requiresAuth && !userStore.loggedIn) {
-        return {
-            path: '/'
-        }
-    }
 })
 
 export default router

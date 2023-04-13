@@ -7,7 +7,10 @@ import { useNotificationsStore } from '@/stores/notifications'
 export default {
     components: { UserAvatar },
     computed: {
-        ...mapStores(useUserStore)
+        ...mapStores(useUserStore),
+        profilePath() {
+            return `/profile/${this.userStore.user.id}`
+        }
     },
     methods: {
         async logout() {
@@ -63,7 +66,9 @@ export default {
                     </h6>
                 </li>
                 <li>
-                    <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
+                    <RouterLink :to="profilePath" class="dropdown-item rounded-2"
+                        >Profile</RouterLink
+                    >
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><button @click="logout" class="dropdown-item rounded-2">Logout</button></li>
@@ -81,7 +86,9 @@ export default {
                     <UserAvatar></UserAvatar>
                 </li>
                 <li>
-                    <RouterLink to="/profile" class="dropdown-item rounded-2">Profile</RouterLink>
+                    <RouterLink :to="profilePath" class="dropdown-item rounded-2"
+                        >Profile</RouterLink
+                    >
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li><button @click="logout" class="dropdown-item rounded-2">Logout</button></li>
