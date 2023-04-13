@@ -81,7 +81,7 @@ export default {
                         <p class="fs-5">
                             {{ userStore.user.name }}
                             <br />
-                            {{ userStore.user.email }}
+                            <span v-if="userStore.isOwner">{{ userStore.user.email }}</span>
                             <span v-if="userStore.user.verified" class="badge bg-primary">
                                 Verified
                             </span>

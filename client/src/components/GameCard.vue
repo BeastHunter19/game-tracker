@@ -13,7 +13,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['loggedIn']),
+        ...mapState(useUserStore, ['loggedIn', 'isOwner']),
         ...mapStores(useGamesStore),
         showButtons() {
             return this.loggedIn
@@ -72,7 +72,7 @@ export default {
         </div>
         <!-- Logged in only buttons -->
         <AddButtons
-            v-if="loggedIn"
+            v-if="isOwner"
             :gameID="gameInfo.id"
             class="position-absolute top-0 end-0 m-2"
             @addToList="addToList"
