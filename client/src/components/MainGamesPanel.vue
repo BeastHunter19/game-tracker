@@ -19,7 +19,10 @@ export default {
             return this.gamesStore.played.slice(0, 10)
         },
         userID() {
-            return this.userStore.isOwner ? this.userStore.user.id : this.$route.params.userID
+            if (!this.userStore.isOwner && this.$route.params?.userID) {
+                return this.$route.params.userID
+            }
+            return this.userStore.user.id
         }
     }
 }
