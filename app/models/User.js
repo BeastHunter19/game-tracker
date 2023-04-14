@@ -214,7 +214,7 @@ User.addToList = async (userID, listName, gameID) => {
             [userID, gameID]
         )
         const result = await db.query(
-            `INSERT IGNORE INTO ${listName}
+            `INSERT IGNORE INTO ${listName} (user, game)
              VALUES (UUID_TO_BIN(?), ?)`,
             [userID, gameID]
         )
