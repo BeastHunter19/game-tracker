@@ -2,10 +2,11 @@
 import { mapState, mapStores } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
-import AddButtons from './AddButtons.vue'
+import AddButtons from '@/components/AddButtons.vue'
+import CompletedButton from '@/components/CompletedButton.vue'
 
 export default {
-    components: { AddButtons },
+    components: { AddButtons, CompletedButton },
     props: {
         gameInfo: {
             type: Object,
@@ -74,6 +75,11 @@ export default {
             </div>
         </div>
         <!-- Logged in only buttons -->
+        <CompletedButton
+            v-if="showButtons"
+            :gameID="gameInfo.id"
+            class="position-absolute top-0 start-0 m-2"
+        ></CompletedButton>
         <AddButtons
             v-if="showButtons"
             :gameID="gameInfo.id"

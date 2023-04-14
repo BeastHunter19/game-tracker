@@ -122,6 +122,7 @@ export const useGamesStore = defineStore('games', {
                 // only add game if it's not already there
                 index = this.played.findIndex((value) => value.id === gameInfo.id)
                 if (index === -1) {
+                    gameInfo.completed = false
                     this.played.push(gameInfo)
                 }
             } catch (err) {
@@ -322,6 +323,40 @@ export const useGamesStore = defineStore('games', {
                 totalFetched += fetchedData
             } while (fetchedData === 500)
             this.played = played
+        },
+        async toggleCompleted(id) {
+            try {
+                const { $axios } = useGlobals()
+                const user = useUserStore()
+                let completed
+                let index = this.played.findIndex((value) => value.id === id)
+                if (index > -1) {
+                    completed = !this.played[index].completed
+                    this.played[index].completed = completed
+                } else {
+                    return
+                }
+                const response = await $axios.patch(
+                    `/api/user/${user.user.id}/played/${id}`,
+                    { completed: completed },
+                    {
+                        headers: { Authorization: `Bearer ${user.accessToken}` }
+                    }
+                )
+                // only refresh if there was no update, which might mean the current data is stale
+                if (response.status === 205) {
+                    this.fetchAllPlayed()
+                    return
+                }
+            } catch (err) {
+                const notifications = useNotificationsStore()
+                notifications.createNotification({
+                    type: 'danger',
+                    message: 'Could not add game to played.'
+                })
+                this.fetchAllPlayed()
+                console.log(err)
+            }
         }
     }
 })

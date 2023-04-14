@@ -7,10 +7,11 @@ import { useNotificationsStore } from '@/stores/notifications'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
 import { mapActions, mapState, mapStores } from 'pinia'
+import CompletedButton from '@/components/CompletedButton.vue'
 
 export default {
     name: 'GameDetailsView',
-    components: { ContentPanel, GamesPanel, AddButtons, LoadingSpinner },
+    components: { ContentPanel, GamesPanel, AddButtons, LoadingSpinner, CompletedButton },
     data() {
         return {
             gameInfo: {},
@@ -140,13 +141,19 @@ export default {
                     <ContentPanel
                         class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100 position-relative"
                     >
-                        <AddButtons
-                            v-if="loggedIn && gameInfo.id"
-                            :gameID="gameInfo.id"
-                            class="position-absolute top-0 end-0 m-4"
-                            @addToList="addToList"
-                            @removeFromList="removeFromList"
-                        ></AddButtons>
+                        <div class="position-absolute top-0 end-0 m-4">
+                            <CompletedButton
+                                v-if="loggedIn && gameInfo.id"
+                                class="mb-2"
+                                :gameID="gameInfo.id"
+                            ></CompletedButton>
+                            <AddButtons
+                                v-if="loggedIn && gameInfo.id"
+                                :gameID="gameInfo.id"
+                                @addToList="addToList"
+                                @removeFromList="removeFromList"
+                            ></AddButtons>
+                        </div>
                         <h1 v-if="gameInfo.title" class="text-start">{{ gameInfo.title }}</h1>
                         <h2 v-if="gameInfo.release" class="text-start">
                             Released: {{ gameInfo.release }}
