@@ -16,6 +16,9 @@ export default {
         ...mapState(useUserStore, ['loggedIn', 'isOwner']),
         ...mapStores(useGamesStore),
         showButtons() {
+            if (this.$route.name === 'profile' && !this.isOwner) {
+                return false
+            }
             return this.loggedIn
         },
         gameCover() {
@@ -72,7 +75,7 @@ export default {
         </div>
         <!-- Logged in only buttons -->
         <AddButtons
-            v-if="isOwner"
+            v-if="showButtons"
             :gameID="gameInfo.id"
             class="position-absolute top-0 end-0 m-2"
             @addToList="addToList"
