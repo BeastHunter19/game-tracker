@@ -221,3 +221,22 @@ exports.postRefreshTokens = async (req, res, next) => {
         return err
     }
 }
+
+exports.getUserPublic = async (req, res, next) => {
+    try {
+        const { userID } = req.params
+        const user = User.getByID(userID)
+        const publicUser = {
+            id: user.id,
+            name: user.name,
+            verified: user.email_verification_timestamp !== null
+        }
+        res.status(200).json(publicUser)
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}

@@ -9,7 +9,8 @@ const {
     postPasswordReset,
     patchPasswordUpdate,
     postLogout,
-    postRefreshTokens
+    postRefreshTokens,
+    getUserPublic
 } = require('../controllers/authController')
 
 const router = Router()
@@ -70,5 +71,7 @@ router.post(
 )
 
 router.post('/tokens/refresh', postRefreshTokens)
+
+router.get('/public/:userID', getUserPublic)
 
 module.exports = router

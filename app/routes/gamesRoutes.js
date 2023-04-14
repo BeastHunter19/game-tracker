@@ -24,12 +24,8 @@ router.get('/categories', getCategories)
 
 router.get('/categories/:id', getSingleCategory)
 
-router.get(
-    '/user/:userId/:listName',
-    passport.authenticate('jwt', { session: false }),
-    isOwner,
-    getGamesList
-)
+// this is made public to allow public profiles
+router.get('/user/:userId/:listName', getGamesList)
 
 router.put(
     '/user/:userId/:listName/:gameId',
