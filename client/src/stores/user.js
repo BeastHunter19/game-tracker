@@ -26,7 +26,10 @@ export const useUserStore = defineStore('user', {
             this.accessToken = userDetails.accessToken
             const gamesStore = useGamesStore()
             // this one will happen in the background
-            gamesStore.fetchAll()
+            const { $route } = useGlobals()
+            if (!($route.params?.userID && !this.isOwner)) {
+                gamesStore.fetchAll()
+            }
         }
     }
 })
