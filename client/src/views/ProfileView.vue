@@ -54,14 +54,23 @@ export default {
         playedGames() {
             return this.gamesStore.played.length
         },
+        completedGames() {
+            let count = 0
+            this.gamesStore.played.forEach((value) => {
+                if (value.completed === true) {
+                    count++
+                }
+            })
+            return count
+        },
         backlogGames() {
             return this.gamesStore.backlog.length
         },
-        playedPercentage() {
+        completedPercentage() {
             if (this.ownedGames === 0) {
                 return 0
             } else {
-                return (this.playedGames / this.ownedGames) * 100
+                return (this.completedGames / this.ownedGames) * 100
             }
         },
         userName() {
@@ -152,8 +161,8 @@ export default {
                                     <i class="bi bi-bar-chart-line"></i> Statistics
                                 </h3>
                             </div>
-                            <ul class="row g-2 mb-3 text-start text-nowrap">
-                                <li class="col col-sm-8">Owned: {{ ownedGames }}</li>
+                            <ul class="row g-4 mb-3 text-start text-nowrap">
+                                <li class="col col-sm-8">Completed: {{ completedGames }}</li>
                                 <li class="col col-sm-4">Watched: {{ watchedGames }}</li>
                                 <li class="col col-sm-8">Played: {{ playedGames }}</li>
                                 <li class="col col-sm-4">Backlog: {{ backlogGames }}</li>
@@ -169,8 +178,8 @@ export default {
                                         aria-label="Percentage of played games over total owned"
                                         aria-valuemin="0"
                                         aria-valuemax="100"
-                                        :style="`width: ${playedPercentage}%`"
-                                        :aria-valuenow="playedPercentage"
+                                        :style="`width: ${completedPercentage}%`"
+                                        :aria-valuenow="completedPercentage"
                                     ></div>
                                 </div>
                             </div>
