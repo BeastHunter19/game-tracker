@@ -16,7 +16,7 @@ export default {
         ...mapState(useUserStore, ['loggedIn', 'isOwner']),
         ...mapStores(useGamesStore),
         showButtons() {
-            if (this.$route.name === 'profile' && !this.isOwner) {
+            if (this.$route.params?.userID && !this.isOwner) {
                 return false
             }
             return this.loggedIn
