@@ -30,7 +30,9 @@ export default {
                     type: 'success',
                     message: 'You have logged out successfully!'
                 })
-                this.$router.push('/')
+                this.$router.push('/').then(() => {
+                    this.$router.go()
+                })
             } catch (err) {
                 console.log(err)
                 this.createNotification({
