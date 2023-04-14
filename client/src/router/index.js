@@ -56,7 +56,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/:userID',
+            path: '/profile/:userID?',
             name: 'profile',
             component: ProfileView,
             meta: {
@@ -64,7 +64,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/:userID/backlog',
+            path: '/profile/:userID?/backlog',
             name: 'backlog',
             component: BacklogView,
             meta: {
@@ -72,7 +72,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/:userID/watchlist',
+            path: '/profile/:userID?/watchlist',
             name: 'watchlist',
             component: WatchlistView,
             meta: {
@@ -80,7 +80,7 @@ const router = createRouter({
             }
         },
         {
-            path: '/profile/:userID/played',
+            path: '/profile/:userID?/played',
             name: 'played',
             component: PlayedView,
             meta: {
