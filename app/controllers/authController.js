@@ -225,7 +225,7 @@ exports.postRefreshTokens = async (req, res, next) => {
 exports.getUserPublic = async (req, res, next) => {
     try {
         const { userID } = req.params
-        const user = User.getByID(userID)
+        const user = await User.getByID(userID)
         const publicUser = {
             id: user.id,
             name: user.name,
