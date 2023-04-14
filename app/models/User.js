@@ -177,13 +177,17 @@ User.getList = async (userID, listName, limit = 50, offset = 0) => {
             throw err
         }
         const games = await db.query(
-            `SELECT game
+            `SELECT *
              FROM ${listName} 
              WHERE user = UUID_TO_BIN(?)
              LIMIT ? OFFSET ?`,
             [userID, limit, offset]
         )
-        return games.map((value) => value.game)
+        return listName !== 'played'
+            ? games.map((value) => value.game)
+            : games.map((value) => {
+                  return { game: value.game, completed: value.completed }
+              })
     } catch (err) {
         logger.error(err, 'Could not get list')
         throw err
@@ -237,6 +241,20 @@ User.removeFromList = async (userID, listName, gameID) => {
         return result.affectedRows !== 0
     } catch (err) {
         logger.error(err, `Could not remove from list ${listName}`)
+        throw err
+    }
+}
+
+User.setCompleted = async (userID, gameID, value) => {
+    try {
+        const result = await db.query(
+            `UPDATE played
+             SET completed = ?
+             WHERE user = UUID_TO_BIN(?) AND game = ?`,
+            [value, userID, gameID]
+        )
+    } catch (err) {
+        logger.error(err, `Could not update completed status`)
         throw err
     }
 }

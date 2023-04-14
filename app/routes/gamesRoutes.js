@@ -9,7 +9,8 @@ const {
     getSingleCategory,
     getGamesList,
     putGameList,
-    deleteGameList
+    deleteGameList,
+    patchPlayed
 } = require('../controllers/gamesController')
 
 const router = Router()
@@ -39,6 +40,13 @@ router.delete(
     passport.authenticate('jwt', { session: false }),
     isOwner,
     deleteGameList
+)
+
+router.patch(
+    '/user/:userId/:listName/:gameId',
+    passport.authenticate('jwt', { session: false }),
+    isOwner,
+    patchPlayed
 )
 
 module.exports = router
