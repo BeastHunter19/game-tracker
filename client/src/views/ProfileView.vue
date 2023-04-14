@@ -24,7 +24,8 @@ export default {
                     if (!this.userStore.isOwner && this.$route.params?.userID) {
                         try {
                             const id = this.$route.params.userID
-                            this.publicUser = await this.$axios.get('/auth/public/' + id)
+                            const response = await this.$axios.get('/auth/public/' + id)
+                            this.publicUser = response.data
                             this.gamesStore.fetchAll(id)
                         } catch (err) {
                             console.log(err)
@@ -62,6 +63,16 @@ export default {
             } else {
                 return (this.playedGames / this.ownedGames) * 100
             }
+        },
+        userName() {
+            return Object.keys(this.publicUser).length > 0
+                ? this.publicUser.name
+                : this.userStore.user?.name ?? ''
+        },
+        userVerified() {
+            return Object.keys(this.publicUser).length > 0
+                ? this.publicUser.verified
+                : this.userStore.user.verified
         }
     },
     methods: {
@@ -106,21 +117,17 @@ export default {
                     <ContentPanel
                         class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-lg-2 h-100 d-flex justify-content-center align-items-center gap-4 flex-wrap"
                     >
-                        <UserAvatar size="100px" textSize="2"></UserAvatar>
+                        <UserAvatar :name="userName" size="100px" textSize="2"></UserAvatar>
                         <p class="fs-5">
-                            {{ userStore.user.name }}
+                            {{ userName }}
                             <br />
                             <span v-if="userStore.isOwner">{{ userStore.user.email }}</span>
-                            <span v-if="userStore.user.verified" class="badge bg-primary">
-                                Verified
-                            </span>
-                            <span v-if="!userStore.user.verified" class="badge bg-danger">
-                                Not verified
-                            </span>
+                            <span v-if="userVerified" class="badge bg-primary"> Verified </span>
+                            <span v-if="!userVerified" class="badge bg-danger"> Not verified </span>
                             <br />
                             <button
                                 @click="resendVerificationEmail"
-                                v-if="!userStore.user.verified"
+                                v-if="!userVerified && userStore.isOwner"
                                 class="btn btn-primary mt-3"
                                 :disabled="sendingEmail"
                             >
