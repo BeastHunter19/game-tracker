@@ -18,21 +18,23 @@ export default {
     watch: {
         '$route.params': {
             async handler(newValue, oldValue) {
-                if (
-                    newValue !== oldValue &&
-                    this.$route.name === 'profile' &&
-                    !this.userStore.isOwner
-                ) {
-                    try {
-                        this.publicUser = await this.$axios.get(
-                            '/auth/public/' + this.$route.params.userID
-                        )
-                    } catch (err) {
-                        console.log(err)
-                        this.createNotification({
-                            type: 'danger',
-                            message: 'Could not retrieve user public information'
-                        })
+                // this is true even when leaving the route
+                if (newValue?.userID !== oldValue?.userID) {
+                    if (!this.userStore.isOwner && this.$route.params?.userID) {
+                        try {
+                            const id = this.$route.params.userID
+                            this.publicUser = await this.$axios.get('/auth/public/' + id)
+                            this.gamesStore.fetchAll(id)
+                        } catch (err) {
+                            console.log(err)
+                            this.createNotification({
+                                type: 'danger',
+                                message: 'Could not retrieve user public information'
+                            })
+                        }
+                    } else if (Object.keys(this.publicUser).length > 0) {
+                        this.gamesStore.fetchAll()
+                        this.publicUser = {}
                     }
                 }
             },
