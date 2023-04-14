@@ -2,13 +2,14 @@
 import MainGamesPanel from '@/components/MainGamesPanel.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import ContentPanel from '@/components/ContentPanel.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapStores, mapActions } from 'pinia'
 
 export default {
-    components: { MainGamesPanel, UserAvatar, ContentPanel },
+    components: { MainGamesPanel, UserAvatar, ContentPanel, LoadingSpinner },
     data() {
         return {
             sendingEmail: false,
@@ -97,8 +98,9 @@ export default {
 </script>
 
 <template>
-    <main class="w-100 mw-100">
-        <div class="container-fluid p-0 m-0 mt-4">
+    <main class="w-100 mw-100 h-100">
+        <LoadingSpinner v-if="gamesStore.loading"></LoadingSpinner>
+        <div v-else class="container-fluid p-0 m-0 mt-4">
             <div class="row g-0 justify-content-around row-cols-1 row-cols-lg-2 mw-100 ms-lg-4">
                 <div class="col mw-100 mb-4">
                     <ContentPanel
