@@ -25,8 +25,12 @@ export default {
                         try {
                             const id = this.$route.params.userID
                             const response = await this.$axios.get('/auth/public/' + id)
-                            this.publicUser = response.data
-                            this.gamesStore.fetchAll(id)
+                            // this extra check manages the case where the automatic login happens
+                            // during the request execution
+                            if (!this.userStore.isOwner) {
+                                this.publicUser = response.data
+                                this.gamesStore.fetchAll(id)
+                            }
                         } catch (err) {
                             console.log(err)
                             this.createNotification({
@@ -41,6 +45,13 @@ export default {
                 }
             },
             immediate: true
+        },
+        'userStore.loggedIn': {
+            handler(newValue, oldValue) {
+                if (oldValue === false && newValue === true && this.userStore.isOwner) {
+                    this.publicUser = {}
+                }
+            }
         }
     },
     computed: {
