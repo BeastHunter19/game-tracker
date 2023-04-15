@@ -3,13 +3,14 @@ import MainGamesPanel from '@/components/MainGamesPanel.vue'
 import UserAvatar from '@/components/UserAvatar.vue'
 import ContentPanel from '@/components/ContentPanel.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
+import DialogModal from '@/components/DialogModal.vue'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapStores, mapActions } from 'pinia'
 
 export default {
-    components: { MainGamesPanel, UserAvatar, ContentPanel, LoadingSpinner },
+    components: { MainGamesPanel, UserAvatar, ContentPanel, LoadingSpinner, DialogModal },
     data() {
         return {
             sendingEmail: false,
@@ -93,6 +94,12 @@ export default {
             return Object.keys(this.publicUser).length > 0
                 ? this.publicUser.verified
                 : this.userStore.user.verified
+        },
+        shareUrl() {
+            return window.location.href
+        },
+        secureContext() {
+            return window.isSecureContext
         }
     },
     methods: {
@@ -123,6 +130,13 @@ export default {
                 this.sendingEmail = false
             }
         },
+        copyUrl() {
+            navigator.clipboard.writeText(this.shareUrl)
+            this.createNotification({
+                type: 'success',
+                message: 'Copied to clipboard'
+            })
+        },
         ...mapActions(useNotificationsStore, ['createNotification'])
     }
 }
@@ -148,7 +162,7 @@ export default {
                             <button
                                 @click="resendVerificationEmail"
                                 v-if="!userVerified && userStore.isOwner"
-                                class="btn btn-primary mt-3"
+                                class="btn btn-primary mt-3 me-3"
                                 :disabled="sendingEmail"
                             >
                                 <span
@@ -158,6 +172,15 @@ export default {
                                     aria-hidden="true"
                                 ></span>
                                 Verify email
+                            </button>
+                            <button
+                                v-if="userStore.isOwner"
+                                class="btn btn-primary mt-3"
+                                data-bs-toggle="modal"
+                                data-bs-target="#share-profile-dialog"
+                            >
+                                Share profile
+                                <i class="bi bi-share"></i>
                             </button>
                         </p>
                     </ContentPanel>
@@ -202,5 +225,29 @@ export default {
                 <MainGamesPanel class="col ms-lg-0 me-lg-4 py-lg-4 px-lg-2"></MainGamesPanel>
             </div>
         </div>
+        <DialogModal formId="share-profile-dialog" title="Share profile">
+            <p>
+                Share this link to let other people see your public profile. They will be able to
+                see your name and the games in your lists.
+            </p>
+            <div class="input-group shadow">
+                <input
+                    class="form-control"
+                    type="text"
+                    placeholder="Share"
+                    aria-label="Share"
+                    :value="shareUrl"
+                    readonly
+                />
+                <button
+                    v-if="secureContext"
+                    @click.prevent="copyUrl"
+                    class="btn btn-primary"
+                    type="button"
+                >
+                    <i class="bi bi-clipboard2"></i>
+                </button>
+            </div>
+        </DialogModal>
     </main>
 </template>
