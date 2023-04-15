@@ -1,15 +1,12 @@
 <script>
 import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
 import { useGamesStore } from '@/stores/games'
-import { mapState, mapActions } from 'pinia'
+import { mapState } from 'pinia'
 
 export default {
     components: { GamesPanelExpanded },
     computed: {
         ...mapState(useGamesStore, ['backlog'])
-    },
-    methods: {
-        ...mapActions(useGamesStore, ['fetchAllBacklog'])
     }
 }
 </script>

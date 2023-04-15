@@ -9,7 +9,8 @@ const {
     getSingleCategory,
     getGamesList,
     putGameList,
-    deleteGameList
+    deleteGameList,
+    patchPlayed
 } = require('../controllers/gamesController')
 
 const router = Router()
@@ -24,12 +25,8 @@ router.get('/categories', getCategories)
 
 router.get('/categories/:id', getSingleCategory)
 
-router.get(
-    '/user/:userId/:listName',
-    passport.authenticate('jwt', { session: false }),
-    isOwner,
-    getGamesList
-)
+// this is made public to allow public profiles
+router.get('/user/:userId/:listName', getGamesList)
 
 router.put(
     '/user/:userId/:listName/:gameId',
@@ -43,6 +40,13 @@ router.delete(
     passport.authenticate('jwt', { session: false }),
     isOwner,
     deleteGameList
+)
+
+router.patch(
+    '/user/:userId/:listName/:gameId',
+    passport.authenticate('jwt', { session: false }),
+    isOwner,
+    patchPlayed
 )
 
 module.exports = router

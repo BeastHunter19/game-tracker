@@ -10,12 +10,7 @@ router.post(
     '/user',
     [
         body('name').trim().isString().escape(),
-        body('email')
-            .trim()
-            .isString()
-            .isEmail()
-            .normalizeEmail()
-            .withMessage('Invalid email address'),
+        body('email').trim().isString().isEmail().withMessage('Invalid email address'),
         body('password')
             .trim()
             .isString()

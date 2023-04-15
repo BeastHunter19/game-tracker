@@ -1,15 +1,18 @@
 <script>
 import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
 
 export default {
-    components: { GamesPanelExpanded },
+    components: { GamesPanelExpanded, LoadingSpinner },
     data() {
         return {
             popularGames: [],
             limit: 30,
-            offset: 0
+            offset: 0,
+            loading: true,
+            loadingMore: false
         }
     },
     async mounted() {
@@ -18,6 +21,7 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async getGames() {
+            this.loadingMore = true
             try {
                 const query = new URLSearchParams()
                 query.set('limit', this.limit)
@@ -31,6 +35,9 @@ export default {
                     type: 'danger',
                     message: 'An error occurred while fetching popular games'
                 })
+            } finally {
+                this.loading = false
+                this.loadingMore = false
             }
         }
     }
@@ -38,13 +45,16 @@ export default {
 </script>
 
 <template>
-    <main class="p-4 px-2 px-md-4">
+    <main class="p-4 px-2 px-md-4 h-100">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
         <GamesPanelExpanded
+            v-else
             @reachedBottom="getGames"
             title="Popular"
             icon="graph-up-arrow"
             :gameList="popularGames"
             :allowClose="false"
+            :loading="loadingMore"
         ></GamesPanelExpanded>
     </main>
 </template>

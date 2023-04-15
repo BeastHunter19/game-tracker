@@ -9,12 +9,25 @@ const {
     postPasswordReset,
     patchPasswordUpdate,
     postLogout,
-    postRefreshTokens
+    postRefreshTokens,
+    getUserPublic
 } = require('../controllers/authController')
 
 const router = Router()
 
-router.post('/login', passport.authenticate('local', { session: false }), postLogin)
+router.post(
+    '/login',
+    [
+        body('email').trim().isString().isEmail().withMessage('Please enter a valid email.'),
+        body('password')
+            .trim()
+            .isString()
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters long')
+    ],
+    passport.authenticate('local', { session: false }),
+    postLogin
+)
 
 router.patch('/verify/email', patchVerifyEmail)
 
@@ -27,14 +40,7 @@ router.post(
 
 router.post(
     '/password/reset',
-    [
-        body('email')
-            .trim()
-            .isString()
-            .isEmail()
-            .normalizeEmail()
-            .withMessage('Please enter a valid email.')
-    ],
+    [body('email').trim().isString().isEmail().withMessage('Please enter a valid email.')],
     postPasswordReset
 )
 
@@ -65,5 +71,7 @@ router.post(
 )
 
 router.post('/tokens/refresh', postRefreshTokens)
+
+router.get('/public/:userID', getUserPublic)
 
 module.exports = router

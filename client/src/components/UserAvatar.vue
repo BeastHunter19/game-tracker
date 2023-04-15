@@ -11,15 +11,20 @@ export default {
         textSize: {
             type: String,
             default: '5'
+        },
+        name: {
+            type: String,
+            default: ''
         }
     },
     computed: {
         ...mapState(useUserStore, ['user', 'loggedIn']),
         userInitials() {
-            if (!this.loggedIn) {
+            const name = this.name !== '' ? this.name : this.user?.name
+            if (name === undefined) {
                 return '?'
             }
-            const names = this.user.name.split(/\s+/, 2)
+            const names = name.split(/\s+/, 2)
             if (names.length === 1) {
                 return names[0][0]?.toUpperCase()
             } else {

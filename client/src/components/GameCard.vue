@@ -2,10 +2,11 @@
 import { mapState, mapStores } from 'pinia'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
-import AddButtons from './AddButtons.vue'
+import AddButtons from '@/components/AddButtons.vue'
+import CompletedButton from '@/components/CompletedButton.vue'
 
 export default {
-    components: { AddButtons },
+    components: { AddButtons, CompletedButton },
     props: {
         gameInfo: {
             type: Object,
@@ -13,9 +14,12 @@ export default {
         }
     },
     computed: {
-        ...mapState(useUserStore, ['loggedIn']),
+        ...mapState(useUserStore, ['loggedIn', 'isOwner']),
         ...mapStores(useGamesStore),
         showButtons() {
+            if (this.$route.params?.userID && !this.isOwner) {
+                return false
+            }
             return this.loggedIn
         },
         gameCover() {
@@ -30,7 +34,7 @@ export default {
     },
     methods: {
         openDetails(event) {
-            if (!event.target.closest('button')) {
+            if (!event.target.classList.contains('btn') && !event.target.classList.contains('bi')) {
                 this.$router.push({
                     name: 'game',
                     params: {
@@ -71,8 +75,13 @@ export default {
             </div>
         </div>
         <!-- Logged in only buttons -->
+        <CompletedButton
+            v-if="showButtons"
+            :gameID="gameInfo.id"
+            class="position-absolute top-0 start-0 m-2"
+        ></CompletedButton>
         <AddButtons
-            v-if="loggedIn"
+            v-if="showButtons"
             :gameID="gameInfo.id"
             class="position-absolute top-0 end-0 m-2"
             @addToList="addToList"

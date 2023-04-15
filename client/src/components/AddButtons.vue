@@ -71,40 +71,20 @@ export default {
 <template>
     <div class="d-flex flex-column align-items-start position-relative gap-1">
         <button
-            v-if="inPlayed"
-            @click="togglePlayed"
-            class="btn btn-dark rounded-circle"
-            :class="{ 'active-list': inPlayed }"
-            title="Remove from Played"
-        >
-            <i class="bi bi-controller"></i>
-        </button>
-        <button
-            v-else-if="inWatchlist"
-            @click="toggleWatchlist"
-            class="btn btn-dark rounded-circle"
-            :class="{ 'active-list': inWatchlist }"
-            title="Remove from Watchlist"
-        >
-            <i class="bi bi-binoculars"></i>
-        </button>
-        <button
-            v-else-if="inBacklog"
-            @click="toggleBacklog"
-            class="btn btn-dark rounded-circle"
-            :class="{ 'active-list': inBacklog }"
-            title="Remove from Backlog"
-        >
-            <i class="bi bi-clock-history"></i>
-        </button>
-
-        <button
-            v-else
             @click="toggleButtons"
             class="btn btn-dark rounded-circle btn-more"
-            :class="{ rotated: showMore }"
+            :class="{
+                rotated: showMore,
+                'active-list': (inPlayed || inBacklog || inWatchlist) && !showMore
+            }"
         >
-            <i class="bi bi-plus-lg"></i>
+            <i
+                v-show="showMore || !(inPlayed || inBacklog || inWatchlist)"
+                class="bi bi-plus-lg"
+            ></i>
+            <i v-show="inPlayed && !showMore" class="bi bi-controller"></i>
+            <i v-show="inWatchlist && !showMore" class="bi bi-binoculars"></i>
+            <i v-show="inBacklog && !showMore" class="bi bi-clock-history"></i>
         </button>
 
         <Transition name="fold">

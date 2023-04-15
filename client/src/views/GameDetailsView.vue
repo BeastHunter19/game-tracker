@@ -2,17 +2,20 @@
 import ContentPanel from '@/components/ContentPanel.vue'
 import GamesPanel from '@/components/GamesPanel.vue'
 import AddButtons from '@/components/AddButtons.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
 import { mapActions, mapState, mapStores } from 'pinia'
+import CompletedButton from '@/components/CompletedButton.vue'
 
 export default {
     name: 'GameDetailsView',
-    components: { ContentPanel, GamesPanel, AddButtons },
+    components: { ContentPanel, GamesPanel, AddButtons, LoadingSpinner, CompletedButton },
     data() {
         return {
-            gameInfo: {}
+            gameInfo: {},
+            loading: true
         }
     },
     computed: {
@@ -29,6 +32,7 @@ export default {
         '$route.params': {
             handler(newValue, oldValue) {
                 if (newValue !== oldValue && this.$route.name === 'game') {
+                    this.loading = true
                     this.getDetails()
                 }
             },
@@ -47,6 +51,8 @@ export default {
                     type: 'danger',
                     message: 'An error occurred while fetching game details.'
                 })
+            } finally {
+                this.loading = false
             }
         },
         addToList(listName) {
@@ -72,8 +78,9 @@ export default {
 </script>
 
 <template>
-    <main class="w-100 mw-100" :key="gameInfo.id">
-        <div class="container-fluid p-0 m-0 mt-4">
+    <main class="w-100 mw-100 h-100" :key="gameInfo.id">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
+        <div v-else class="container-fluid p-0 m-0 mt-4">
             <div class="row g-0 justify-content-around row-cols-1 mw-100 ms-lg-4">
                 <div class="col mw-100 mb-4">
                     <div
@@ -134,13 +141,19 @@ export default {
                     <ContentPanel
                         class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100 position-relative"
                     >
-                        <AddButtons
-                            v-if="loggedIn && gameInfo.id"
-                            :gameID="gameInfo.id"
-                            class="position-absolute top-0 end-0 m-4"
-                            @addToList="addToList"
-                            @removeFromList="removeFromList"
-                        ></AddButtons>
+                        <div class="position-absolute top-0 end-0 m-4">
+                            <CompletedButton
+                                v-if="loggedIn && gameInfo.id"
+                                class="mb-2"
+                                :gameID="gameInfo.id"
+                            ></CompletedButton>
+                            <AddButtons
+                                v-if="loggedIn && gameInfo.id"
+                                :gameID="gameInfo.id"
+                                @addToList="addToList"
+                                @removeFromList="removeFromList"
+                            ></AddButtons>
+                        </div>
                         <h1 v-if="gameInfo.title" class="text-start">{{ gameInfo.title }}</h1>
                         <h2 v-if="gameInfo.release" class="text-start">
                             Released: {{ gameInfo.release }}

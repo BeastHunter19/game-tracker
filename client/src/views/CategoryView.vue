@@ -2,15 +2,18 @@
 import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 export default {
     name: 'CategoryView',
-    components: { GamesPanelExpanded },
+    components: { GamesPanelExpanded, LoadingSpinner },
     data() {
         return {
             gameList: [],
             limit: 30,
-            offset: 0
+            offset: 0,
+            loading: true,
+            loadingMore: false
         }
     },
     computed: {
@@ -25,6 +28,7 @@ export default {
         '$route.params': {
             handler(newValue, oldValue) {
                 if (newValue !== oldValue && this.$route.name === 'category') {
+                    this.loading = true
                     this.offset = 0
                     this.gameList = []
                     this.getGames()
@@ -36,6 +40,9 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async getGames() {
+            if (!this.loading) {
+                this.loadingMore = true
+            }
             try {
                 const query = new URLSearchParams()
                 query.set('limit', this.limit)
@@ -51,6 +58,9 @@ export default {
                     type: 'danger',
                     message: 'An error occurred while fetching games of genre ' + this.categoryName
                 })
+            } finally {
+                this.loading = false
+                this.loadingMore = false
             }
         }
     }
@@ -58,11 +68,14 @@ export default {
 </script>
 
 <template>
-    <main class="p-4 px-2 px-md-4">
+    <main class="p-4 px-2 px-md-4 h-100">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
         <GamesPanelExpanded
+            v-else
             @reachedBottom="getGames"
             :title="categoryName"
             :gameList="gameList"
+            :loading="loadingMore"
         ></GamesPanelExpanded>
     </main>
 </template>

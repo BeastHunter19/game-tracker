@@ -1,16 +1,19 @@
 <script>
 import GamesPanelExpanded from '@/components/GamesPanelExpanded.vue'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
 
 export default {
     name: 'SearchResultsView',
-    components: { GamesPanelExpanded },
+    components: { GamesPanelExpanded, LoadingSpinner },
     data() {
         return {
             searchResults: [],
             limit: 30,
-            offset: 0
+            offset: 0,
+            loading: true,
+            loadingMore: false
         }
     },
     computed: {
@@ -22,6 +25,7 @@ export default {
         '$route.query': {
             handler(newValue, oldValue) {
                 if (newValue !== oldValue && this.$route.name === 'search') {
+                    this.loading = true
                     this.offset = 0
                     this.searchResults = []
                     this.search()
@@ -33,6 +37,9 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async search() {
+            if (!this.loading) {
+                this.loadingMore = true
+            }
             try {
                 const query = new URLSearchParams()
                 query.set('query', this.$route.query.query)
@@ -47,6 +54,9 @@ export default {
                     type: 'danger',
                     message: 'An error occurred during search.'
                 })
+            } finally {
+                this.loading = false
+                this.loadingMore = false
             }
         }
     }
@@ -54,12 +64,15 @@ export default {
 </script>
 
 <template>
-    <main class="p-4 px-2 px-md-4">
+    <main class="p-4 px-2 px-md-4 h-100">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
         <GamesPanelExpanded
+            v-else
             @reachedBottom="search"
             title="Search"
             icon="search"
             :gameList="searchResults"
+            :loading="loadingMore"
         ></GamesPanelExpanded>
     </main>
 </template>

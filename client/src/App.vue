@@ -78,6 +78,7 @@ export default {
 <style>
 .btn-primary {
     --bs-btn-bg: var(--gt-color-secondary);
+    --bs-btn-disabled-bg: var(--gt-color-secondary);
 }
 
 .btn-outline-primary {
@@ -93,6 +94,7 @@ export default {
     --bs-btn-hover-border-color: var(--gt-color-secondary);
     --bs-btn-active-bg: var(--gt-color-secondary-active);
     --bs-btn-active-border-color: var(--gt-color-secondary-active);
+    --bs-btn-disabled-border-color: var(--gt-color-secondary);
 }
 
 .form-control {

@@ -82,13 +82,19 @@ exports.getGamesList = async (req, res, next) => {
     try {
         const { userId, listName } = req.params
         const { limit, offset } = req.query
-        const gameIDs = await User.getList(userId, listName, limit, offset)
+        const gamesList = await User.getList(userId, listName, limit, offset)
+        const gameIDs = listName === 'played' ? gamesList.map((value) => value.game) : gamesList
         console.log(gameIDs)
         if (gameIDs?.length === 0) {
             res.status(200).json([])
         } else {
             // pagination is already done at the db level
             const games = await Game.getListByID(gameIDs, 500, 0)
+            if (listName === 'played') {
+                games.forEach((value, index) => {
+                    value.completed = gamesList[index].completed != 0
+                })
+            }
             res.status(200).json(games)
         }
     } catch (err) {
@@ -103,8 +109,12 @@ exports.getGamesList = async (req, res, next) => {
 exports.putGameList = async (req, res, next) => {
     try {
         const { userId, listName, gameId } = req.params
-        await User.addToList(userId, listName, Number(gameId))
-        res.status(200).end()
+        const updated = await User.addToList(userId, listName, Number(gameId))
+        if (!updated) {
+            res.status(205).end()
+        } else {
+            res.status(201).end()
+        }
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500
@@ -117,8 +127,27 @@ exports.putGameList = async (req, res, next) => {
 exports.deleteGameList = async (req, res, next) => {
     try {
         const { userId, listName, gameId } = req.params
-        await User.removeFromList(userId, listName, Number(gameId))
-        res.status(200).end()
+        const updated = await User.removeFromList(userId, listName, Number(gameId))
+        if (!updated) {
+            res.status(205).end()
+        } else {
+            res.status(200).end()
+        }
+    } catch (err) {
+        if (!err.statusCode) {
+            err.statusCode = 500
+        }
+        next(err)
+        return err
+    }
+}
+
+exports.patchPlayed = async (req, res, next) => {
+    try {
+        const { userId, gameId } = req.params
+        const { completed } = req.body
+        await User.setCompleted(userId, gameId, completed)
+        res.json(200).end()
     } catch (err) {
         if (!err.statusCode) {
             err.statusCode = 500

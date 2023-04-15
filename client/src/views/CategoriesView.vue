@@ -2,16 +2,19 @@
 import GamesPanel from '@/components/GamesPanel.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { mapActions } from 'pinia'
+import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
 export default {
-    components: { GamesPanel },
+    components: { GamesPanel, LoadingSpinner },
     data() {
         return {
             // this will contain an object for each category with a name and the game list
             categories: [],
             limit: 5,
             offset: 0,
-            bottomObserver: undefined
+            bottomObserver: undefined,
+            loading: true,
+            loadingMore: false
         }
     },
     computed: {
@@ -22,6 +25,7 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async getCategories() {
+            this.loadingMore = true
             try {
                 const query = new URLSearchParams()
                 query.set('limit', this.limit)
@@ -35,6 +39,10 @@ export default {
                     type: 'danger',
                     message: 'An error occurred while fetching genres.'
                 })
+            } finally {
+                this.loading = false
+                this.loadingMore = false
+                this.updateObservedItem()
             }
         },
         onReachedBottom(entries) {
@@ -46,10 +54,11 @@ export default {
             }
         },
         updateObservedItem() {
-            const lastPanel = this.$refs.panelsContainer.querySelector(':scope>*:last-child')
+            const lastPanel = this.$refs.panelsContainer.querySelector(':scope>*:nth-last-child(2)')
             if (lastPanel) {
                 this.bottomObserver.disconnect()
                 this.bottomObserver.observe(lastPanel)
+                console.log(lastPanel)
             }
         }
     },
@@ -77,17 +86,26 @@ export default {
 </script>
 
 <template>
-    <main ref="panelsContainer" class="pt-4">
-        <GamesPanel
-            v-for="(category, index) in filteredCategories"
-            :key="index"
-            :title="category.name"
-            :gameList="category.games"
-            :extendedRoute="{
-                name: 'category',
-                params: { id: category.id },
-                query: { name: category.name }
-            }"
-        ></GamesPanel>
+    <main ref="panelsContainer" class="pt-4 h-100">
+        <LoadingSpinner v-if="loading"></LoadingSpinner>
+        <template v-else>
+            <GamesPanel
+                v-for="(category, index) in filteredCategories"
+                :key="index"
+                class="games-panel"
+                :title="category.name"
+                :gameList="category.games"
+                :extendedRoute="{
+                    name: 'category',
+                    params: { id: category.id },
+                    query: { name: category.name }
+                }"
+            ></GamesPanel>
+            <div class="text-center">
+                <div v-if="loadingMore" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </template>
     </main>
 </template>

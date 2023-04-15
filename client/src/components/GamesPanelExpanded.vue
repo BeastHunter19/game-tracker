@@ -20,6 +20,10 @@ export default {
         allowClose: {
             type: Boolean,
             default: true
+        },
+        loading: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -75,7 +79,7 @@ export default {
 </script>
 
 <template>
-    <ContentPanel class="h-100">
+    <ContentPanel class="h-100 d-flex flex-column">
         <div class="d-flex flex-row justify-content-between align-items-center">
             <h2 class="ms-4 mb-0 fs-3 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
@@ -93,6 +97,9 @@ export default {
         <div ref="cardsContainer" class="cards-container w-100 h-100 overflow-auto py-4">
             <GameCard v-for="(game, index) in gameList" :key="index" :gameInfo="game"></GameCard>
         </div>
+        <div v-if="loading" class="spinner-border mx-auto" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </ContentPanel>
 </template>
 
@@ -108,5 +115,9 @@ h2 {
     row-gap: 30px;
     grid-template-columns: repeat(auto-fill, 12rem);
     justify-content: space-evenly;
+}
+
+.spinner-border {
+    aspect-ratio: 1/1;
 }
 </style>
