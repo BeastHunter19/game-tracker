@@ -11,7 +11,8 @@ export default {
             popularGames: [],
             limit: 30,
             offset: 0,
-            loading: true
+            loading: true,
+            loadingMore: false
         }
     },
     async mounted() {
@@ -20,6 +21,7 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async getGames() {
+            this.loadingMore = true
             try {
                 const query = new URLSearchParams()
                 query.set('limit', this.limit)
@@ -35,6 +37,7 @@ export default {
                 })
             } finally {
                 this.loading = false
+                this.loadingMore = false
             }
         }
     }
@@ -51,6 +54,7 @@ export default {
             icon="graph-up-arrow"
             :gameList="popularGames"
             :allowClose="false"
+            :loading="loadingMore"
         ></GamesPanelExpanded>
     </main>
 </template>

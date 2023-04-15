@@ -12,7 +12,8 @@ export default {
             searchResults: [],
             limit: 30,
             offset: 0,
-            loading: true
+            loading: true,
+            loadingMore: false
         }
     },
     computed: {
@@ -36,6 +37,9 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async search() {
+            if (!this.loading) {
+                this.loadingMore = true
+            }
             try {
                 const query = new URLSearchParams()
                 query.set('query', this.$route.query.query)
@@ -52,6 +56,7 @@ export default {
                 })
             } finally {
                 this.loading = false
+                this.loadingMore = false
             }
         }
     }
@@ -67,6 +72,7 @@ export default {
             title="Search"
             icon="search"
             :gameList="searchResults"
+            :loading="loadingMore"
         ></GamesPanelExpanded>
     </main>
 </template>

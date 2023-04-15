@@ -12,7 +12,8 @@ export default {
             gameList: [],
             limit: 30,
             offset: 0,
-            loading: true
+            loading: true,
+            loadingMore: false
         }
     },
     computed: {
@@ -39,6 +40,9 @@ export default {
     methods: {
         ...mapActions(useNotificationsStore, ['createNotification']),
         async getGames() {
+            if (!this.loading) {
+                this.loadingMore = true
+            }
             try {
                 const query = new URLSearchParams()
                 query.set('limit', this.limit)
@@ -56,6 +60,7 @@ export default {
                 })
             } finally {
                 this.loading = false
+                this.loadingMore = false
             }
         }
     }
@@ -70,6 +75,7 @@ export default {
             @reachedBottom="getGames"
             :title="categoryName"
             :gameList="gameList"
+            :loading="loadingMore"
         ></GamesPanelExpanded>
     </main>
 </template>
