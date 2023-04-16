@@ -8,9 +8,9 @@ export const useNotificationsStore = defineStore('notifications', {
         createNotification(notification) {
             this.notifications.push({
                 ...notification,
-                id: import.meta.env.DEV
-                    ? Date.now().toString(36) + Math.random().toString(36).slice(2)
-                    : crypto.randomUUID()
+                id: window.isSecureContext
+                    ? crypto.randomUUID()
+                    : Date.now().toString(36) + Math.random().toString(36).slice(2)
             })
         },
         removeNotification(notification) {
