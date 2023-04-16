@@ -104,4 +104,19 @@ export default {
 .form-control:focus {
     box-shadow: 0 0 0 0.25rem var(--gt-color-secondary-transparent);
 }
+
+.form-control,
+.form-control:active,
+.form-control:focus {
+    background-color: var(--gt-color-bg) !important;
+    color: var(--gt-color-text);
+}
+
+.form-control::placeholder {
+    color: var(--gt-color-text);
+}
+
+.form-control::ms-input-placeholder {
+    color: var(--gt-color-text);
+}
 </style>
