@@ -92,10 +92,10 @@ export default {
 
 <style scoped>
 .card {
-    min-width: 12rem;
-    min-height: 16rem;
-    width: 12rem;
-    height: 16rem;
+    min-width: 10rem;
+    min-height: 14rem;
+    width: 10rem;
+    height: 14rem;
     border: none;
     cursor: pointer;
     box-shadow: 0.75rem 0.75rem 1rem rgba(0, 0, 0, 0.15), -0.75rem 0.75rem 1rem rgba(0, 0, 0, 0.15) !important;

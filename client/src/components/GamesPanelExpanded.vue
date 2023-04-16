@@ -113,7 +113,7 @@ h2 {
     display: grid;
     column-gap: 10px;
     row-gap: 30px;
-    grid-template-columns: repeat(auto-fill, 12rem);
+    grid-template-columns: repeat(auto-fill, 10rem);
     justify-content: space-evenly;
 }
 
