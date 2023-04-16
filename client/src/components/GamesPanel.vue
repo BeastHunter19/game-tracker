@@ -143,6 +143,7 @@ h2 {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    line-height: 1.4;
 }
 
 .chevron-active {
