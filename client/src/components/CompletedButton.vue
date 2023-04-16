@@ -45,7 +45,7 @@ export default {
 
 <style scoped>
 .active-list {
-    background-color: darkgreen;
+    background-color: var(--gt-color-secondary);
 }
 
 button {
