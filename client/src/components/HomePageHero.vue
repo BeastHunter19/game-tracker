@@ -27,7 +27,7 @@ export default {
                     data-bs-toggle="modal"
                     data-bs-target="#login-dialog"
                     type="button"
-                    class="btn btn-outline-primary btn-lg px-4"
+                    class="btn btn-primary btn-lg px-4 shadow"
                 >
                     Login
                 </button>
