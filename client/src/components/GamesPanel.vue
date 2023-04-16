@@ -101,9 +101,9 @@ export default {
 </script>
 
 <template>
-    <ContentPanel class="mb-2 mx-2 mx-md-3">
+    <ContentPanel class="mb-4">
         <div class="d-flex flex-row justify-content-between align-items-center">
-            <h2 class="ms-4 mb-0 fs-3 text-start text-nowrap">
+            <h2 class="ms-5 mb-0 fs-3 text-start text-nowrap">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
             <RouterLink

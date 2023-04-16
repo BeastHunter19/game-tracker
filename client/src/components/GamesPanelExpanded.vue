@@ -80,8 +80,8 @@ export default {
 
 <template>
     <ContentPanel class="h-100 d-flex flex-column">
-        <div class="d-flex flex-row justify-content-between align-items-center my-3">
-            <h2 class="ms-2 fs-3 text-start">
+        <div class="d-flex flex-row justify-content-between align-items-center my-3 ps-3">
+            <h2 class="mb-0 ms-2 fs-3 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
             <a
@@ -94,10 +94,10 @@ export default {
                 <i class="bi bi-x-lg"></i>
             </a>
         </div>
-        <div ref="cardsContainer" class="cards-container w-100 h-100 overflow-auto">
+        <div ref="cardsContainer" class="cards-container w-100 h-100 overflow-auto pb-3">
             <GameCard v-for="(game, index) in gameList" :key="index" :gameInfo="game"></GameCard>
         </div>
-        <div v-if="loading" class="spinner-border mx-auto" role="status">
+        <div v-if="loading" class="spinner-border mx-auto mb-3" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
     </ContentPanel>

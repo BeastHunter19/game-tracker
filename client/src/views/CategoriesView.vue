@@ -86,7 +86,7 @@ export default {
 </script>
 
 <template>
-    <main ref="panelsContainer" class="pt-4 h-100">
+    <main ref="panelsContainer" class="pt-4">
         <LoadingSpinner v-if="loading"></LoadingSpinner>
         <template v-else>
             <GamesPanel
