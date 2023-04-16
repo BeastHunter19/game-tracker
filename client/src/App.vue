@@ -97,10 +97,6 @@ export default {
     --bs-btn-disabled-border-color: var(--gt-color-secondary);
 }
 
-.form-control {
-    border-color: var(--gt-color-secondary);
-}
-
 .form-control:focus {
     box-shadow: 0 0 0 0.25rem var(--gt-color-secondary-transparent);
 }
@@ -110,6 +106,7 @@ export default {
 .form-control:focus {
     background-color: var(--gt-color-bg) !important;
     color: var(--gt-color-text);
+    border: none;
 }
 
 .form-control::placeholder {
