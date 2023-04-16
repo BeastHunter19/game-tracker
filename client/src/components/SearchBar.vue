@@ -35,12 +35,12 @@ export default {
         <div class="input-group shadow">
             <input
                 v-model="searchQuery"
-                class="form-control form-control-lg"
+                class="form-control form-control-lg rounded-5"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
             />
-            <button class="btn btn-primary" type="submit">
+            <button class="btn btn-primary rounded-5" type="submit">
                 <i class="bi bi-search"></i>
             </button>
         </div>
@@ -50,5 +50,15 @@ export default {
 <style scoped>
 form {
     max-width: 700px;
+}
+
+.form-control {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+.btn {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
 }
 </style>
