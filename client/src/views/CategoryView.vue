@@ -68,7 +68,7 @@ export default {
 </script>
 
 <template>
-    <main class="p-4 px-2 px-md-4 h-100">
+    <main class="pt-2 px-md-4 h-100">
         <LoadingSpinner v-if="loading"></LoadingSpinner>
         <GamesPanelExpanded
             v-else

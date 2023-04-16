@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-    <main class="p-4 px-2 px-md-4">
+    <main class="pt-2 px-md-4 h-100">
         <GamesPanelExpanded
             title="Played"
             icon="controller"
