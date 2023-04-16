@@ -82,9 +82,9 @@ export default {
 }
 
 .btn-outline-primary {
-    --bs-btn-color: black;
-    --bs-btn-hover-color: white;
-    --bs-btn-active-color: white;
+    --bs-btn-color: var(--gt-color-text);
+    --bs-btn-hover-color: var(--gt-color-text);
+    --bs-btn-active-color: var(--gt-color-text);
 }
 
 .btn-primary,
