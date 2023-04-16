@@ -74,7 +74,7 @@ export default {
                                 class="nav-item mx-xl-2 mb-2 mb-lg-0"
                             >
                                 <RouterLink
-                                    class="nav-link px-3"
+                                    class="nav-link px-3 rounded-5"
                                     active-class="active aria-current shadow"
                                     :to="page.path"
                                 >
