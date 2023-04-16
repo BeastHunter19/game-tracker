@@ -1,19 +1,19 @@
 :root {
-    --gt-color-secondary: #268a3f;
-    --gt-color-secondary-hover: #33a750;
-    --gt-color-secondary-active: #217035;
-    --gt-color-secondary-transparent: #34a04fc2;
-    --gt-color-main: #7b10ff;
-    --gt-color-main-lighter: #9742ff;
-    --gt-color-main-darker: #630bce;
-    --gt-color-bg: #a3a8e9;
+    --gt-color-secondary: hsl(355, 78%, 56%);
+    --gt-color-secondary-hover: hsl(355, 78%, 65%);
+    --gt-color-secondary-active: hsl(355, 78%, 45%);
+    --gt-color-secondary-transparent: hsl(355, 78%, 56%, 0.5);
+    --gt-color-main: hsl(215, 50%, 23%);
+    --gt-color-main-lighter: hsl(215, 50%, 32%);
+    --gt-color-main-darker: hsl(215, 50%, 15%);
+    --gt-color-bg: hsl(203, 39%, 44%);
     --gt-color-bg-gradient-1: #8891ec;
     --gt-color-bg-gradient-2: #9659db;
     --gt-color-bg-gradient-3: #508ddd;
     --gt-color-bg-gradient-4: #5c3bd4;
-    --gt-color-card: #e0e8f0;
-    --gt-color-card-hover: #cedceb;
-    --gt-color-card-active: #c2cad3;
+    --gt-color-text: hsl(105, 55%, 96%);
+
+    --bs-body-color: var(--gt-color-text);
 }
 
 html {
@@ -22,28 +22,10 @@ html {
 
 body {
     height: 100%;
-    background: linear-gradient(
-        -45deg,
-        var(--gt-color-bg-gradient-1),
-        var(--gt-color-bg-gradient-2),
-        var(--gt-color-bg-gradient-3)
-    );
-    background-size: 400% 400%;
-    animation: gradient 10s ease infinite;
+    background-color: var(--gt-color-bg);
+    color: var(--gt-color-text);
 }
 
 #app {
     height: 100%;
-}
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
 }
