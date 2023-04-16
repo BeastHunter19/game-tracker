@@ -51,4 +51,19 @@ export default {
 form {
     max-width: 700px;
 }
+
+input,
+input:active,
+input:focus {
+    background-color: var(--gt-color-bg);
+    color: var(--gt-color-text);
+}
+
+input::placeholder {
+    color: var(--gt-color-text);
+}
+
+input::ms-input-placeholder {
+    color: var(--gt-color-text);
+}
 </style>
