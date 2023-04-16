@@ -84,15 +84,15 @@ export default {
             <h2 class="ms-2 fs-3 text-start">
                 <i v-if="icon" class="bi" :class="iconClass"></i> {{ title }}
             </h2>
-            <span
+            <a
                 v-if="allowClose"
                 @click="closePanel"
-                class="fs-4 me-4 link-primary text-nowrap"
+                class="fs-4 me-4 text-decoration-none text-nowrap"
                 role="button"
             >
                 Close
                 <i class="bi bi-x-lg"></i>
-            </span>
+            </a>
         </div>
         <div ref="cardsContainer" class="cards-container w-100 h-100 overflow-auto">
             <GameCard v-for="(game, index) in gameList" :key="index" :gameInfo="game"></GameCard>

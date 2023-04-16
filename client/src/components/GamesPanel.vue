@@ -157,4 +157,8 @@ h2 {
 .cards-container * {
     scroll-snap-align: start;
 }
+
+.btn:disabled {
+    --bs-btn-disabled-color: var(--gt-color-secondary-disabled);
+}
 </style>

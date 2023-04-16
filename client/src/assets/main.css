@@ -1,5 +1,6 @@
 :root {
     --gt-color-secondary: hsl(355, 78%, 56%);
+    --gt-color-secondary-disabled: hsl(353, 8%, 60%);
     --gt-color-secondary-hover: hsl(355, 78%, 65%);
     --gt-color-secondary-active: hsl(355, 78%, 45%);
     --gt-color-secondary-transparent: hsl(355, 78%, 56%, 0.5);
@@ -7,13 +8,11 @@
     --gt-color-main-lighter: hsl(215, 50%, 32%);
     --gt-color-main-darker: hsl(215, 50%, 15%);
     --gt-color-bg: hsl(203, 39%, 44%);
-    --gt-color-bg-gradient-1: #8891ec;
-    --gt-color-bg-gradient-2: #9659db;
-    --gt-color-bg-gradient-3: #508ddd;
-    --gt-color-bg-gradient-4: #5c3bd4;
     --gt-color-text: hsl(105, 55%, 96%);
 
     --bs-body-color: var(--gt-color-text);
+    --bs-link-color: var(--gt-color-secondary-hover);
+    --bs-link-hover-color: var(--gt-color-secondary);
 }
 
 html {
