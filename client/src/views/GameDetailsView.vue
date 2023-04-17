@@ -1,24 +1,24 @@
 <script>
 import ContentPanel from '@/components/ContentPanel.vue'
 import GamesPanel from '@/components/GamesPanel.vue'
-import AddButtons from '@/components/AddButtons.vue'
+import AddButtonsExpanded from '@/components/AddButtonsExpanded.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 import ScreenshotGallery from '@/components/ScreenshotGallery.vue'
+import GameDetailsPills from '../components/GameDetailsPills.vue'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useUserStore } from '@/stores/user'
 import { useGamesStore } from '@/stores/games'
 import { mapActions, mapState, mapStores } from 'pinia'
-import CompletedButton from '@/components/CompletedButton.vue'
 
 export default {
     name: 'GameDetailsView',
     components: {
         ContentPanel,
         GamesPanel,
-        AddButtons,
+        AddButtonsExpanded,
         LoadingSpinner,
-        CompletedButton,
-        ScreenshotGallery
+        ScreenshotGallery,
+        GameDetailsPills
     },
     data() {
         return {
@@ -34,6 +34,9 @@ export default {
         },
         developer() {
             return this.gameInfo.developer ?? 'N/A'
+        },
+        gameCover() {
+            return this.gameInfo.cover ?? 'https://placehold.co/264x352?text=Cover'
         }
     },
     watch: {
@@ -89,32 +92,9 @@ export default {
     <main class="w-100 mw-100 h-100" :key="gameInfo.id">
         <LoadingSpinner v-if="loading"></LoadingSpinner>
         <div v-else class="container-fluid p-0 m-0 mt-4">
-            <div class="row g-0 justify-content-around row-cols-1 mw-100 ms-lg-4">
-                <div class="col mw-100 mb-4">
-                    <ScreenshotGallery
-                        :title="gameInfo.title"
-                        :images="gameInfo.images"
-                    ></ScreenshotGallery>
-                </div>
-            </div>
-            <div class="row g-0 justify-content-around row-cols-1 row-cols-lg-2 mw-100 ms-lg-4">
-                <div class="col mw-100 mb-4">
-                    <ContentPanel
-                        class="mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-4 h-100 position-relative"
-                    >
-                        <div class="position-absolute top-0 end-0 m-4">
-                            <CompletedButton
-                                v-if="loggedIn && gameInfo.id"
-                                class="mb-2"
-                                :gameID="gameInfo.id"
-                            ></CompletedButton>
-                            <AddButtons
-                                v-if="loggedIn && gameInfo.id"
-                                :gameID="gameInfo.id"
-                                @addToList="addToList"
-                                @removeFromList="removeFromList"
-                            ></AddButtons>
-                        </div>
+            <div class="row g-0 justify-content-around mw-100 ms-lg-4">
+                <div class="col-12 col-lg-8 col-xl-9 mw-100 mb-4 order-last order-lg-first">
+                    <ContentPanel class="mx-2 mx-lg-4 ms-lg-0 me-lg-4 py-lg-4 px-4">
                         <h1 v-if="gameInfo.title" class="text-start">{{ gameInfo.title }}</h1>
                         <h2 v-if="gameInfo.release" class="text-start">
                             Released: {{ gameInfo.release }}
@@ -124,75 +104,59 @@ export default {
                         </h3>
                         <p class="text-start fs-5">{{ gameInfo.description }}</p>
                     </ContentPanel>
-                </div>
-                <div class="col mw-100 mb-4">
-                    <ContentPanel class="mb-4 mx-2 mx-md-4 ms-lg-0 me-lg-4 py-lg-4 px-lg-2 h-100">
-                        <div v-if="gameInfo.rating" class="row mb-4">
-                            <div class="col fs-5">
-                                Critics and users aggregate rating:
-                                {{ gameInfo.rating?.toFixed(2) }}
-                            </div>
-                            <div v-if="gameInfo.ratingCount" class="col fs-5">
-                                Total ratings:
-                                {{ gameInfo.ratingCount }}
-                            </div>
-                        </div>
-                        <div v-if="gameInfo.genres?.length > 0" class="row mb-4">
-                            <span class="col col-sm-3 fs-5">Categories:</span>
-                            <div class="col col-sm-9 d-flex flex-wrap align-items-center gap-2">
-                                <RouterLink
-                                    v-for="(genre, index) in gameInfo.genres"
-                                    :key="index"
-                                    :to="{
-                                        name: 'category',
-                                        params: { id: genre.id },
-                                        query: { name: genre.name }
-                                    }"
-                                    class="badge rounded-pill text-bg-primary text-decoration-none"
-                                    >{{ genre.name }}</RouterLink
-                                >
-                            </div>
-                        </div>
-                        <div v-if="gameInfo.platforms?.length > 0" class="row mb-4">
-                            <span class="col col-sm-3 fs-5">Platforms:</span>
-                            <div class="col col-sm-9 d-flex flex-wrap align-items-center gap-2">
-                                <span
-                                    v-for="(platform, index) in gameInfo.platforms"
-                                    :key="index"
-                                    class="badge rounded-pill text-bg-secondary"
-                                >
-                                    {{ platform }}
-                                </span>
-                            </div>
-                        </div>
-                        <div v-if="gameInfo.websites?.length > 0" class="row mb-4">
-                            <span class="col col-sm-3 fs-5">Websites:</span>
-                            <div class="col col-sm-9 d-flex flex-wrap align-items-center gap-2">
-                                <a
-                                    v-for="(website, index) in gameInfo.websites"
-                                    :key="index"
-                                    :href="website.url"
-                                    class="badge rounded-pill text-bg-primary text-decoration-none"
-                                    >{{ website.type }}</a
-                                >
-                            </div>
-                        </div>
-                    </ContentPanel>
-                </div>
-            </div>
 
-            <div
-                v-if="gameInfo.similarGames?.length > 0"
-                class="row g-0 justify-content-around row-cols-1 mw-100"
-            >
-                <div class="col mw-100 mb-4">
-                    <GamesPanel
-                        title="Similar Games"
-                        icon="lightbulb"
-                        :gameList="gameInfo.similarGames ?? []"
-                    ></GamesPanel>
+                    <!-- Only shown in mobile view -->
+                    <ContentPanel class="mb-4 mx-2 mx-lg-4 py-lg-4 px-lg-2 px-4 d-block d-lg-none">
+                        <GameDetailsPills :gameInfo="gameInfo"></GameDetailsPills>
+                    </ContentPanel>
+
+                    <div class="mw-100 mx-lg-4 mb-4">
+                        <ScreenshotGallery
+                            :title="gameInfo.title"
+                            :images="gameInfo.images"
+                        ></ScreenshotGallery>
+                    </div>
+
+                    <div
+                        v-if="gameInfo.similarGames?.length > 0"
+                        class="mw-100 mb-4 similar-games-panel"
+                    >
+                        <GamesPanel
+                            title="Similar Games"
+                            icon="lightbulb"
+                            :gameList="gameInfo.similarGames ?? []"
+                        ></GamesPanel>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xl-3 mw-100 mb-4 order-first order-lg-last">
+                    <div class="position-sticky w-100" style="top: 1rem">
+                        <ContentPanel
+                            class="mx-2 mx-lg-4 px-lg-2 d-flex justify-content-center justify-content-lg-start"
+                        >
+                            <span class="d-inline-flex flex-column align-items-center gap-4">
+                                <img :src="gameCover" class="game-cover rounded-3 d-block mt-2" />
+                                <AddButtonsExpanded
+                                    v-if="loggedIn && gameInfo.id"
+                                    :gameID="gameInfo.id"
+                                    @addToList="addToList"
+                                    @removeFromList="removeFromList"
+                                ></AddButtonsExpanded>
+                            </span>
+                        </ContentPanel>
+
+                        <!-- Only shown in desktop view -->
+                        <ContentPanel class="mb-4 mx-2 mx-lg-4 py-lg-4 px-lg-2 d-none d-lg-block">
+                            <GameDetailsPills :gameInfo="gameInfo"></GameDetailsPills>
+                        </ContentPanel>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 </template>
+
+<style scoped>
+.game-cover {
+    height: 20rem;
+}
+</style>
