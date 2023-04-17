@@ -58,7 +58,7 @@ export default {
 
 <style scoped>
 .modal {
-    --bs-modal-bg: var(--gt-color-main);
+    --bs-modal-bg: var(--gt-color-main-lighter);
     --bs-modal-color: var(--gt-color-text);
 }
 </style>
