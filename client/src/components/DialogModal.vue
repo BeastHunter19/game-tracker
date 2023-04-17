@@ -37,7 +37,7 @@ export default {
     >
         <div class="modal-dialog" role="document">
             <div class="modal-content rounded-4 shadow-lg">
-                <div class="modal-header p-5 pb-4 border-bottom-0">
+                <div class="modal-header px-2 px-md-5 pt-5 pb-4 border-bottom-0">
                     <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
                     <h1 class="fw-bold mb-0 fs-2">{{ title }}</h1>
                     <button
@@ -48,7 +48,7 @@ export default {
                     ></button>
                 </div>
 
-                <div class="modal-body p-5 pt-0">
+                <div class="modal-body px-2 px-md-5 pt-0 pb-5">
                     <slot></slot>
                 </div>
             </div>
