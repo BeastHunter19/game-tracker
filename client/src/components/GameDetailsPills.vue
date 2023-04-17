@@ -52,11 +52,11 @@ export default {
     </div>
     <div v-if="gameInfo.rating" class="fs-5 text-start mb-2">
         Critics and users aggregate rating:
-        {{ gameInfo.rating?.toFixed(2) }}
+        <strong>{{ gameInfo.rating?.toFixed(2) }}</strong>
     </div>
     <div v-if="gameInfo.ratingCount" class="fs-5 text-start mb-2">
         Total ratings:
-        {{ gameInfo.ratingCount }}
+        <strong>{{ gameInfo.ratingCount }}</strong>
     </div>
 </template>
 
@@ -67,5 +67,9 @@ export default {
 
 .text-bg-secondary {
     background-color: var(--gt-color-secondary-disabled) !important;
+}
+
+strong {
+    color: var(--gt-color-secondary-hover);
 }
 </style>

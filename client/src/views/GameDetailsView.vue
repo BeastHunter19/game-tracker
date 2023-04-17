@@ -97,10 +97,12 @@ export default {
                     <ContentPanel class="mx-2 mx-lg-4 ms-lg-0 me-lg-4 py-lg-4 px-4">
                         <h1 v-if="gameInfo.title" class="text-start">{{ gameInfo.title }}</h1>
                         <h2 v-if="gameInfo.release" class="text-start">
-                            Released: {{ gameInfo.release }}
+                            <strong>Released</strong>: {{ gameInfo.release }}
                         </h2>
                         <h3 class="text-start">
-                            {{ `Developer: ${developer}, Publisher: ${publisher}` }}
+                            <strong>Developer</strong>: {{ developer }}
+                            <br />
+                            <strong>Publisher</strong>: {{ publisher }}
                         </h3>
                         <p class="text-start fs-5">{{ gameInfo.description }}</p>
                     </ContentPanel>
@@ -161,5 +163,9 @@ export default {
 <style scoped>
 .game-cover {
     height: 20rem;
+}
+
+strong {
+    color: var(--gt-color-secondary-hover);
 }
 </style>
