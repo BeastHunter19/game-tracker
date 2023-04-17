@@ -29,12 +29,12 @@ async function authenticate() {
         url.searchParams.set('client_id', config.igdb.clientID)
         url.searchParams.set('client_secret', config.igdb.clientSecret)
         url.searchParams.set('grant_type', 'client_credentials')
-        const response = await fetch(url, {
-            method: 'POST'
-        })
-        const data = await response.json()
-        accessToken = data.access_token
-        setTimeout(authenticate, data.expires_in - 3000)
+        const response = await axios.post(url)
+        accessToken = response.data.access_token
+        // the timeout should be set at expires_in * 1000 - 3000, but it would
+        // overflow the 32 bit maximum for setTimeout, so the token is refreshed
+        // more often than needed
+        setTimeout(authenticate, response.data.expires_in * 100 - 3000)
     } catch (err) {
         logger.error(err, 'Could not get authentication token from IGDB')
     }
