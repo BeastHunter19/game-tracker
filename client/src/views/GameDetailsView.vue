@@ -134,7 +134,10 @@ export default {
                             class="mx-2 mx-lg-4 px-lg-2 d-flex justify-content-center justify-content-lg-start"
                         >
                             <span class="d-inline-flex flex-column align-items-center gap-4">
-                                <img :src="gameCover" class="game-cover rounded-3 d-block mt-2" />
+                                <img
+                                    :src="gameCover"
+                                    class="game-cover rounded-3 d-block mt-2 shadow-lg"
+                                />
                                 <AddButtonsExpanded
                                     v-if="loggedIn && gameInfo.id"
                                     :gameID="gameInfo.id"

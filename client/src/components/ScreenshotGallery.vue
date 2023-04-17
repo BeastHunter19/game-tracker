@@ -26,7 +26,9 @@ export default {
 </script>
 
 <template>
-    <div class="text-center rounded-4 mx-2 mx-md-4 ms-lg-0 me-lg-4 p-0 h-100 overflow-hidden">
+    <div
+        class="text-center rounded-4 mx-2 mx-md-4 ms-lg-0 me-lg-4 p-0 h-100 overflow-hidden shadow-lg"
+    >
         <div
             ref="carousel"
             id="gameImagesCarousel"
