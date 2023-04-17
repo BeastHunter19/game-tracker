@@ -1,4 +1,6 @@
 <script>
+import { Carousel } from 'bootstrap'
+
 export default {
     props: {
         title: {
@@ -9,15 +11,29 @@ export default {
             type: Array,
             required: true
         }
+    },
+    data() {
+        return {
+            carousel: null
+        }
+    },
+    mounted() {
+        // this is done manually because otherwise touch swipe would
+        // not work until the first manual scroll with the arrows
+        this.carousel = new Carousel(this.$refs.carousel)
     }
 }
 </script>
 
 <template>
-    <div
-        class="gallery-panel text-center rounded-5 mx-2 mx-md-4 ms-lg-0 me-lg-4 p-0 h-100 overflow-hidden"
-    >
-        <div id="gameImagesCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="text-center rounded-4 mx-2 mx-md-4 ms-lg-0 me-lg-4 p-0 h-100 overflow-hidden">
+        <div
+            ref="carousel"
+            id="gameImagesCarousel"
+            class="carousel slide"
+            data-bs-ride="carousel"
+            data-bs-touch="true"
+        >
             <div class="carousel-indicators">
                 <button
                     v-for="(image, index) in images"
@@ -40,7 +56,7 @@ export default {
                 >
                     <img
                         :src="image"
-                        class="d-block w-100 custom-img"
+                        class="fluid-img custom-img"
                         :alt="`${title} image ${index + 1}`"
                     />
                 </div>
@@ -68,16 +84,8 @@ export default {
 </template>
 
 <style scoped>
-.gallery-panel {
-    background-color: rgba(0, 0, 0, 0.3);
-}
-
-.custom-item {
-    height: 70vh;
-}
-
 .custom-img {
-    height: 100%;
+    width: 100%;
     object-fit: contain;
 }
 </style>
