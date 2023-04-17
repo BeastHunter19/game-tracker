@@ -1,5 +1,7 @@
 <script>
 import DialogModal from '@/components/DialogModal.vue'
+import { useNotificationsStore } from '@/stores/notifications'
+import { mapActions } from 'pinia'
 
 export default {
     components: { DialogModal },
@@ -18,7 +20,8 @@ export default {
                 type: 'success',
                 message: 'Copied to clipboard'
             })
-        }
+        },
+        ...mapActions(useNotificationsStore, ['createNotification'])
     }
 }
 </script>
