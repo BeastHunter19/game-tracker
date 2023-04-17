@@ -37,6 +37,17 @@ export default {
         },
         gameCover() {
             return this.gameInfo.cover ?? 'https://placehold.co/264x352?text=Cover'
+        },
+        summaryInfo() {
+            let date = new Date(this.gameInfo.release)
+            console.log(date)
+            return {
+                id: this.gameInfo.id,
+                title: this.gameInfo.title,
+                developer: this.gameInfo.developer,
+                image: this.gameInfo.cover,
+                release: date.getFullYear()
+            }
         }
     },
     watch: {
@@ -68,20 +79,20 @@ export default {
         },
         addToList(listName) {
             if (listName === 'backlog') {
-                this.gamesStore.addToBacklog(this.gameInfo)
+                this.gamesStore.addToBacklog(this.summaryInfo)
             } else if (listName === 'watchlist') {
-                this.gamesStore.addToWatchlist(this.gameInfo)
+                this.gamesStore.addToWatchlist(this.summaryInfo)
             } else if (listName === 'played') {
-                this.gamesStore.addToPlayed(this.gameInfo)
+                this.gamesStore.addToPlayed(this.summaryInfo)
             }
         },
         removeFromList(listName) {
             if (listName === 'backlog') {
-                this.gamesStore.removeFromBacklog(this.gameInfo)
+                this.gamesStore.removeFromBacklog(this.summaryInfo)
             } else if (listName === 'watchlist') {
-                this.gamesStore.removeFromWatchlist(this.gameInfo)
+                this.gamesStore.removeFromWatchlist(this.summaryInfo)
             } else if (listName === 'played') {
-                this.gamesStore.removeFromPlayed(this.gameInfo)
+                this.gamesStore.removeFromPlayed(this.summaryInfo)
             }
         }
     }
