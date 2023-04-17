@@ -251,3 +251,9 @@ export default {
         </DialogModal>
     </main>
 </template>
+
+<style scoped>
+.progress {
+    --bs-progress-bar-bg: var(--gt-color-secondary);
+}
+</style>
