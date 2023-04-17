@@ -9,7 +9,7 @@ export default {
     data() {
         return {
             popularGames: [],
-            limit: 30,
+            limit: 80,
             offset: 0,
             loading: true,
             loadingMore: false

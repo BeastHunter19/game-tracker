@@ -12,6 +12,7 @@ export default {
             categories: [],
             limit: 5,
             offset: 0,
+            gamesPerCategory: 20,
             bottomObserver: undefined,
             loading: true,
             loadingMore: false
@@ -30,6 +31,7 @@ export default {
                 const query = new URLSearchParams()
                 query.set('limit', this.limit)
                 query.set('offset', this.offset)
+                query.set('games', this.gamesPerCategory)
                 const response = await this.$axios.get('/api/categories?' + query.toString())
                 this.categories = this.categories.concat(response.data)
                 this.offset += this.limit

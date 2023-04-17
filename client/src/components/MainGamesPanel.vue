@@ -10,13 +10,13 @@ export default {
     computed: {
         ...mapStores(useGamesStore, useUserStore),
         backlog() {
-            return this.gamesStore.backlog.slice(0, 10)
+            return this.gamesStore.backlog.slice(0, 20)
         },
         watchlist() {
-            return this.gamesStore.watchlist.slice(0, 10)
+            return this.gamesStore.watchlist.slice(0, 20)
         },
         played() {
-            return this.gamesStore.played.slice(0, 10)
+            return this.gamesStore.played.slice(0, 20)
         },
         userID() {
             if (!this.userStore.isOwner && this.$route.params?.userID) {
