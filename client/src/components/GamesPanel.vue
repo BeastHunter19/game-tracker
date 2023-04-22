@@ -7,7 +7,7 @@ export default {
     data() {
         return {
             leftChevronActive: false,
-            rightChevronActive: true,
+            rightChevronActive: false,
             leftObserver: undefined,
             rightObserver: undefined
         }
