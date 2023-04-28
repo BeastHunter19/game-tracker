@@ -8,6 +8,7 @@ const cors = require('cors')
 const history = require('connect-history-api-fallback')
 const User = require('./models/User')
 
+const db = require('./utils/db')
 const igdb = require('./utils/igdb')
 
 const signupRoutes = require('./routes/signupRoutes')
@@ -75,6 +76,9 @@ process.on('uncaughtException', (err) => {
 // authenticate with IGDB api and start refresh timer
 igdb.authenticate()
 
-// start blacklisted token cleanup timer
-User.removeExpiredTokensFromBlacklist()
-setInterval(User.removeExpiredTokensFromBlacklist, config.tokenCleanupInterval)
+// create db tables if they don't exist
+db.createTables().then(() => {
+    // start blacklisted token cleanup timer
+    User.removeExpiredTokensFromBlacklist()
+    setInterval(User.removeExpiredTokensFromBlacklist, config.tokenCleanupInterval)
+})
